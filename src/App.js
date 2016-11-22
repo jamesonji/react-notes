@@ -13,6 +13,7 @@ class App extends Component {
         </div>
         <div className="App-main">
           <Editor />
+          <i className="fa fa-camera-retro fa-lg"></i>
         </div>
       </div>
     );
