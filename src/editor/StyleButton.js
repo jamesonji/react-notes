@@ -10,15 +10,15 @@ class StyleButton extends Component {
   }
 
   render() {
-    let className = 'RichEditor-styleButton';
+    // let className = 'RichEditor-styleButton';
+    let className = this.props.icon + ' styleButton';
     if (this.props.active) {
-      className += ' RichEditor-activeButton';
+      // className += ' RichEditor-activeButton';
+      className += ' styleButton-active';
     }
 
     return (
-      <span className={className} onMouseDown={this.onToggle}>
-        {this.props.label}
-      </span>
+      <span className={className} onMouseDown={this.onToggle}></span>
     );
   }
 }

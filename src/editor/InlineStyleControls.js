@@ -2,11 +2,11 @@ import React from 'react';
 import StyleButton from './StyleButton'
 
 var INLINE_STYLES = [
-  {label: 'Bold', style: 'BOLD'},
-  {label: 'Italic', style: 'ITALIC'},
-  {label: 'Underline', style: 'UNDERLINE'},
-  {label: 'Monospace', style: 'CODE'},
-  {label: 'Red', style: 'RED'},
+  {label: 'Bold', style: 'BOLD', icon: 'fa fa-bold'},
+  {label: 'Italic', style: 'ITALIC', icon: 'fa fa-italic'},
+  {label: 'Underline', style: 'UNDERLINE', icon: 'fa fa-underline'},
+  // {label: 'Monospace', style: 'CODE'},
+  // {label: 'Red', style: 'RED'},
 ];
 
 const InlineStyleControls = (props) => {
@@ -16,6 +16,7 @@ const InlineStyleControls = (props) => {
       {INLINE_STYLES.map(type =>
         <StyleButton
           key={type.label}
+          icon={type.icon}
           active={currentStyle.has(type.style)}
           label={type.label}
           onToggle={props.onToggle}
