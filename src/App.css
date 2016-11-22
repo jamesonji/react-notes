@@ -4,7 +4,6 @@ body{
 }
 
 .App {
-  text-align: center;
 }
 
 .App-logo {
@@ -21,6 +20,7 @@ body{
   float: left;
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
 .App-main {
@@ -29,6 +29,35 @@ body{
   float: left;
   width: auto;
   padding: 1em 2em;
+}
+
+.RichEditor-blockquote {
+  color: #999;
+  /*font-family: 'Hoefler Text', Georgia, serif;*/
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 1em;
+  font-style: italic;
+  text-align: center;
+}
+
+.RichEditor-controls {
+  font-family: 'Helvetica', sans-serif;
+  font-size: 1em;
+  margin-bottom: 0.2em;
+  user-select: none;
+  padding: 0.1em;
+}
+
+.RichEditor-styleButton {
+  color: #999;
+  cursor: pointer;
+  margin-right: 16px;
+  padding: 2px 0;
+  display: inline-block;
+}
+
+.RichEditor-activeButton {
+  color: #5890ff;
 }
 
 @keyframes App-logo-spin {

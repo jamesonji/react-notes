@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Editor from './editor/Editor'
 import logo from './logo.svg';
 import './App.css';
 
@@ -10,9 +11,10 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>React Notes</h2>
         </div>
-        <p className="App-main">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <div className="App-main">
+          <Editor />
+          <i className="fa fa-camera-retro fa-lg"></i>
+        </div>
       </div>
     );
   }
