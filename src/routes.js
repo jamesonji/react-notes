@@ -11,7 +11,7 @@ const Routes = (props) => (
   <Router {...props}>
     {/* use App.js ass a outer container, */}
     <Route path="/" component={ App } >
-      <IndexRoute path="/" component={ Index } />
+      <IndexRoute component={ Index } />
       <Route path="/about" component={ About } />
       <Route path="*" component={ NotFound } />
     </Route>
