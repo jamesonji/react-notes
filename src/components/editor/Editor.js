@@ -9,6 +9,7 @@ import {Editor,
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
 import Immutable from 'immutable';
+import './style.css';
 
 const styleMap = {
  'CODE': {
