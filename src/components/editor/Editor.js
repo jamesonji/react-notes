@@ -4,10 +4,12 @@ import {Editor,
         RichUtils, 
         DraftEditorBlock,
         DefaultDraftBlockRenderMap,
+        convertToRaw,
       } from 'draft-js';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
 import Immutable from 'immutable';
+import './style.css';
 
 const styleMap = {
  'CODE': {
@@ -67,6 +69,10 @@ class MyEditor extends Component {
     this.onTab = (e) => this._onTab(e);
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
+    this.logState = () => {
+      const content = this.state.editorState.getCurrentContent();
+      console.log(convertToRaw(content));
+    };
   }
   
   _onBoldClick() {
@@ -133,7 +139,7 @@ class MyEditor extends Component {
               <button onClick={this._onItalicClick.bind(this)}>Italic</button>
               <button onClick={this._onStrikThroughClick.bind(this)}>StrikThrough</button>
               <button onClick={this._onCodeClick.bind(this)}>Code</button>
-              
+              <button onClick={this.logState}>Content</button>
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}
