@@ -9,8 +9,9 @@ class Index extends Component {
   constructor (props){
     super(props)
     this.state={
-      text: "Yeah",
+      text: "Please enter your notes",
     }
+    this.initNote = this.initNote.bind(this);
   }
   
   initNote(){

@@ -28,6 +28,7 @@ const styleMap = {
   }
 };
 
+  
 function myBlockRenderer(contentBlock) {
   const type = contentBlock.getType();
   if (type === 'paragraph') {
@@ -60,16 +61,8 @@ function getBlockStyle(block) {
 
 class MyEditor extends Component {
   constructor(props) {
-    super(props);
-    console.log(this.props.note);
-    if (props.note !== null){
-      console.log(props.note);
-      this.state = {editorState: EditorState.createWithContent(ContentState.createFromText(this.props.note))}
-    }
-    else{
-      console.log('NNONO')
-      this.state = {editorState: EditorState.createEmpty()};
-    }
+    super(props)
+    this.state = {editorState: EditorState.createEmpty()};
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => this.setState({editorState});
     this.handleKeyCommand = (command) => this._handleKeyCommand(command);
@@ -80,20 +73,6 @@ class MyEditor extends Component {
       const content = this.state.editorState.getCurrentContent();
       console.log(convertToRaw(content));
     };
-  }
-  
-  _onBoldClick() {
-   this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
-  }
- 
-  _onItalicClick() {
-   this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'ITALIC'));
-  }
-  _onStrikThroughClick() {
-   this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'STRIKETHROUGH'));
-  }
-  _onCodeClick() {
-   this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'HEADER-TWO'));
   }
  
   _onTab(e) {
@@ -129,6 +108,13 @@ class MyEditor extends Component {
     return false;
   }
   
+  componentWillReceiveProps(props){
+    console.log(this.props.note)
+    if (this.props.note !== null){
+      this.setState({editorState: EditorState.createWithContent(ContentState.createFromText(props.note))}) 
+      console.log(this.props.note)
+    }
+  }
   render() {
     const {editorState} = this.state;
     // If the user changes block type before entering any text, we can
@@ -140,12 +126,10 @@ class MyEditor extends Component {
         className += ' RichEditor-hidePlaceholder';
       }
     }
+
     return (
             <div className="RichEditor-root">
-              <button onClick={this._onBoldClick.bind(this)}>Bold</button>
-              <button onClick={this._onItalicClick.bind(this)}>Italic</button>
-              <button onClick={this._onStrikThroughClick.bind(this)}>StrikThrough</button>
-              <button onClick={this._onCodeClick.bind(this)}>Code</button>
+              <h1>{this.props.note}</h1>
               <button onClick={this.logState}>Content</button>
               <BlockStyleControls
                 editorState={editorState}
@@ -155,7 +139,6 @@ class MyEditor extends Component {
                 editorState={editorState}
                 onToggle={this.toggleInlineStyle}
               />
-            
               <div id='editor' onClick={this.focus}>
                 <Editor editorState={editorState}
                         blockStyleFn={getBlockStyle}
