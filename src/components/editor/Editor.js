@@ -5,6 +5,7 @@ import {Editor,
         DraftEditorBlock,
         DefaultDraftBlockRenderMap,
         convertToRaw,
+        ContentState,
       } from 'draft-js';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
@@ -57,12 +58,18 @@ function getBlockStyle(block) {
   }
 }
 
-
-
 class MyEditor extends Component {
   constructor(props) {
     super(props);
-    this.state = {editorState: EditorState.createEmpty()};
+    console.log(this.props.note);
+    if (props.note !== null){
+      console.log(props.note);
+      this.state = {editorState: EditorState.createWithContent(ContentState.createFromText(this.props.note))}
+    }
+    else{
+      console.log('NNONO')
+      this.state = {editorState: EditorState.createEmpty()};
+    }
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => this.setState({editorState});
     this.handleKeyCommand = (command) => this._handleKeyCommand(command);
