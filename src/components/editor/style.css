@@ -1,0 +1,41 @@
+.RichEditor-blockquote {
+  color: #999;
+  /*font-family: 'Hoefler Text', Georgia, serif;*/
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 1em;
+  font-style: italic;
+  text-align: center;
+}
+
+.RichEditor-controls {
+  font-family: 'Helvetica', sans-serif;
+  font-size: 1em;
+  margin-bottom: 0.2em;
+  user-select: none;
+  padding: 0.1em;
+}
+
+.RichEditor-editor{
+  
+}
+
+.RichEditor-hidePlaceholder{
+  
+}
+
+.styleButton {
+  color: #999;
+  cursor: pointer;
+  margin-right: 16px;
+  padding: 2px 0;
+  display: inline-block;
+}
+
+.styleButton-active {
+  color: #5890ff;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
