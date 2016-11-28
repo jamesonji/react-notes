@@ -10,7 +10,10 @@ import {Editor,
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
 import Immutable from 'immutable';
+import $ from 'jquery';
 import './style.css';
+
+const BASE_URL = 'http://localhost:3001';
 
 const styleMap = {
  'CODE': {
@@ -73,6 +76,7 @@ class MyEditor extends Component {
       const content = this.state.editorState.getCurrentContent();
       console.log(convertToRaw(content));
     };
+    this.saveNote = this.saveNote.bind(this);
   }
  
   _onTab(e) {
@@ -109,12 +113,29 @@ class MyEditor extends Component {
   }
   
   componentWillReceiveProps(props){
-    console.log(this.props.note)
-    if (this.props.note !== null){
+    // If parent component passes in a note props, set editor to display the new text component
+    if (props.note !== null){
       this.setState({editorState: EditorState.createWithContent(ContentState.createFromText(props.note))}) 
-      console.log(this.props.note)
     }
   }
+  
+  saveNote(){
+    const {editorState} = this.state;
+    let content = convertToRaw(editorState.getCurrentContent()); 
+    content = JSON.stringify(content);
+    console.log(content);
+    $.ajax({
+      url:`${BASE_URL}`,
+      data:{title: "Sample title",
+            content: content,
+            author: 'Song Ji'},
+      type:'POST',
+      success: function (note){
+        console.log(note);
+      }.bind(this)
+    })
+  }
+  
   render() {
     const {editorState} = this.state;
     // If the user changes block type before entering any text, we can
@@ -129,8 +150,8 @@ class MyEditor extends Component {
 
     return (
             <div className="RichEditor-root">
-              <h1>{this.props.note}</h1>
               <button onClick={this.logState}>Content</button>
+              <button onClick={this.saveNote}>Save</button>
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}
