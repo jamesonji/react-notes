@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NoteList from './NoteList';
+import EditNote from './EditNote';
 import $ from 'jquery';
 
 const BASE_URL = 'http://localhost:3001';
@@ -7,10 +8,14 @@ const BASE_URL = 'http://localhost:3001';
 export default class NotesList extends Component{
   constructor(props){
     super(props);
-    this.state = { notes: []}
+    this.state = { 
+      notes: [],
+      note: undefined
+    }
     
     this.getNotes = this.getNotes.bind(this);
     this.logData = this.logData.bind(this);
+    this.editNote = this.editNote.bind(this);
   }
   
   getNotes(){
@@ -27,16 +32,33 @@ export default class NotesList extends Component{
     console.log(title);
   }
   
+  editNote(id, text){
+    console.log(text);
+    this.setState({
+      note: text
+    })
+  }
+  
   componentDidMount(){
     this.getNotes();
   }
   
   render (){
-    return (
+    var content;
+    if (this.state.note){
+      content = <EditNote note={this.state.note} />
+    }else{
+      content = 
       <div className="Notes-List">
         <NoteList 
           notes={this.state.notes}
-          onClick={this.logData}/>
+          onClick={this.editNote}/>
+      </div>
+    }
+    
+    return (
+      <div className="Notes">
+        {content}
       </div>
     )
   }
