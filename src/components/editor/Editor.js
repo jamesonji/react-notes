@@ -132,7 +132,7 @@ class MyEditor extends Component {
       type:'POST',
       success: function (note){
         console.log(note);
-      }.bind(this)
+      }
     })
   }
   
@@ -140,7 +140,7 @@ class MyEditor extends Component {
     const {editorState} = this.state;
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
-    let className = 'RichEditor-editor';
+    let className = 'RichEditor-root';
     var contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
@@ -149,7 +149,7 @@ class MyEditor extends Component {
     }
 
     return (
-            <div className="RichEditor-root">
+            <div className={className}>
               <button onClick={this.logState}>Content</button>
               <button onClick={this.saveNote}>Save</button>
               <BlockStyleControls
