@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import NoteList from './NoteList';
 import $ from 'jquery';
 
 const BASE_URL = 'http://localhost:3001';
@@ -9,6 +10,7 @@ export default class NotesList extends Component{
     this.state = { notes: []}
     
     this.getNotes = this.getNotes.bind(this);
+    this.logData = this.logData.bind(this);
   }
   
   getNotes(){
@@ -21,25 +23,20 @@ export default class NotesList extends Component{
     })
   }
   
+  logData(title){
+    console.log(title);
+  }
+  
   componentDidMount(){
     this.getNotes();
   }
   
   render (){
     return (
-      <div className="Note-List">
-        <ul className='ListItems'>
-          {
-            this.state.notes.map( function (note, index) {
-              return (
-                <li key={note._id}>
-                  {note._id}
-                  {note.title}
-                </li>
-              )
-            })
-          }
-        </ul>
+      <div className="Notes-List">
+        <NoteList 
+          notes={this.state.notes}
+          onClick={this.logData}/>
       </div>
     )
   }
