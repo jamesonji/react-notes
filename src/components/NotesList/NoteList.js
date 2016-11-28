@@ -29,10 +29,7 @@ function NoteList (props) {
 
 NoteList.defaultProps = {
   notes: [],
-  // to prevent a crash if the QuestionList component is
-  // called without an onClick prop with set a default empty function to it
   onClick: function () {}
 }
 
-// We can export any variable
 export default NoteList;
