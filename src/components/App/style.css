@@ -13,7 +13,7 @@ body{
 
 .App-nav {
   background-color: #336699;
-  width: 25%;
+  width: 38%;
   height: 100%;
   color: white;
   position: fixed;
@@ -25,7 +25,7 @@ body{
 
 .App-main {
   font-size: large;
-  margin-left: 25%;
+  margin-left: 38%;
   float: left;
   width: auto;
   padding: 1em 2em;

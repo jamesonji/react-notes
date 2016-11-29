@@ -8,11 +8,9 @@ class Navigation extends Component {
       <div className="App-nav">
         <img src={logo} className="App-logo" alt="logo" />
         <h2>React Notes</h2>
-        <ul>
-          <li><Link to="/" activeClassName="active">Home</Link></li>
-          <li><Link to="/about" activeClassName="active">About</Link></li>
-          <li><Link to="/list" activeClassName="active">NotesList</Link></li>
-        </ul>
+          <h3><Link to="/" activeClassName="active">Home</Link></h3>
+          <h3><Link to="/about" activeClassName="active">About</Link></h3>
+          <h3><Link to="/list" activeClassName="active">NotesList</Link></h3>
       </div>
     );
   }

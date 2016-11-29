@@ -24,8 +24,8 @@ export default class EditNote extends Component {
   
   render() {
     return (
-      <div className="Edite-Note">
-        <button ></button>
+      <div className="Edite-Note">  
+        <button onClick={this.props.onBackClick}>Back</button>
         <MyEditor note={ this.state.text }/>
       </div>
     )

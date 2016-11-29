@@ -16,6 +16,7 @@ export default class NotesList extends Component{
     this.getNotes = this.getNotes.bind(this);
     this.logData = this.logData.bind(this);
     this.editNote = this.editNote.bind(this);
+    this.clearNote = this.clearNote.bind(this);
   }
   
   getNotes(){
@@ -35,7 +36,13 @@ export default class NotesList extends Component{
   editNote(id, text){
     console.log(text);
     this.setState({
-      note: text
+      note: text,
+    })
+  }
+  
+  clearNote(){
+    this.setState({
+      note: undefined,
     })
   }
   
@@ -46,7 +53,9 @@ export default class NotesList extends Component{
   render (){
     var content;
     if (this.state.note){
-      content = <EditNote note={this.state.note} />
+      content = <EditNote 
+        onBackClick={this.clearNote}
+        note={this.state.note} />
     }else{
       content = 
       <div className="Notes-List">
