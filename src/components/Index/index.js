@@ -17,9 +17,10 @@ class Index extends Component {
   initNote(){
     $.ajax({
       url:`${BASE_URL}`,
-      success: function (note){
-        this.setState({text: note.text})
-        console.log(this.state.text);
+      type:"GET",
+      success: function (data){
+        console.log(data)
+        this.setState({text: data.text})
       }.bind(this)
     })
   }
@@ -32,7 +33,7 @@ class Index extends Component {
     return (
       <div className="Home-page">
         <h1>Index Page</h1>
-        <MyEditor note={ this.state.text }/>
+        <MyEditor />
       </div>
     );
   }

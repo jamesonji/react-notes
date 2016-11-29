@@ -5,10 +5,11 @@ import {Editor,
         DraftEditorBlock,
         DefaultDraftBlockRenderMap,
         convertToRaw,
-        ContentState,
+        convertFromRaw,
       } from 'draft-js';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
+import TitleField from './TitleField';
 import Immutable from 'immutable';
 import $ from 'jquery';
 import './style.css';
@@ -65,7 +66,11 @@ function getBlockStyle(block) {
 class MyEditor extends Component {
   constructor(props) {
     super(props)
-    this.state = {editorState: EditorState.createEmpty()};
+    this.state = {
+      title: props.title,
+      editorState: EditorState.createEmpty(),
+      note_id: props.note_id,
+    };
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => this.setState({editorState});
     this.handleKeyCommand = (command) => this._handleKeyCommand(command);
@@ -75,8 +80,12 @@ class MyEditor extends Component {
     this.logState = () => {
       const content = this.state.editorState.getCurrentContent();
       console.log(convertToRaw(content));
+      console.log(this.state.note_id);
     };
     this.saveNote = this.saveNote.bind(this);
+    this.updateNote = this.updateNote.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.editTitle = this.editTitle.bind(this);
   }
  
   _onTab(e) {
@@ -99,7 +108,7 @@ class MyEditor extends Component {
         this.state.editorState,
         inlineStyle
       )
-    );
+    ); 
   }
   
   _handleKeyCommand(command) {
@@ -114,33 +123,72 @@ class MyEditor extends Component {
   
   componentWillReceiveProps(props){
     // If parent component passes in a note props, set editor to display the new text component
-    if (props.note !== null){
-      this.setState({editorState: EditorState.createWithContent(ContentState.createFromText(props.note))}) 
+    if( props.title !== ''){
+      this.setState({
+        title: props.title,
+      })
+    }
+    if (props.note){
+      // this.setState({editorState: EditorState.createWithContent(ContentState.createFromText(props.note))}) 
+      this.setState({
+        editorState: EditorState.createWithContent(convertFromRaw( JSON.parse(props.note))),
+        note_id: props.note_id,
+      })
     }
   }
   
+  editTitle(title){
+    console.log(title);
+    this.setState({
+      title: title,
+    })
+  }
+  
   saveNote(){
+    const title = this.state.title;
+    console.log(this.state.title);
     const {editorState} = this.state;
     let content = convertToRaw(editorState.getCurrentContent()); 
     content = JSON.stringify(content);
     console.log(content);
     $.ajax({
       url:`${BASE_URL}`,
-      data:{title: "Sample title",
+      data:{title: title,
             content: content,
             author: 'Song Ji'},
       type:'POST',
       success: function (note){
         console.log(note);
-      }.bind(this)
+      }
     })
+  }
+  
+  updateNote(id){
+    const title = this.state.title;
+    const {editorState} = this.state;
+    let content = convertToRaw(editorState.getCurrentContent()); 
+    content = JSON.stringify(content);
+    $.ajax({
+      url:`${BASE_URL}/notes/${id}`,
+      data:{title: title,
+            content: content,
+            author: 'Song Ji'},
+      type:'PATCH',
+      success: function (note){
+        console.log(note);
+      }
+    })
+  }
+  
+  handleUpdate(){
+    this.updateNote(this.state.note_id);
   }
   
   render() {
     const {editorState} = this.state;
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
-    let className = 'RichEditor-editor';
+    let className = 'RichEditor-root';
     var contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
@@ -149,9 +197,13 @@ class MyEditor extends Component {
     }
 
     return (
-            <div className="RichEditor-root">
+            <div className={className}>
+              <TitleField title={this.state.title}
+                          onChange={this.editTitle}/>
+                          
               <button onClick={this.logState}>Content</button>
               <button onClick={this.saveNote}>Save</button>
+              <button onClick={this.handleUpdate}>Update</button>
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}

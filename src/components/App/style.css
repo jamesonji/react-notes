@@ -13,7 +13,7 @@ body{
 
 .App-nav {
   background-color: #336699;
-  width: 25%;
+  width: 38%;
   height: 100%;
   color: white;
   position: fixed;
@@ -23,9 +23,26 @@ body{
   text-align: center;
 }
 
+.App-nav a:active, a:hover{
+  color: white;
+  background-color: lightblue;
+  padding: 0.1rem;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+.App-nav a{
+  color: white;
+  text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
 .App-main {
   font-size: large;
-  margin-left: 25%;
+  margin-left: 38%;
   float: left;
   width: auto;
   padding: 1em 2em;
