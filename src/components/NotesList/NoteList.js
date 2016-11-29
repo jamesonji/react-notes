@@ -3,9 +3,9 @@ import { Link } from 'react-router';
 
 function NoteList (props) {
   
-  const forwardNote = function (id, title) {
+  const forwardNote = function (id, content) {
     return function (event) {
-      props.onClick(id, title)
+      props.onClick(id, content)
     }
   }
   
@@ -16,7 +16,7 @@ function NoteList (props) {
           function (note, index) {
             return (
               <li
-                onClick={forwardNote(note._id, note.title)}
+                onClick={forwardNote(note._id, note.content)}
                 key={note._id}>
                 {note.title}
                </li>

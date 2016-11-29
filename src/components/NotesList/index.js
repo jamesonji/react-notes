@@ -33,10 +33,10 @@ export default class NotesList extends Component{
     console.log(title);
   }
   
-  editNote(id, text){
-    console.log(text);
+  editNote(id, content){
+    console.log(content);
     this.setState({
-      note: text,
+      note: content,
     })
   }
   

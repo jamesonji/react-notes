@@ -6,6 +6,8 @@ import {Editor,
         DefaultDraftBlockRenderMap,
         convertToRaw,
         ContentState,
+        rawState,
+        convertFromRaw,
       } from 'draft-js';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
@@ -115,7 +117,10 @@ class MyEditor extends Component {
   componentWillReceiveProps(props){
     // If parent component passes in a note props, set editor to display the new text component
     if (props.note !== null){
-      this.setState({editorState: EditorState.createWithContent(ContentState.createFromText(props.note))}) 
+      // this.setState({editorState: EditorState.createWithContent(ContentState.createFromText(props.note))}) 
+      this.setState({
+        editorState: EditorState.createWithContent(convertFromRaw( JSON.parse(props.note)))
+      })
     }
   }
   
