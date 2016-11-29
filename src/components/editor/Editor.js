@@ -67,6 +67,7 @@ class MyEditor extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      title: props.title,
       editorState: EditorState.createEmpty(),
       note_id: props.note_id,
     };
@@ -79,10 +80,12 @@ class MyEditor extends Component {
     this.logState = () => {
       const content = this.state.editorState.getCurrentContent();
       console.log(convertToRaw(content));
+      console.log(this.state.note_id);
     };
     this.saveNote = this.saveNote.bind(this);
     this.updateNote = this.updateNote.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.editTitle = this.editTitle.bind(this);
   }
  
   _onTab(e) {
@@ -120,22 +123,37 @@ class MyEditor extends Component {
   
   componentWillReceiveProps(props){
     // If parent component passes in a note props, set editor to display the new text component
-    if (props.note !== undefined){
+    if( props.title !== ''){
+      this.setState({
+        title: props.title,
+      })
+    }
+    if (props.note){
       // this.setState({editorState: EditorState.createWithContent(ContentState.createFromText(props.note))}) 
       this.setState({
-        editorState: EditorState.createWithContent(convertFromRaw( JSON.parse(props.note)))
+        editorState: EditorState.createWithContent(convertFromRaw( JSON.parse(props.note))),
+        note_id: props.note_id,
       })
     }
   }
   
+  editTitle(title){
+    console.log(title);
+    this.setState({
+      title: title,
+    })
+  }
+  
   saveNote(){
+    const title = this.state.title;
+    console.log(this.state.title);
     const {editorState} = this.state;
     let content = convertToRaw(editorState.getCurrentContent()); 
     content = JSON.stringify(content);
     console.log(content);
     $.ajax({
       url:`${BASE_URL}`,
-      data:{title: "Sample title",
+      data:{title: title,
             content: content,
             author: 'Song Ji'},
       type:'POST',
@@ -146,12 +164,13 @@ class MyEditor extends Component {
   }
   
   updateNote(id){
+    const title = this.state.title;
     const {editorState} = this.state;
     let content = convertToRaw(editorState.getCurrentContent()); 
     content = JSON.stringify(content);
     $.ajax({
       url:`${BASE_URL}/notes/${id}`,
-      data:{title: "Sample title",
+      data:{title: title,
             content: content,
             author: 'Song Ji'},
       type:'PATCH',
@@ -179,7 +198,9 @@ class MyEditor extends Component {
 
     return (
             <div className={className}>
-              <TitleField />
+              <TitleField title={this.state.title}
+                          onChange={this.editTitle}/>
+                          
               <button onClick={this.logState}>Content</button>
               <button onClick={this.saveNote}>Save</button>
               <button onClick={this.handleUpdate}>Update</button>

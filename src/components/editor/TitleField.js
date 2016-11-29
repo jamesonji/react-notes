@@ -6,14 +6,28 @@ export default class TitleField extends Component{
     this.state = {
       title: this.props.title,
     }
-    
+    this.forwardTitle = this.forwardTitle.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
   
-  handleChange(event){
+  forwardTitle(title) {
+    return function (event) {
+      this.props.onChange(title);
+    }
+  }
+  
+  componentWillReceiveProps(props){
     this.setState({
-      title: event.target.value
-    });
+      title: props.title,
+    })
+  }
+  
+  handleChange(event){
+    let title = event.target.value
+    this.setState({
+      title: title
+    })
+    this.props.onChange(title);
   }
   
   render(){
@@ -26,6 +40,7 @@ export default class TitleField extends Component{
   }
 } 
 
-TitleField.defaultProps = {
-  title: "Note Title",
+TitleField.defaultProps ={
+  title: 'Note title',
+  onChange: function(){}
 }

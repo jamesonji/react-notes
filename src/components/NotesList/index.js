@@ -10,8 +10,9 @@ export default class NotesList extends Component{
     super(props);
     this.state = { 
       notes: [],
-      note: undefined,
-      note_id: undefined,
+      note: '',
+      note_id: '',
+      title: ''
     }
     
     this.getNotes = this.getNotes.bind(this);
@@ -34,18 +35,19 @@ export default class NotesList extends Component{
     console.log(title);
   }
   
-  editNote(id, content){
-    console.log(content);
+  editNote(id, content, title){
     this.setState({
+      note_id: id,
+      title: title,
       note: content,
-      note_id: id
     })
   }
   
   clearNote(){
     this.setState({
-      note: undefined,
-      note_id: undefined
+      note_id: '',
+      title: '',
+      note: '',
     })
     this.getNotes();
   }
@@ -60,6 +62,7 @@ export default class NotesList extends Component{
       content = <EditNote 
                   onBackClick={this.clearNote}
                   note_id={this.state.note_id}
+                  title={this.state.title}
                   note={this.state.note} />
     }else{
       content = <div className="Notes-List">

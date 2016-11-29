@@ -2,9 +2,9 @@ import React from 'react';
 
 function NoteList (props) {
   
-  const forwardNote = function (id, content) {
+  const forwardNote = function (id, content, title) {
     return function (event) {
-      props.onClick(id, content)
+      props.onClick(id, content, title)
     }
   }
   
@@ -15,7 +15,7 @@ function NoteList (props) {
           function (note, index) {
             return (
               <li
-                onClick={forwardNote(note._id, note.content)}
+                onClick={forwardNote(note._id, note.content, note.title)}
                 key={note._id}>
                 {note.title}
                </li>

@@ -5,22 +5,23 @@ export default class EditNote extends Component {
   constructor(props){
     super(props)
     this.state = { 
-      note: this.props.note,
-      note_id: this.props.note_id
+      note_id: '',
+      title: '',
+      note: '',
     }
     this.initNote = this.initNote.bind(this);
   }
   
   initNote(){
-    this.setState({ note: this.props.note })
-    console.log(this.props.note);
+    this.setState({       
+          note_id: this.props.note_id,
+          title: this.props.title,
+          note: this.props.note,
+        })
   }
   
   componentDidMount(){
-    console.log(this.props.note);
-    this.setState({
-      note: this.props.note,
-    })
+    this.initNote();
   }
   
   render() {
@@ -28,8 +29,9 @@ export default class EditNote extends Component {
       <div className="Edite-Note">  
         <button onClick={ this.props.onBackClick }> Back </button>
         <MyEditor 
-          note={ this.state.note }
           note_id={ this.state.note_id }
+          title={this.state.title}
+          note={ this.state.note }
          />
       </div>
     )
