@@ -44,6 +44,7 @@ export default class NotesList extends Component{
     this.setState({
       note: undefined,
     })
+    this.getNotes();
   }
   
   componentDidMount(){
