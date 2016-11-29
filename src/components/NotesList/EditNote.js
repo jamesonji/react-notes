@@ -14,6 +14,7 @@ export default class EditNote extends Component {
     }
     this.initNote = this.initNote.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleBackClick = this.handleBackClick.bind(this);
   }
   
   initNote(){
@@ -30,10 +31,15 @@ export default class EditNote extends Component {
       url:`${BASE_URL}/notes/${this.state.note_id}`,
       type:'DELETE',
       success: function (note){
-        alert('Note deleted');
-        this.props.onBackClick;
+        console.log('Note deleted');
+        this.handleBackClick();
       }
-    })
+    }).bind(this)
+  }
+  
+  handleBackClick(){
+    console.log('Clicked back button');
+    console.log(this);
   }
   
   componentDidMount(){
