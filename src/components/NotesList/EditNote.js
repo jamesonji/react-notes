@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import MyEditor from '../editor/Editor.js';
+import $ from 'jquery';
+
+const BASE_URL = 'http://localhost:3001';
 
 export default class EditNote extends Component {
   constructor(props){
@@ -10,6 +13,7 @@ export default class EditNote extends Component {
       note: '',
     }
     this.initNote = this.initNote.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
   
   initNote(){
@@ -20,6 +24,18 @@ export default class EditNote extends Component {
         })
   }
   
+  handleDelete(event){
+    console.log(this.state.note_id);
+    $.ajax({
+      url:`${BASE_URL}/notes/${this.state.note_id}`,
+      type:'DELETE',
+      success: function (note){
+        alert('Note deleted');
+        this.props.onBackClick;
+      }
+    })
+  }
+  
   componentDidMount(){
     this.initNote();
   }
@@ -28,6 +44,7 @@ export default class EditNote extends Component {
     return (
       <div className="Edite-Note">  
         <button onClick={ this.props.onBackClick }> Back </button>
+        <button onClick={ this.handleDelete }> Delete </button>
         <MyEditor 
           note_id={ this.state.note_id }
           title={this.state.title}
