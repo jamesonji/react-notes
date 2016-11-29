@@ -5,12 +5,11 @@ import {Editor,
         DraftEditorBlock,
         DefaultDraftBlockRenderMap,
         convertToRaw,
-        ContentState,
-        rawState,
         convertFromRaw,
       } from 'draft-js';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
+import TitleField from './TitleField';
 import Immutable from 'immutable';
 import $ from 'jquery';
 import './style.css';
@@ -69,7 +68,7 @@ class MyEditor extends Component {
     super(props)
     this.state = {
       editorState: EditorState.createEmpty(),
-      note_id: props.note_id
+      note_id: props.note_id,
     };
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => this.setState({editorState});
@@ -121,7 +120,7 @@ class MyEditor extends Component {
   
   componentWillReceiveProps(props){
     // If parent component passes in a note props, set editor to display the new text component
-    if (props.note !== null){
+    if (props.note !== undefined){
       // this.setState({editorState: EditorState.createWithContent(ContentState.createFromText(props.note))}) 
       this.setState({
         editorState: EditorState.createWithContent(convertFromRaw( JSON.parse(props.note)))
@@ -148,10 +147,8 @@ class MyEditor extends Component {
   
   updateNote(id){
     const {editorState} = this.state;
-    console.log(id);
     let content = convertToRaw(editorState.getCurrentContent()); 
     content = JSON.stringify(content);
-    console.log(content);
     $.ajax({
       url:`${BASE_URL}/notes/${id}`,
       data:{title: "Sample title",
@@ -165,7 +162,6 @@ class MyEditor extends Component {
   }
   
   handleUpdate(){
-    console.log(this.state.note_id);
     this.updateNote(this.state.note_id);
   }
   
@@ -183,6 +179,7 @@ class MyEditor extends Component {
 
     return (
             <div className={className}>
+              <TitleField />
               <button onClick={this.logState}>Content</button>
               <button onClick={this.saveNote}>Save</button>
               <button onClick={this.handleUpdate}>Update</button>

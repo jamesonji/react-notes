@@ -5,8 +5,6 @@ var INLINE_STYLES = [
   {label: 'Bold', style: 'BOLD', icon: 'fa fa-bold'},
   {label: 'Italic', style: 'ITALIC', icon: 'fa fa-italic'},
   {label: 'Underline', style: 'UNDERLINE', icon: 'fa fa-underline'},
-  // {label: 'Monospace', style: 'CODE'},
-  // {label: 'Red', style: 'RED'},
 ];
 
 const InlineStyleControls = (props) => {
