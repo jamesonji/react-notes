@@ -67,7 +67,10 @@ function getBlockStyle(block) {
 class MyEditor extends Component {
   constructor(props) {
     super(props)
-    this.state = {editorState: EditorState.createEmpty()};
+    this.state = {
+      editorState: EditorState.createEmpty(),
+      note_id: props.note_id
+    };
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => this.setState({editorState});
     this.handleKeyCommand = (command) => this._handleKeyCommand(command);
@@ -79,6 +82,8 @@ class MyEditor extends Component {
       console.log(convertToRaw(content));
     };
     this.saveNote = this.saveNote.bind(this);
+    this.updateNote = this.updateNote.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
  
   _onTab(e) {
@@ -101,7 +106,7 @@ class MyEditor extends Component {
         this.state.editorState,
         inlineStyle
       )
-    );
+    ); 
   }
   
   _handleKeyCommand(command) {
@@ -141,6 +146,29 @@ class MyEditor extends Component {
     })
   }
   
+  updateNote(id){
+    const {editorState} = this.state;
+    console.log(id);
+    let content = convertToRaw(editorState.getCurrentContent()); 
+    content = JSON.stringify(content);
+    console.log(content);
+    $.ajax({
+      url:`${BASE_URL}/notes/${id}`,
+      data:{title: "Sample title",
+            content: content,
+            author: 'Song Ji'},
+      type:'PATCH',
+      success: function (note){
+        console.log(note);
+      }
+    })
+  }
+  
+  handleUpdate(){
+    console.log(this.state.note_id);
+    this.updateNote(this.state.note_id);
+  }
+  
   render() {
     const {editorState} = this.state;
     // If the user changes block type before entering any text, we can
@@ -157,6 +185,7 @@ class MyEditor extends Component {
             <div className={className}>
               <button onClick={this.logState}>Content</button>
               <button onClick={this.saveNote}>Save</button>
+              <button onClick={this.handleUpdate}>Update</button>
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}
