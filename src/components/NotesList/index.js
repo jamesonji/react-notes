@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NoteList from './NoteList';
 import EditNote from './EditNote';
 import $ from 'jquery';
+import './style.css'
 
 const BASE_URL = 'http://localhost:3001';
 
@@ -48,8 +49,10 @@ export default class NotesList extends Component{
       note_id: '',
       title: '',
       note: '',
+    }, () => {
+      this.getNotes()
+      console.log('in callback function')
     })
-    this.getNotes();
   }
   
   componentDidMount(){

@@ -1,0 +1,15 @@
+.List-Item{
+  color: steelblue;
+  font-size: 1.2em;
+  list-style: none;
+  padding: 0.2em;
+  cursor: pointer;
+}
+
+.List-Item:hover{
+  color: white;
+  background: steelblue;
+  padding: 0.2em;
+  border-radius: 3px;
+  list-style: none;
+}

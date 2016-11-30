@@ -25,21 +25,18 @@ export default class EditNote extends Component {
         })
   }
   
-  handleDelete(event){
-    console.log(this.state.note_id);
+  handleDelete(){
     $.ajax({
       url:`${BASE_URL}/notes/${this.state.note_id}`,
       type:'DELETE',
-      success: function (note){
-        console.log('Note deleted');
-        this.handleBackClick();
-      }
-    }).bind(this)
+      success: this.handleBackClick()
+    })
   }
   
   handleBackClick(){
     console.log('Clicked back button');
     console.log(this);
+    this.props.onBackClick();
   }
   
   componentDidMount(){
@@ -49,7 +46,7 @@ export default class EditNote extends Component {
   render() {
     return (
       <div className="Edite-Note">  
-        <button onClick={ this.props.onBackClick }> Back </button>
+        <button onClick={ this.handleBackClick }> Back </button>
         <button onClick={ this.handleDelete }> Delete </button>
         <MyEditor 
           note_id={ this.state.note_id }
