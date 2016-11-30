@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NoteList from './NoteList';
 import EditNote from './EditNote';
 import $ from 'jquery';
+import './style.css';
 
 const BASE_URL = 'http://localhost:3001';
 

@@ -9,19 +9,16 @@ function NoteList (props) {
   }
   
   return (
-    <ul className='NoteList'>
+    <ul>
       {
         props.notes.map(
           function (note, index) {
             return (
-              <li
+              <li className="List-Item"
                 onClick={forwardNote(note._id, note.content, note.title)}
                 key={note._id}>
                 {note.title}
                </li>
-              // <li key={note._id}>
-              //   <Link to='/'> {note.title} </Link>
-              // </li>
             )
           }
         )
