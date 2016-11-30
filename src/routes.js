@@ -5,7 +5,7 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 import App from './components/App';
 import Index from './components/Index'
 import About from './components/About';
-import NotesList from './components/NotesList';
+import Notes from './components/Notes';
 import NotFound from './components/NotFound';
 
 const Routes = () => (
@@ -13,7 +13,7 @@ const Routes = () => (
     <Route path="/" component={ App } >
       <IndexRoute component={ Index } />
       <Route path="/about" component={ About } />
-      <Route path="/list" component={ NotesList } />
+      <Route path="/notes" component={ Notes } />
       <Route path="*" component={ NotFound } />
     </Route>
   </Router>

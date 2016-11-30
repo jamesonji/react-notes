@@ -10,7 +10,7 @@ class Navigation extends Component {
         <h2>React Notes</h2>
           <h3><Link to="/" activeClassName="active">Home</Link></h3>
           <h3><Link to="/about" activeClassName="active">About</Link></h3>
-          <h3><Link to="/list" activeClassName="active">NotesList</Link></h3>
+          <h3><Link to="/notes" activeClassName="active">Notes</Link></h3>
       </div>
     );
   }
