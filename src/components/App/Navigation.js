@@ -11,6 +11,8 @@ class Navigation extends Component {
           <h3><Link to="/" activeClassName="active">Home</Link></h3>
           <h3><Link to="/about" activeClassName="active">About</Link></h3>
           <h3><Link to="/notes" activeClassName="active">Notes</Link></h3>
+          <h3><Link to="/login" activeClassName="active">Log In</Link></h3>
+          <h3><Link to="/signup" activeClassName="active">Sign Up</Link></h3>
       </div>
     );
   }
