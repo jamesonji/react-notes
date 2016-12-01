@@ -11,42 +11,48 @@ class LoginForm extends Component {
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
   
-  handleSubmit(){
-    $.ajax({
+  handleSubmit(event){
+    event.preventDefault();
+    $.post({
             url:`${BASE_URL}/login`,
-            type:"POST",
+            data:{
+              email: this.state.email,
+              password: this.refs.password.value
+            },
             success: function (data){
               console.log(data)
             }
     })
   }
   
-  handleChange(event){
+  handleInputChange = (event) =>{
     this.setState({
-      email: event.target.value,
+      [event.target.name]: event.target.value
     })
   }
   
   render(){
     return (
       <div className="Login-Form">
-        <form onSubmit={this.handleSubmit} >
+        <form>
           <div>
             <label>Email:</label>
             <input type="text" 
                   value={this.state.email} 
-                  onChange={this.handleChange}
+                  onChange={this.handleInputChange}
                   name="email"/>
           </div>
           <div>
             <label>Password:</label>
-            <input type="password" name="password"/>
+            <input ref="password"
+                   type="password" 
+                   name="password"/>
           </div>
           <div>
-            <input type="submit" value="Log In"/>
+            <input type="submit" onClick={this.handleSubmit} value="Log In"/>
             </div>
         </form>
       </div>

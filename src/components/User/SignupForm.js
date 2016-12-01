@@ -40,8 +40,6 @@ class SignupForm extends Component{
     // }
     // else{
     event.preventDefault();
-    console.log(`${BASE_URL}/signup`);
-    console.log('Submite hadeling');
     $.post({
       url:`${BASE_URL}/signup`,
       // type:"POST",
