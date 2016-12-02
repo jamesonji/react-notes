@@ -32,7 +32,7 @@ class Index extends Component {
   render() {
     return (
       <div className="Home-page">
-        <h1>Index Page</h1>
+        <h1>New Note</h1>
         <MyEditor />
       </div>
     );

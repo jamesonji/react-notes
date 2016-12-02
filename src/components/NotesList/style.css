@@ -1,15 +1,22 @@
-.List-Item{
+a{
   color: steelblue;
   font-size: 1.2em;
-  list-style: none;
+  list-style-type: none;
+  text-decoration: none;
   padding: 0.2em;
   cursor: pointer;
 }
 
-.List-Item:hover{
+a:hover{
   color: white;
+  font-size: 1.2em;
   background: steelblue;
   padding: 0.2em;
   border-radius: 3px;
-  list-style: none;
+  list-style-type: none;
+  text-decoration: none;
+}
+
+.List-Item a{
+  list-style-type: none;
 }
