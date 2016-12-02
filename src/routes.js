@@ -1,7 +1,7 @@
 // src/routes.js
 import React from 'react';
 import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-
+  
 import App from './components/App';
 import Index from './components/Index'
 import About from './components/About';

@@ -138,7 +138,6 @@ class MyEditor extends Component {
   }
   
   editTitle(title){
-    console.log(title);
     this.setState({
       title: title,
     })
@@ -146,11 +145,9 @@ class MyEditor extends Component {
   
   saveNote(){
     const title = this.state.title;
-    console.log(this.state.title);
     const {editorState} = this.state;
     let content = convertToRaw(editorState.getCurrentContent()); 
     content = JSON.stringify(content);
-    console.log(content);
     $.ajax({
       url:`${BASE_URL}`,
       data:{title: title,

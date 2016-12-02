@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MyEditor from '../editor/Editor.js';
+import {browserHistory} from 'react-router';
 import $ from 'jquery';
 import './style.css';
 
@@ -15,6 +16,7 @@ export default class EditNote extends Component{
     }
     this.getNote = this.getNote.bind(this);
     this.initNote = this.initNote.bind(this);
+    this.deleteNote = this.deleteNote.bind(this);
   }
   
   componentWillMount(){
@@ -25,6 +27,7 @@ export default class EditNote extends Component{
   
   componentDidMount(){
     console.log(this.props.params.id);
+    console.log(this.props);
     this.getNote();
   }
   
@@ -32,6 +35,7 @@ export default class EditNote extends Component{
     console.log(this.state.note_id);
     $.ajax({
       url:`${BASE_URL}/notes/${this.state.note_id}`,
+      type:'GET',
       success: function (data){
         this.initNote(data);
       }.bind(this)
@@ -45,10 +49,28 @@ export default class EditNote extends Component{
     })
   }
   
+  deleteNote(){
+    $.ajax({
+      url:`${BASE_URL}/notes/${this.state.note_id}`,
+      type:'DELETE',
+      datatype: 'json',
+      success: function (data){
+        console.log('hihohoh');
+        console.log(data);
+        this.redirectToList();
+      }.bind(this)
+    })
+  }
+  
+  redirectToList(){
+    console.log('In redirect function');
+    browserHistory.push('/list');
+  }
+  
   render (){
     return (
       <div className="Edite-Note">  
-        <button onClick={ this.handleDelete }> Delete </button>
+        <button onClick={ this.deleteNote }> Delete </button>
         <button> New </button>
         <MyEditor 
           note_id={ this.state.note_id }
