@@ -8,6 +8,7 @@ import {Editor,
         convertFromRaw,
       } from 'draft-js';
 import { draftjsToMd } from 'draftjs-md-converter';
+import SkyLight from 'react-skylight';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
 import TitleField from './TitleField';
@@ -186,6 +187,7 @@ class MyEditor extends Component {
   getMarkDown(){
     const content = this.state.editorState.getCurrentContent();
     console.log(draftjsToMd(convertToRaw(content)));
+    this.refs.simpleDialog.show();
   }
   
   render() {
@@ -209,6 +211,7 @@ class MyEditor extends Component {
               <button onClick={this.saveNote}>Save</button>
               <button onClick={this.handleUpdate}>Update</button>
               <button onClick={this.getMarkDown}>Show Mark Down</button>
+              <button onClick={() => this.refs.simpleDialog.show()}>Open Modal</button>
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}
@@ -230,6 +233,9 @@ class MyEditor extends Component {
                         ref="editor"
                         />
               </div>
+              <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Mark Down">
+                {draftjsToMd(convertToRaw(this.state.editorState.getCurrentContent()))}
+              </SkyLight>
             </div>
           );
   }
