@@ -17,14 +17,6 @@ export default class EditNote extends Component{
     this.initNote = this.initNote.bind(this);
   }
   
-  editNote(id, content, title){
-    this.setState({
-      note_id: id,
-      title: title,
-      note: content,
-    })
-  }
-  
   componentWillMount(){
     this.setState({
       note_id: this.props.params.id,
@@ -41,15 +33,15 @@ export default class EditNote extends Component{
     $.ajax({
       url:`${BASE_URL}/notes/${this.state.note_id}`,
       success: function (data){
-        console.log(data.note.content);
-        this.initNote(data.note.content);
+        this.initNote(data);
       }.bind(this)
     })
   }
   
-  initNote(note){
+  initNote(data){
     this.setState({
-      note: note,
+      title: data.note.title,
+      note: data.note.content,
     })
   }
   

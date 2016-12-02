@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import $ from 'jquery';
+import './style.css';
 
 const BASE_URL = 'http://localhost:3001';
 
@@ -11,7 +12,6 @@ export default class NotesList extends Component{
       notes: [],
     }
     this.getNotes = this.getNotes.bind(this);
-    this.showNote = this.showNote.bind(this);
   }
   
   getNotes(){
@@ -24,16 +24,8 @@ export default class NotesList extends Component{
     })
   }
   
-  logData(title){
-    console.log(title);
-  }
-  
   componentDidMount(){
     this.getNotes();
-  }
-  
-  showNote(event){
-    console.log(event.target.id);
   }
   
   render (){
@@ -49,7 +41,7 @@ export default class NotesList extends Component{
                   <Link to={`/edit/${note._id}`}>{note.title}</Link>
                   </li>
                 )
-              }.bind(this)
+              }
             )
           }
         </ul>
