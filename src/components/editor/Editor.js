@@ -7,6 +7,7 @@ import {Editor,
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
+import { draftjsToMd } from 'draftjs-md-converter';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
 import TitleField from './TitleField';
@@ -86,6 +87,7 @@ class MyEditor extends Component {
     this.updateNote = this.updateNote.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.editTitle = this.editTitle.bind(this);
+    this.getMarkDown = this.getMarkDown.bind(this);
   }
  
   _onTab(e) {
@@ -181,6 +183,11 @@ class MyEditor extends Component {
     this.updateNote(this.state.note_id);
   }
   
+  getMarkDown(){
+    const content = this.state.editorState.getCurrentContent();
+    console.log(draftjsToMd(convertToRaw(content)));
+  }
+  
   render() {
     const {editorState} = this.state;
     // If the user changes block type before entering any text, we can
@@ -201,6 +208,7 @@ class MyEditor extends Component {
               <button onClick={this.logState}>Content</button>
               <button onClick={this.saveNote}>Save</button>
               <button onClick={this.handleUpdate}>Update</button>
+              <button onClick={this.getMarkDown}>Show Mark Down</button>
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}
@@ -222,7 +230,6 @@ class MyEditor extends Component {
                         ref="editor"
                         />
               </div>
-              
             </div>
           );
   }
