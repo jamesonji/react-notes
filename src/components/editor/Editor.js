@@ -5,6 +5,7 @@ import {Editor,
         DraftEditorBlock,
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
+        convertToText,
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
@@ -85,6 +86,7 @@ class MyEditor extends Component {
     this.logState = () => {
       const content = this.state.editorState.getCurrentContent();
       console.log(convertToRaw(content));
+      console.log(convertToText(content));
       console.log(this.state.note_id);
     };
     this.saveNote = this.saveNote.bind(this);
@@ -242,13 +244,14 @@ class MyEditor extends Component {
         className += ' RichEditor-hidePlaceholder';
       }
     }
-
+    
+    const buttonStyle = "f6 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib hot-pink";
     return (
             <div className={className}>
               <TitleField title={this.state.title}
                           onChange={this.editTitle}/>
                           
-              <button onClick={this.logState}>Content</button>
+              <span className={buttonStyle} onClick={this.logState}>Content</span>
               <button onClick={this.saveNote}>Save</button>
               <button onClick={this.handleUpdate}>Update</button>
               <button onClick={this.getMarkDown}>Show Mark Down</button>

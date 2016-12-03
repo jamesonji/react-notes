@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.7.0"
+    "react-scripts": "0.7.0",
+    "tachyons": "^4.5.6"
   },
   "dependencies": {
     "classnames": "^2.2.5",
