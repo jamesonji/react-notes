@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
-import {Editor, 
+import {
+        Editor, 
         EditorState, 
         RichUtils, 
         DraftEditorBlock,
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
-        convertToText,
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
+// import Editor from 'draft-js-plugins-editor';
+import createSideToolbarPlugin from 'draft-js-side-toolbar-plugin'; 
+import createFocusPlugin from 'draft-js-focus-plugin';
+import createAlignmentPlugin from 'draft-js-alignment-plugin';
 import { draftjsToMd } from 'draftjs-md-converter';
 import CodeUtils from 'draft-js-code';
 import SkyLight from 'react-skylight';
@@ -20,6 +24,17 @@ import $ from 'jquery';
 import './style.css';
 
 const BASE_URL = 'http://localhost:3001';
+
+const focusPlugin = createFocusPlugin();
+const alignmentPlugin = createAlignmentPlugin();
+const sideToolbarPlugin = createSideToolbarPlugin();
+const { SideToolbar } = sideToolbarPlugin;
+
+const plugins = [
+  focusPlugin,
+  alignmentPlugin,
+  sideToolbarPlugin
+];
 
 const styleMap = {
  'CODE': {
@@ -86,7 +101,6 @@ class MyEditor extends Component {
     this.logState = () => {
       const content = this.state.editorState.getCurrentContent();
       console.log(convertToRaw(content));
-      console.log(convertToText(content));
       console.log(this.state.note_id);
     };
     this.saveNote = this.saveNote.bind(this);
@@ -97,12 +111,11 @@ class MyEditor extends Component {
   }
  
   _onTab(e) {
-    // const maxDepth = 4;
-    // this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
     const {editorState} = this.state;
 
     if (!CodeUtils.hasSelectionInBlock(editorState)) {
-        return;
+      this.onChange(RichUtils.onTab(e, editorState, 2));
+        // return;
     }
 
     this.onChange(
@@ -251,7 +264,7 @@ class MyEditor extends Component {
               <TitleField title={this.state.title}
                           onChange={this.editTitle}/>
                           
-              <span className={buttonStyle} onClick={this.logState}>Content</span>
+              <button className={buttonStyle} onClick={this.logState}>Content</button>
               <button onClick={this.saveNote}>Save</button>
               <button onClick={this.handleUpdate}>Update</button>
               <button onClick={this.getMarkDown}>Show Mark Down</button>
@@ -276,6 +289,7 @@ class MyEditor extends Component {
                         handleReturn={this.handleReturn}
                         blockRenderMap={extendedBlockRenderMap}
                         blockRendererFn={myBlockRenderer}
+                        // plugins={plugins}
                         ref="editor"
                         />
               </div>

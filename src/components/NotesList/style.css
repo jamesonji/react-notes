@@ -1,4 +1,4 @@
-a{
+.Notes a{
   color: steelblue;
   font-size: 1.2em;
   list-style-type: none;
@@ -7,7 +7,7 @@ a{
   cursor: pointer;
 }
 
-a:hover{
+.Notes a:hover{
   color: white;
   font-size: 1.2em;
   background: steelblue;
