@@ -4,9 +4,13 @@ import {Editor,
         RichUtils, 
         DraftEditorBlock,
         DefaultDraftBlockRenderMap,
+        getDefaultKeyBinding,
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
+import { draftjsToMd } from 'draftjs-md-converter';
+import CodeUtils from 'draft-js-code';
+import SkyLight from 'react-skylight';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
 import TitleField from './TitleField';
@@ -74,6 +78,7 @@ class MyEditor extends Component {
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => this.setState({editorState});
     this.handleKeyCommand = (command) => this._handleKeyCommand(command);
+    this.keyBindingFn = (e) => this._keyBindingFn(e);
     this.onTab = (e) => this._onTab(e);
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
@@ -86,11 +91,21 @@ class MyEditor extends Component {
     this.updateNote = this.updateNote.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.editTitle = this.editTitle.bind(this);
+    this.getMarkDown = this.getMarkDown.bind(this);
   }
  
   _onTab(e) {
-    const maxDepth = 4;
-    this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
+    // const maxDepth = 4;
+    // this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
+    const {editorState} = this.state;
+
+    if (!CodeUtils.hasSelectionInBlock(editorState)) {
+        return;
+    }
+
+    this.onChange(
+        CodeUtils.handleTab(e, editorState)
+    );
   }
   
   _toggleBlockType(blockType) {
@@ -113,7 +128,13 @@ class MyEditor extends Component {
   
   _handleKeyCommand(command) {
     const {editorState} = this.state;
-    const newState = RichUtils.handleKeyCommand(editorState, command);
+    let newState;
+    if(CodeUtils.hasSelectionInBlock(editorState)) {
+      newState = CodeUtils.handleKeyCommand(editorState, command);
+    }
+    if (!newState) {
+      newState = RichUtils.handleKeyCommand(editorState, command);
+    }
     if (newState) {
       this.onChange(newState);
       return true;
@@ -121,6 +142,29 @@ class MyEditor extends Component {
     return false;
   }
   
+  _keyBindingFn(event) {
+    const {editorState} = this.state;
+    let command;
+    if (CodeUtils.hasSelectionInBlock(editorState)) {
+      command = CodeUtils.getKeyBinding(event);
+    }
+    if (command) {
+      return command;
+    }
+    return getDefaultKeyBinding(event);
+  } 
+  
+  handleReturn = (e) => {
+    const {editorState} = this.state;
+    if (!CodeUtils.hasSelectionInBlock(editorState)) {
+      return;
+    }
+    this.onChange(
+      CodeUtils.handleReturn(e, editorState)
+    )
+    return true
+  }
+
   componentWillReceiveProps(props){
     // If parent component passes in a note props, set editor to display the new text component
     if( props.title !== ''){
@@ -181,6 +225,12 @@ class MyEditor extends Component {
     this.updateNote(this.state.note_id);
   }
   
+  getMarkDown(){
+    const content = this.state.editorState.getCurrentContent();
+    console.log(draftjsToMd(convertToRaw(content)));
+    this.refs.simpleDialog.show();
+  }
+  
   render() {
     const {editorState} = this.state;
     // If the user changes block type before entering any text, we can
@@ -201,6 +251,8 @@ class MyEditor extends Component {
               <button onClick={this.logState}>Content</button>
               <button onClick={this.saveNote}>Save</button>
               <button onClick={this.handleUpdate}>Update</button>
+              <button onClick={this.getMarkDown}>Show Mark Down</button>
+              <button onClick={() => this.refs.simpleDialog.show()}>Open Modal</button>
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}
@@ -216,13 +268,17 @@ class MyEditor extends Component {
                         onChange={this.onChange}
                         onTab={this.onTab}
                         placeholder="Enter some text..."
+                        keyBindingFn={this.keyBindingFn}
                         handleKeyCommand={this.handleKeyCommand}
+                        handleReturn={this.handleReturn}
                         blockRenderMap={extendedBlockRenderMap}
                         blockRendererFn={myBlockRenderer}
                         ref="editor"
                         />
               </div>
-              
+              <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Mark Down">
+                {draftjsToMd(convertToRaw(this.state.editorState.getCurrentContent()))}
+              </SkyLight>
             </div>
           );
   }
