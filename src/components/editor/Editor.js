@@ -69,10 +69,9 @@ function getBlockStyle(block) {
 class MyEditor extends Component {
   constructor(props) {
     super(props)
-    const decorator = new PrismDecorator();
     this.state = {
       title: props.title,
-      editorState: EditorState.createEmpty(decorator),
+      editorState: EditorState.createEmpty(),
       note_id: props.note_id,
     };
     this.focus = () => this.refs.editor.focus();
