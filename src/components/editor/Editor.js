@@ -8,6 +8,7 @@ import {Editor,
         convertFromRaw,
       } from 'draft-js';
 import { draftjsToMd } from 'draftjs-md-converter';
+import PrismDecorator from 'draftjs-prism';
 import SkyLight from 'react-skylight';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
@@ -68,9 +69,10 @@ function getBlockStyle(block) {
 class MyEditor extends Component {
   constructor(props) {
     super(props)
+    const decorator = new PrismDecorator();
     this.state = {
       title: props.title,
-      editorState: EditorState.createEmpty(),
+      editorState: EditorState.createEmpty(decorator),
       note_id: props.note_id,
     };
     this.focus = () => this.refs.editor.focus();
