@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {
-        Editor, 
+import {Editor, 
         EditorState, 
         RichUtils, 
         DraftEditorBlock,
@@ -9,15 +8,10 @@ import {
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
-// import Editor from 'draft-js-plugins-editor';
-import createSideToolbarPlugin from 'draft-js-side-toolbar-plugin'; 
-import createFocusPlugin from 'draft-js-focus-plugin';
-import createAlignmentPlugin from 'draft-js-alignment-plugin';
-import { draftjsToMd } from 'draftjs-md-converter';
 import CodeUtils from 'draft-js-code';
-import SkyLight from 'react-skylight';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
+import ColorStyleControls from './ColorStyleControls';
 import TitleField from './TitleField';
 import Immutable from 'immutable';
 import $ from 'jquery';
@@ -25,33 +19,26 @@ import './style.css';
 
 const BASE_URL = 'http://localhost:3001';
 
-const focusPlugin = createFocusPlugin();
-const alignmentPlugin = createAlignmentPlugin();
-const sideToolbarPlugin = createSideToolbarPlugin();
-const { SideToolbar } = sideToolbarPlugin;
-
-const plugins = [
-  focusPlugin,
-  alignmentPlugin,
-  sideToolbarPlugin
-];
-
 const styleMap = {
- 'CODE': {
-          backgroundColor: 'rgba(0, 0, 0, 0.05)',
-          fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-          fontSize: 16,
-          padding: 2,
-        },
+ 'code-block': {
+    backgroundColor: 'red',
+  },
   'RED':{
-    color: 'yellow',
-    backgroundColor: 'rgba(255, 232, 250, 0.6)',
-    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
-    fontSize: 20,
-    padding: 2,  
-  }
+    color: 'red',
+  },
+  'GOLD':{
+    color: 'gold',
+  },
+  'BLUE':{
+    color: 'blue',
+  },
+  'GREEN':{
+    color: 'green',
+  },
+  'PINK':{
+    color: 'HotPink',
+  },
 };
-
   
 function myBlockRenderer(contentBlock) {
   const type = contentBlock.getType();
@@ -79,6 +66,7 @@ const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 function getBlockStyle(block) {
   switch (block.getType()) {
     case 'blockquote': return 'RichEditor-blockquote';
+    case 'code-block': return 'RichEditor-codeblock';
     default: return null;
   }
 }
@@ -98,6 +86,7 @@ class MyEditor extends Component {
     this.onTab = (e) => this._onTab(e);
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
+    this.toggleColorStyle = (style) => this._toggleColorStyle(style);
     this.logState = () => {
       const content = this.state.editorState.getCurrentContent();
       console.log(convertToRaw(content));
@@ -107,7 +96,6 @@ class MyEditor extends Component {
     this.updateNote = this.updateNote.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.editTitle = this.editTitle.bind(this);
-    this.getMarkDown = this.getMarkDown.bind(this);
   }
  
   _onTab(e) {
@@ -133,6 +121,15 @@ class MyEditor extends Component {
   }
 
   _toggleInlineStyle(inlineStyle) {
+    this.onChange(
+      RichUtils.toggleInlineStyle(
+        this.state.editorState,
+        inlineStyle
+      )
+    ); 
+  }
+  
+  _toggleColorStyle(inlineStyle) {
     this.onChange(
       RichUtils.toggleInlineStyle(
         this.state.editorState,
@@ -240,12 +237,6 @@ class MyEditor extends Component {
     this.updateNote(this.state.note_id);
   }
   
-  getMarkDown(){
-    const content = this.state.editorState.getCurrentContent();
-    console.log(draftjsToMd(convertToRaw(content)));
-    this.refs.simpleDialog.show();
-  }
-  
   render() {
     const {editorState} = this.state;
     // If the user changes block type before entering any text, we can
@@ -264,11 +255,9 @@ class MyEditor extends Component {
               <TitleField title={this.state.title}
                           onChange={this.editTitle}/>
                           
-              <button className={buttonStyle} onClick={this.logState}>Content</button>
-              <button onClick={this.saveNote}>Save</button>
-              <button onClick={this.handleUpdate}>Update</button>
-              <button onClick={this.getMarkDown}>Show Mark Down</button>
-              <button onClick={() => this.refs.simpleDialog.show()}>Open Modal</button>
+              <div className={buttonStyle} onClick={this.logState}>Content</div>
+              <div className={buttonStyle} onClick={this.saveNote}>Save</div>
+              <div className={buttonStyle} onClick={this.handleUpdate}>Update</div>
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}
@@ -276,6 +265,10 @@ class MyEditor extends Component {
               <InlineStyleControls
                 editorState={editorState}
                 onToggle={this.toggleInlineStyle}
+              />
+              <ColorStyleControls
+                editorState={editorState}
+                onToggle={this.toggleColorStyle}
               />
               <div id='editor' onClick={this.focus}>
                 <Editor editorState={editorState}
@@ -289,13 +282,9 @@ class MyEditor extends Component {
                         handleReturn={this.handleReturn}
                         blockRenderMap={extendedBlockRenderMap}
                         blockRendererFn={myBlockRenderer}
-                        // plugins={plugins}
                         ref="editor"
                         />
               </div>
-              <SkyLight hideOnOverlayClicked ref="simpleDialog" title="Mark Down">
-                {draftjsToMd(convertToRaw(this.state.editorState.getCurrentContent()))}
-              </SkyLight>
             </div>
           );
   }

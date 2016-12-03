@@ -25,7 +25,7 @@ body{
 
 .App-nav{
   color: white;
-  background-color: lightblue;
+  background-color: orange;
   padding: 0.1rem;
   border-radius: 3px;
   text-decoration: none;
@@ -37,7 +37,7 @@ body{
 }
 
 a:visited {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .App-main {
@@ -46,4 +46,6 @@ a:visited {
   float: left;
   width: auto;
   padding: 1em 2em;
+  min-height: 100vh;
+  max-width: 70vw;
 }

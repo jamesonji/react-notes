@@ -18,9 +18,7 @@ class StyleButton extends Component {
     }
     
     let button = null;
-    let first_letter = this.props.label.charAt(0);
-    // if this is not a header button, display font-awesome icon
-    if (first_letter !== 'H'){
+    if (this.props.icon !== ''){
       button = <span className={className} onMouseDown={this.onToggle}></span>
     }
     else{
