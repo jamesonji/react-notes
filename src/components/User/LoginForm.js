@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import $ from 'jquery';
+import {login} from '../../helpers/auth';
+// import $ from 'jquery';
 
-const BASE_URL = 'http://localhost:3001/users';
+// const BASE_URL = 'http://localhost:3001/users';
 
 class LoginForm extends Component {
   constructor(props){
@@ -16,16 +17,17 @@ class LoginForm extends Component {
   
   handleSubmit(event){
     event.preventDefault();
-    $.post({
-            url:`${BASE_URL}/login`,
-            data:{
-              email: this.state.email,
-              password: this.refs.password.value
-            },
-            success: function (data){
-              console.log(data)
-            }
-    })
+    login(this.state.email, this.refs.password.value)
+    // $.post({
+    //         url:`${BASE_URL}/login`,
+    //         data:{
+    //           email: this.state.email,
+    //           password: this.refs.password.value
+    //         },
+    //         success: function (data){
+    //           console.log(data)
+    //         }
+    // })
   }
   
   handleInputChange = (event) =>{
