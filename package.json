@@ -8,6 +8,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "draft-js": "^0.9.1",
+    "draft-js-code": "^0.2.0",
     "draftjs-md-converter": "^0.1.0",
     "express": "^4.14.0",
     "jquery": "^3.1.1",

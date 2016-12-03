@@ -4,11 +4,12 @@ import {Editor,
         RichUtils, 
         DraftEditorBlock,
         DefaultDraftBlockRenderMap,
+        getDefaultKeyBinding,
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
 import { draftjsToMd } from 'draftjs-md-converter';
-import PrismDecorator from 'draftjs-prism';
+import CodeUtils from 'draft-js-code';
 import SkyLight from 'react-skylight';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
@@ -77,6 +78,7 @@ class MyEditor extends Component {
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => this.setState({editorState});
     this.handleKeyCommand = (command) => this._handleKeyCommand(command);
+    this.keyBindingFn = (e) => this._keyBindingFn(e);
     this.onTab = (e) => this._onTab(e);
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
@@ -93,8 +95,17 @@ class MyEditor extends Component {
   }
  
   _onTab(e) {
-    const maxDepth = 4;
-    this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
+    // const maxDepth = 4;
+    // this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
+    const {editorState} = this.state;
+
+    if (!CodeUtils.hasSelectionInBlock(editorState)) {
+        return;
+    }
+
+    this.onChange(
+        CodeUtils.handleTab(e, editorState)
+    );
   }
   
   _toggleBlockType(blockType) {
@@ -117,7 +128,13 @@ class MyEditor extends Component {
   
   _handleKeyCommand(command) {
     const {editorState} = this.state;
-    const newState = RichUtils.handleKeyCommand(editorState, command);
+    let newState;
+    if(CodeUtils.hasSelectionInBlock(editorState)) {
+      newState = CodeUtils.handleKeyCommand(editorState, command);
+    }
+    if (!newState) {
+      newState = RichUtils.handleKeyCommand(editorState, command);
+    }
     if (newState) {
       this.onChange(newState);
       return true;
@@ -125,6 +142,29 @@ class MyEditor extends Component {
     return false;
   }
   
+  _keyBindingFn(event) {
+    const {editorState} = this.state;
+    let command;
+    if (CodeUtils.hasSelectionInBlock(editorState)) {
+      command = CodeUtils.getKeyBinding(event);
+    }
+    if (command) {
+      return command;
+    }
+    return getDefaultKeyBinding(event);
+  } 
+  
+  handleReturn = (e) => {
+    const {editorState} = this.state;
+    if (!CodeUtils.hasSelectionInBlock(editorState)) {
+      return;
+    }
+    this.onChange(
+      CodeUtils.handleReturn(e, editorState)
+    )
+    return true
+  }
+
   componentWillReceiveProps(props){
     // If parent component passes in a note props, set editor to display the new text component
     if( props.title !== ''){
@@ -228,7 +268,9 @@ class MyEditor extends Component {
                         onChange={this.onChange}
                         onTab={this.onTab}
                         placeholder="Enter some text..."
+                        keyBindingFn={this.keyBindingFn}
                         handleKeyCommand={this.handleKeyCommand}
+                        handleReturn={this.handleReturn}
                         blockRenderMap={extendedBlockRenderMap}
                         blockRendererFn={myBlockRenderer}
                         ref="editor"
