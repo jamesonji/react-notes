@@ -5,6 +5,7 @@ import {Editor,
         DraftEditorBlock,
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
+        KeyBindingUtil,
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
@@ -17,12 +18,11 @@ import Immutable from 'immutable';
 import $ from 'jquery';
 import './style.css';
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = 'http://localhost:3001/notes';
+
+const {hasCommandModifier} = KeyBindingUtil;
 
 const styleMap = {
- 'code-block': {
-    backgroundColor: 'red',
-  },
   'RED':{
     color: 'red',
   },
@@ -38,8 +38,17 @@ const styleMap = {
   'PINK':{
     color: 'HotPink',
   },
+  'CAP':{
+    textTransform: 'capitalize'
+  },
+  'UPP':{
+    textTransform: 'uppercase'
+  },
+  'LINETHROUGH':{
+    textDecoration: 'line-through'
+  },
 };
-  
+
 function myBlockRenderer(contentBlock) {
   const type = contentBlock.getType();
   if (type === 'paragraph') {
@@ -71,6 +80,18 @@ function getBlockStyle(block) {
   }
 }
 
+// get text content from contentState
+function getTextContent(content){
+  let contentText='';
+  content.blocks.map(
+    function(block){
+      // return contentText += block.text + '\n'
+      return contentText += block.text + ' '
+    }
+  )
+  return contentText;
+}
+
 class MyEditor extends Component {
   constructor(props) {
     super(props)
@@ -89,8 +110,9 @@ class MyEditor extends Component {
     this.toggleColorStyle = (style) => this._toggleColorStyle(style);
     this.logState = () => {
       const content = this.state.editorState.getCurrentContent();
-      console.log(convertToRaw(content));
-      console.log(this.state.note_id);
+      console.log('Note ID:' + this.state.note_id);
+      console.log('Note Title: ' + this.state.title);
+      console.log('text Content:' + getTextContent(convertToRaw(content)));
     };
     this.saveNote = this.saveNote.bind(this);
     this.updateNote = this.updateNote.bind(this);
@@ -141,6 +163,31 @@ class MyEditor extends Component {
   _handleKeyCommand(command) {
     const {editorState} = this.state;
     let newState;
+    if (command === 'toggle-h1') {
+      this.toggleBlockType('header-one');
+      return true;
+    }
+    if (command === 'toggle-h2') {
+      this.toggleBlockType('header-two');
+      return true;
+    }
+    if (command === 'toggle-h3') {
+      this.toggleBlockType('header-three');
+      return true;
+    }
+    if (command === 'toggle-h4') {
+      this.toggleBlockType('header-four');
+      return true;
+    }
+    if (command === 'toggle-code') {
+      this.toggleBlockType('code-block');
+      return true;
+    }
+    if (command === 'toggle-up') {
+      this.toggleInlineStyle('Uppercase');
+      return true;
+    }
+
     if(CodeUtils.hasSelectionInBlock(editorState)) {
       newState = CodeUtils.handleKeyCommand(editorState, command);
     }
@@ -159,6 +206,30 @@ class MyEditor extends Component {
     let command;
     if (CodeUtils.hasSelectionInBlock(editorState)) {
       command = CodeUtils.getKeyBinding(event);
+    }
+    if (event.keyCode === 49 /* `1` key */ && hasCommandModifier(event)) {
+      // toggle H1
+      return 'toggle-h1';
+    }
+    if (event.keyCode === 50 /* `2` key */ && hasCommandModifier(event)) {
+      // toggle H2
+      return 'toggle-h2';
+    }
+    if (event.keyCode === 51 /* `3` key */ && hasCommandModifier(event)) {
+      // toggle H3
+      return 'toggle-h3';
+    }
+    if (event.keyCode === 52 /* `4` key */ && hasCommandModifier(event)) {
+      // toggle H4
+      return 'toggle-h4';
+    }
+    if (event.keyCode === 71 /* `G` key */ && hasCommandModifier(event)) {
+      // toggle Code mode
+      return 'toggle-code';
+    }
+    if (event.keyCode === 67 /* `U` key */ && hasCommandModifier(event)) {
+      // toggle upper case 
+      return 'toggle-up';
     }
     if (command) {
       return command;
@@ -203,11 +274,13 @@ class MyEditor extends Component {
     const title = this.state.title;
     const {editorState} = this.state;
     let content = convertToRaw(editorState.getCurrentContent()); 
+    let plaintext = getTextContent(content);
     content = JSON.stringify(content);
     $.ajax({
       url:`${BASE_URL}`,
       data:{title: title,
             content: content,
+            plaintext: plaintext,
             author: 'Song Ji'},
       type:'POST',
       success: function (note){
@@ -220,11 +293,13 @@ class MyEditor extends Component {
     const title = this.state.title;
     const {editorState} = this.state;
     let content = convertToRaw(editorState.getCurrentContent()); 
+    let plaintext = getTextContent(content);
     content = JSON.stringify(content);
     $.ajax({
       url:`${BASE_URL}/notes/${id}`,
       data:{title: title,
             content: content,
+            plaintext: plaintext,
             author: 'Song Ji'},
       type:'PATCH',
       success: function (note){
@@ -249,15 +324,16 @@ class MyEditor extends Component {
       }
     }
     
-    const buttonStyle = "f6 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib hot-pink";
+    const buttonStyle = "f5 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red";
     return (
             <div className={className}>
               <TitleField title={this.state.title}
                           onChange={this.editTitle}/>
-                          
-              <div className={buttonStyle} onClick={this.logState}>Content</div>
-              <div className={buttonStyle} onClick={this.saveNote}>Save</div>
-              <div className={buttonStyle} onClick={this.handleUpdate}>Update</div>
+              <div>
+                <a href='#' className={buttonStyle} onClick={this.logState}>Content</a>
+                <a href='#' className={buttonStyle} onClick={this.saveNote}>Save</a>
+                <a href='#' className={buttonStyle} onClick={this.handleUpdate}>Update</a>
+              </div>
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}

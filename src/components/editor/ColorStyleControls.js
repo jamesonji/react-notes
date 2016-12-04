@@ -12,7 +12,8 @@ var COLOR_STYLES = [
 const ColorStyleControls = (props) => {
   var currentStyle = props.editorState.getCurrentInlineStyle();
   return (
-    <div className="RichEditor-controls">
+    // <div className="RichEditor-controls">
+    <div className="bb b--light-gray">
       {COLOR_STYLES.map(type =>
         <ColorButton
           key={type.label}

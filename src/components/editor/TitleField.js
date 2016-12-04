@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 
+const inputStyle = "f3 f3-l input-reset bn fl black-80 bg-washed-yellow pa3 lh-solid w-40 w-40-m w-40-l br2-ns br--left-ns";
+
 export default class TitleField extends Component{
   constructor(props){
     super(props)
     this.state = {
       title: this.props.title,
     }
-    this.forwardTitle = this.forwardTitle.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-  
-  forwardTitle(title) {
-    return function (event) {
-      this.props.onChange(title);
-    }
   }
   
   componentWillReceiveProps(props){
@@ -33,6 +28,8 @@ export default class TitleField extends Component{
   render(){
     return (
       <input type="text" 
+            placeholder={'🤔 Need a title here 😈'}
+             className={inputStyle}
              value={this.state.title}
              onChange={this.handleChange}
       />
@@ -41,6 +38,6 @@ export default class TitleField extends Component{
 } 
 
 TitleField.defaultProps ={
-  title: 'Note title',
+  title: '',
   onChange: function(){}
 }

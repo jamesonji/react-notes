@@ -5,7 +5,7 @@ import logo from './logo.svg';
 class Navigation extends Component {
   render() {
     return (
-      <div className="App-nav">
+      <div className="App-nav" >
         <img src={logo} className="App-logo" alt="logo" />
         <h2>React Notes</h2>
           <h3><Link to="/" activeClassName="active">Home</Link></h3>
