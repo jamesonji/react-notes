@@ -18,7 +18,6 @@ export default class NotesList extends Component{
     $.ajax({
       url: `${BASE_URL}/notes`,
       success: function (data) {
-        console.log(data);
         this.setState({notes: data.notes})
       }.bind(this)
     })
@@ -30,21 +29,23 @@ export default class NotesList extends Component{
   
   render (){
     return (
-      <div className="Notes">
-        <ul>
+      <div> 
+        <section className="fl w-100">
           {
             this.state.notes.map(
               function (note, index) {
                 return (
-                  <li className="List-Item"
-                      key={note._id}>
-                  <Link to={`/edit/${note._id}`}>{note.title}</Link>
-                  </li>
+                  <Link to={`/edit/${note._id}`} 
+                        key={note._id}
+                        className="link ba br4 dim b--dashed b--blue fl w-30 pa3 pointer">
+                    <span className="link f3 orange hover-bg-light-yellow pa2">{note.title}</span>
+                    <p className="f6 black mw-100 measure">{note.plaintext}</p>
+                  </Link>
                 )
               }
             )
           }
-        </ul>
+        </section>
       </div>
     )
   }

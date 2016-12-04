@@ -7,6 +7,11 @@
   text-align: center;
 }
 
+.RichEditor-codeblock {
+  background: #eff0f1;
+  margin: 0px 0;
+}
+
 .RichEditor-controls {
   font-family: 'Helvetica', sans-serif;
   font-size: 1em;
@@ -15,8 +20,11 @@
   padding: 0.1em;
 }
 
-.RichEditor-editor{
-  
+.RichEditor-root{
+  height: 100vh;
+}
+.DraftEditor-editorContainer{
+  height: 100vh;
 }
 
 .RichEditor-hidePlaceholder{
