@@ -18,7 +18,7 @@ import Immutable from 'immutable';
 import $ from 'jquery';
 import './style.css';
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = 'http://localhost:3001/notes';
 
 const {hasCommandModifier} = KeyBindingUtil;
 
@@ -81,6 +81,18 @@ function getBlockStyle(block) {
   }
 }
 
+// get text content from contentState
+function getTextContent(content){
+  let contentText='';
+  content.blocks.map(
+    function(block){
+      // return contentText += block.text + '\n'
+      return contentText += block.text + ' '
+    }
+  )
+  return contentText;
+}
+
 class MyEditor extends Component {
   constructor(props) {
     super(props)
@@ -99,9 +111,9 @@ class MyEditor extends Component {
     this.toggleColorStyle = (style) => this._toggleColorStyle(style);
     this.logState = () => {
       const content = this.state.editorState.getCurrentContent();
-      console.log(convertToRaw(content));
       console.log('Note ID:' + this.state.note_id);
       console.log('Note Title: ' + this.state.title);
+      console.log('text Content:' + getTextContent(convertToRaw(content)));
     };
     this.saveNote = this.saveNote.bind(this);
     this.updateNote = this.updateNote.bind(this);
@@ -229,11 +241,13 @@ class MyEditor extends Component {
     const title = this.state.title;
     const {editorState} = this.state;
     let content = convertToRaw(editorState.getCurrentContent()); 
+    let plaintext = getTextContent(content);
     content = JSON.stringify(content);
     $.ajax({
       url:`${BASE_URL}`,
       data:{title: title,
             content: content,
+            plaintext: plaintext,
             author: 'Song Ji'},
       type:'POST',
       success: function (note){
@@ -246,11 +260,13 @@ class MyEditor extends Component {
     const title = this.state.title;
     const {editorState} = this.state;
     let content = convertToRaw(editorState.getCurrentContent()); 
+    let plaintext = getTextContent(content);
     content = JSON.stringify(content);
     $.ajax({
       url:`${BASE_URL}/notes/${id}`,
       data:{title: title,
             content: content,
+            plaintext: plaintext,
             author: 'Song Ji'},
       type:'PATCH',
       success: function (note){
