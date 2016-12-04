@@ -100,7 +100,8 @@ class MyEditor extends Component {
     this.logState = () => {
       const content = this.state.editorState.getCurrentContent();
       console.log(convertToRaw(content));
-      console.log(this.state.note_id);
+      console.log('Note ID:' + this.state.note_id);
+      console.log('Note Title: ' + this.state.title);
     };
     this.saveNote = this.saveNote.bind(this);
     this.updateNote = this.updateNote.bind(this);
@@ -155,6 +156,10 @@ class MyEditor extends Component {
       this.toggleBlockType('code-block');
       return true;
     }
+    if (command === 'toggle-up') {
+      this.toggleInlineStyle('Uppercase');
+      return true;
+    }
 
     if(CodeUtils.hasSelectionInBlock(editorState)) {
       newState = CodeUtils.handleKeyCommand(editorState, command);
@@ -177,6 +182,9 @@ class MyEditor extends Component {
     }
     if (event.keyCode === 71 /* `G` key */ && hasCommandModifier(event)) {
       return 'toggle-code';
+    }
+    if (event.keyCode === 67 /* `U` key */ && hasCommandModifier(event)) {
+      return 'toggle-up';
     }
     if (command) {
       return command;
@@ -267,15 +275,16 @@ class MyEditor extends Component {
       }
     }
     
-    const buttonStyle = "f6 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red";
+    const buttonStyle = "f5 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red";
     return (
             <div className={className}>
               <TitleField title={this.state.title}
                           onChange={this.editTitle}/>
-                          
-              <a href='#' className={buttonStyle} onClick={this.logState}>Content</a>
-              <a href='#' className={buttonStyle} onClick={this.saveNote}>Save</a>
-              <a href='#' className={buttonStyle} onClick={this.handleUpdate}>Update</a>
+              <div>
+                <a href='#' className={buttonStyle} onClick={this.logState}>Content</a>
+                <a href='#' className={buttonStyle} onClick={this.saveNote}>Save</a>
+                <a href='#' className={buttonStyle} onClick={this.handleUpdate}>Update</a>
+              </div>
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}
