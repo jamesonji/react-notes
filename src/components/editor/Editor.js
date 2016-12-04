@@ -22,7 +22,6 @@ const BASE_URL = 'http://localhost:3001/notes';
 
 const {hasCommandModifier} = KeyBindingUtil;
 
-
 const styleMap = {
   'RED':{
     color: 'red',
@@ -164,6 +163,22 @@ class MyEditor extends Component {
   _handleKeyCommand(command) {
     const {editorState} = this.state;
     let newState;
+    if (command === 'toggle-h1') {
+      this.toggleBlockType('header-one');
+      return true;
+    }
+    if (command === 'toggle-h2') {
+      this.toggleBlockType('header-two');
+      return true;
+    }
+    if (command === 'toggle-h3') {
+      this.toggleBlockType('header-three');
+      return true;
+    }
+    if (command === 'toggle-h4') {
+      this.toggleBlockType('header-four');
+      return true;
+    }
     if (command === 'toggle-code') {
       this.toggleBlockType('code-block');
       return true;
@@ -192,10 +207,28 @@ class MyEditor extends Component {
     if (CodeUtils.hasSelectionInBlock(editorState)) {
       command = CodeUtils.getKeyBinding(event);
     }
+    if (event.keyCode === 49 /* `1` key */ && hasCommandModifier(event)) {
+      // toggle H1
+      return 'toggle-h1';
+    }
+    if (event.keyCode === 50 /* `2` key */ && hasCommandModifier(event)) {
+      // toggle H2
+      return 'toggle-h2';
+    }
+    if (event.keyCode === 51 /* `3` key */ && hasCommandModifier(event)) {
+      // toggle H3
+      return 'toggle-h3';
+    }
+    if (event.keyCode === 52 /* `4` key */ && hasCommandModifier(event)) {
+      // toggle H4
+      return 'toggle-h4';
+    }
     if (event.keyCode === 71 /* `G` key */ && hasCommandModifier(event)) {
+      // toggle Code mode
       return 'toggle-code';
     }
     if (event.keyCode === 67 /* `U` key */ && hasCommandModifier(event)) {
+      // toggle upper case 
       return 'toggle-up';
     }
     if (command) {
