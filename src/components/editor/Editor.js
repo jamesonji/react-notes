@@ -5,6 +5,7 @@ import {Editor,
         DraftEditorBlock,
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
+        KeyBindingUtil,
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
@@ -19,10 +20,10 @@ import './style.css';
 
 const BASE_URL = 'http://localhost:3001';
 
+const {hasCommandModifier} = KeyBindingUtil;
+
+
 const styleMap = {
- 'code-block': {
-    backgroundColor: 'red',
-  },
   'RED':{
     color: 'red',
   },
@@ -38,8 +39,17 @@ const styleMap = {
   'PINK':{
     color: 'HotPink',
   },
+  'CAP':{
+    textTransform: 'capitalize'
+  },
+  'UPP':{
+    textTransform: 'uppercase'
+  },
+  'LINETHROUGH':{
+    textDecoration: 'line-through'
+  },
 };
-  
+
 function myBlockRenderer(contentBlock) {
   const type = contentBlock.getType();
   if (type === 'paragraph') {
@@ -141,6 +151,11 @@ class MyEditor extends Component {
   _handleKeyCommand(command) {
     const {editorState} = this.state;
     let newState;
+    if (command === 'toggle-code') {
+      this.toggleBlockType('code-block');
+      return true;
+    }
+
     if(CodeUtils.hasSelectionInBlock(editorState)) {
       newState = CodeUtils.handleKeyCommand(editorState, command);
     }
@@ -159,6 +174,9 @@ class MyEditor extends Component {
     let command;
     if (CodeUtils.hasSelectionInBlock(editorState)) {
       command = CodeUtils.getKeyBinding(event);
+    }
+    if (event.keyCode === 71 /* `G` key */ && hasCommandModifier(event)) {
+      return 'toggle-code';
     }
     if (command) {
       return command;
@@ -249,15 +267,15 @@ class MyEditor extends Component {
       }
     }
     
-    const buttonStyle = "f6 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib hot-pink";
+    const buttonStyle = "f6 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red";
     return (
             <div className={className}>
               <TitleField title={this.state.title}
                           onChange={this.editTitle}/>
                           
-              <div className={buttonStyle} onClick={this.logState}>Content</div>
-              <div className={buttonStyle} onClick={this.saveNote}>Save</div>
-              <div className={buttonStyle} onClick={this.handleUpdate}>Update</div>
+              <a href='#' className={buttonStyle} onClick={this.logState}>Content</a>
+              <a href='#' className={buttonStyle} onClick={this.saveNote}>Save</a>
+              <a href='#' className={buttonStyle} onClick={this.handleUpdate}>Update</a>
               <BlockStyleControls
                 editorState={editorState}
                 onToggle={this.toggleBlockType}
