@@ -12,7 +12,10 @@ export function logout () {
 
 export function login (email, pw) {
   return firebaseAuth().signInWithEmailAndPassword(email, pw)
-         .then((data)=> console.log(data))
+         .then((data)=> {
+           console.log(data)
+           console.log(data.email)
+         })
 }
 
 export function saveUser (user) {
