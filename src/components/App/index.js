@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Navigation from './Navigation';
 import { firebaseAuth } from '../../config/constants';
-// import { Link } from 'react-router';
+// import { Link } from 'react-router';g
 // import $ from 'jquery';
 import './style.css';
 
@@ -10,6 +10,7 @@ class App extends Component {
     super();
     this.state = {
       authed: false,
+      user: {},
     }
   }
   
@@ -19,11 +20,13 @@ class App extends Component {
        console.log(user);
        this.setState({
          authed: true,
+         user: user,
        })
        console.log(user);
      } else {
        this.setState({
          authed: false,
+         user: {},
        })
      }
    })
@@ -53,7 +56,7 @@ class App extends Component {
         <Navigation authed={this.state.authed}
                     logOut={this.logOut}/>
         <div className="App-main">
-          <div className="ph3 pv3">
+          <div className="ph4 pv4">
             {this.props.children}
           </div>
         </div>
