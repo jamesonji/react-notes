@@ -9,8 +9,13 @@ class Navigation extends Component {
         <img src={logo} className="App-logo" alt="logo" />
         <h2>React Notes</h2>
           <h3><Link to="/" activeClassName="active">Home</Link></h3>
-          <h3><Link to="/about" activeClassName="active">About</Link></h3>
-          <h3><Link to="/list" activeClassName="active">List</Link></h3>
+          { this.props.authed?
+            <div>
+              <h3><Link to="/about" activeClassName="active">About</Link></h3>
+              <h3><Link to="/list" activeClassName="active">List</Link></h3>
+            </div> :
+            ""
+          }
       </div>
     );
   }

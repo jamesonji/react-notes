@@ -12,24 +12,22 @@ body{
 }
 
 .App-nav {
-  background-color: #336699;
   width: 300px;
   height: 100%;
-  color: white;
   position: fixed;
   float: left;
   margin: 0;
   padding: 0;
   text-align: center;
-}
-
-.App-nav{
   color: white;
-  background-color: orange;
+  background-color: lightblue;
   padding: 0.1rem;
   border-radius: 3px;
   text-decoration: none;
+  background-image: url('https://www.transparenttextures.com/patterns/dark-mosaic.png');
 }
+
+/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 
 .App-nav a{
   color: white;
@@ -45,7 +43,6 @@ a:visited {
   margin-left: 300px;
   float: left;
   width: auto;
-  padding: 1em 2em;
   min-height: 100vh;
   max-width: 70vw;
   min-width: 68vw;
