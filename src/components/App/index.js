@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Navigation from './Navigation';
 import { firebaseAuth } from '../../config/constants';
-import { Link } from 'react-router';
-import $ from 'jquery';
+// import { Link } from 'react-router';
+// import $ from 'jquery';
 import './style.css';
 
 class App extends Component {
@@ -33,6 +33,7 @@ class App extends Component {
     firebaseAuth().signOut().then(function() {
       this.setState({
         authed: false,
+        user: {},
       })
       console.log('Signed Out');
     }, function(error) {
@@ -49,24 +50,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Navigation authed={this.state.authed}/>
+        <Navigation authed={this.state.authed}
+                    logOut={this.logOut}/>
         <div className="App-main">
-          <div className="w-100 pv2 tr">
-          { this.state.authed ? 
-            <div className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer"
-                  onClick={this.logOut}> LogOut 
-            </div> :
-            <div>
-              <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib red pointer"
-                    to="/login" activeClassName="active">Log In</Link>
-              <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib blue pointer"
-                    to="/signup" activeClassName="active">Sign Up</Link>
-            </div>
-          }
-        </div>
-        <div className="ph3">
-          {this.props.children}
-        </div>
+          <div className="ph3 pv3">
+            {this.props.children}
+          </div>
         </div>
       </div>
     );

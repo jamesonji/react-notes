@@ -81,28 +81,35 @@ class SignupForm extends Component{
   render(){
     return (
       <div className="Signup-Form">
-        <form >
-          <div>
-            <label>Email:</label>
-            <input type="text" 
+        <h1 className="mw5 center">Sign Up</h1>
+        <form className="mw5 mw7-ns center ba pa3 ph5-ns">
+          <div className="mt3">
+            <label className="db fw4 lh-copy f6">Email:</label>
+            <input className="pa2 input-reset ba bg-transparent w-100 measure" 
+              type="text" 
               value={this.state.email} 
               onChange={this.handleInputChange}
               name="email"/>
           </div>
-          <div>
-            <label>Password:</label>
-            <input ref="password"
+          <div className="mt3">
+            <label className="db fw4 lh-copy">Password:</label>
+            <input class="db pa2 input-reset ba bg-transparent"
+                   ref="password"
                    type="password" 
                    name="password"/>
           </div>
-          <div>
-            <label>Password confirmation:</label>
-            <input ref="password_confirmation" 
+          <div className="mt3">
+            <label className="db fw4 lh-copy">Password confirmation:</label>
+            <input class="db pa2 input-reset ba bg-transparent"
+                   ref="password_confirmation" 
                    type="password" 
                    name="password_confirmation"/>
           </div>
-          <div>
-            <input type="submit" onClick={this.handleSubmit} value="Sign Up"/>
+          <div className="mt3">
+            <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
+              type="submit"
+              onClick={this.handleSubmit} 
+                value="Sign Up"/>
           </div>
         </form>
       </div>
