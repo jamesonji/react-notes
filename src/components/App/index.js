@@ -74,8 +74,8 @@ class App extends Component {
                 { this.state.authed?
                   <span><Link to="/about" className="link dim black dib mr3"
                                           activeClassName="active">About</Link>
-                        <Link to="/list"  className="link dim black dib mr3"
-                                          activeClassName="active">List</Link>
+                        <Link to="/list"  className="link dim black br2 dib mr3 ba ph3 pv2 dim"
+                                          activeClassName="active">{this.state.user.email}</Link>                   
                     <span className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2"
                           onClick={this.logOut}> LogOut 
                     </span> 
