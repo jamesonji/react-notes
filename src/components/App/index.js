@@ -17,6 +17,7 @@ class App extends Component {
   
   componentDidMount () {
     firebaseAuth().onAuthStateChanged((user) => {
+      console.log('User: ' + user)
      if (user) {
        this.setState({
          authed: true,
@@ -43,7 +44,7 @@ class App extends Component {
       })
       console.log('Signed Out');
       browserHistory.push('/');
-    }, function(error) {
+    }.bind(this), function(error) {
       console.error('Sign Out Error', error);
     });
     // $.get({

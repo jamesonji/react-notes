@@ -279,6 +279,7 @@ class MyEditor extends Component {
     let plaintext = getTextContent(content);
     content = JSON.stringify(content);
     const user = firebase.auth().currentUser;
+    console.log(user.email);
     
     if(title === undefined || title === ""){
       console.log('Please enter a title');

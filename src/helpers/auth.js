@@ -30,6 +30,16 @@ export function googleLogin (){
                 });    
 }
 
+export function githubLogin (){
+  var provider = new firebase.auth.GithubAuthProvider();
+  return firebaseAuth().signInWithPopup(provider)
+          .then((result) => {
+                  console.log(result);
+                }).catch((error)=> {
+                  console.log(error);
+                });    
+}
+
 export function logout () {
   return firebaseAuth().signOut()
 }
