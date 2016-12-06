@@ -82,16 +82,14 @@ class App extends Component {
                     </span> 
                   </span> :
                   <span>
-                    <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2"
+                    <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2 ar"
                           to="/login" activeClassName="active">Log In</Link>
-                    <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2"
+                    <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2 ar"
                           to="/signup" activeClassName="active">Sign Up</Link>
                   </span>
                 }
               </nav>
             </div>
-            {/* <Navigation authed={this.state.authed} */}
-                        {/* // logOut={this.logOut}/> */}
             <div className="App-main">
               <div className="mw8 mw8-ns center bg-white pa3 ph5-ns bl br h-100">
                 {this.props.children}
