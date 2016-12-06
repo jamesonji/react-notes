@@ -4,7 +4,7 @@ export default class TitleField extends Component{
   constructor(props){
     super(props)
     this.state = {
-      title: this.props.title,
+      title: '',
     }
     this.handleChange = this.handleChange.bind(this);
   }

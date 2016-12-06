@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import firebase from 'firebase';
 import {Editor, 
         EditorState, 
         RichUtils, 
@@ -112,6 +113,7 @@ class MyEditor extends Component {
       const content = this.state.editorState.getCurrentContent();
       console.log('Note ID:' + this.state.note_id);
       console.log('Note Title: ' + this.state.title);
+      console.log('Content: ' + content);
       console.log('text Content:' + getTextContent(convertToRaw(content)));
     };
     this.saveNote = this.saveNote.bind(this);
@@ -270,18 +272,33 @@ class MyEditor extends Component {
     })
   }
   
-  saveNote(){
+  handleSave = () =>{
     const title = this.state.title;
     const {editorState} = this.state;
     let content = convertToRaw(editorState.getCurrentContent()); 
     let plaintext = getTextContent(content);
     content = JSON.stringify(content);
+    const user = firebase.auth().currentUser;
+    
+    if(title === undefined || title === ""){
+      console.log('Please enter a title');
+    }else if(plaintext === ""){
+      console.log('Note can not be empty');
+    }else if(!user){
+      console.log('Please log in first');
+    }else{
+      this.saveNote(title, content, plaintext, user.email);
+    }
+    
+  }
+  
+  saveNote(title, content, plaintext, auther){
     $.ajax({
       url:`${BASE_URL}`,
       data:{title: title,
             content: content,
             plaintext: plaintext,
-            author: 'Song Ji'},
+            author: auther},
       type:'POST',
       success: function (note){
         console.log(note);
@@ -333,7 +350,7 @@ class MyEditor extends Component {
               </div>
               <div>
                 <a href='#' className={buttonStyle} onClick={this.logState}>Content</a>
-                <a href='#' className={buttonStyle} onClick={this.saveNote}>Save</a>
+                <a href='#' className={buttonStyle} onClick={this.handleSave}>Save</a>
                 <a href='#' className={buttonStyle} onClick={this.handleUpdate}>Update</a>
               </div>
               <BlockStyleControls
