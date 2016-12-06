@@ -82,9 +82,9 @@ class App extends Component {
                     </span> 
                   </span> :
                   <span>
-                    <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2 ar"
+                    <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2"
                           to="/login" activeClassName="active">Log In</Link>
-                    <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2 ar"
+                    <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2"
                           to="/signup" activeClassName="active">Sign Up</Link>
                   </span>
                 }
