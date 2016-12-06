@@ -1,15 +1,14 @@
 import React, {Component} from 'react';
-import $ from 'jquery';
+import auth from '../../helpers/auth';
+// import $ from 'jquery';
 
-const BASE_URL = 'http://localhost:3001/users';
+// const BASE_URL = 'http://localhost:3001/users';
 
 class SignupForm extends Component{  
   constructor(props){
     super(props);
     this.state={
       email: '',
-      firstName: '',
-      lastName: '',
     }
   }
   
@@ -35,25 +34,41 @@ class SignupForm extends Component{
   }
   
   handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(this.state.email);
+    console.log(this.refs.password.value);
+    
+    const currentPassword = this.refs.password.value
+    const passwordConfirmation = this.refs.password_confirmation.value
+    
+    if (passwordConfirmation !== currentPassword) {
+      alert("error! passwords do not match")
+    } else if (currentPassword === "") {
+      alert("error! cannot have empty password")
+    } else if (this.state.email === "") {
+      alert("error! email is blank")
+    } else{
+      auth(this.state.email, this.refs.password.value);
+    }
+    
     // if(!canSignup){
     //   console.log('Can not sign up');
     // }
     // else{
-    event.preventDefault();
-    $.post({
-      url:`${BASE_URL}/signup`,
-      // type:"POST",
-      data: {
-        email: this.state.email,
-        firstName: this.state.firstName,
-        lastName: this.state.lastName,
-        password: this.refs.password.value,
-        password_confirmation: this.refs.password_confirmation.value,
-      },
-      success: function (data){
-        console.log(data)
-      }
-    })
+    // $.post({
+    //   url:`${BASE_URL}/signup`,
+    //   // type:"POST",
+    //   data: {
+    //     email: this.state.email,
+    //     firstName: this.state.firstName,
+    //     lastName: this.state.lastName,
+    //     password: this.refs.password.value,
+    //     password_confirmation: this.refs.password_confirmation.value,
+    //   },
+    //   success: function (data){
+    //     console.log(data)
+    //   }
+    // })
     // }
   }
   
@@ -66,42 +81,35 @@ class SignupForm extends Component{
   render(){
     return (
       <div className="Signup-Form">
-        <form >
-          <div>
-            <label>Email:</label>
-            <input type="text" 
+        <h1 className="mw5 center">Sign Up</h1>
+        <form className="mw5 mw7-ns center ba pa3 ph5-ns">
+          <div className="mt3">
+            <label className="db fw4 lh-copy f6">Email:</label>
+            <input className="pa2 input-reset ba bg-transparent w-100 measure" 
+              type="text" 
               value={this.state.email} 
               onChange={this.handleInputChange}
               name="email"/>
           </div>
-          <div>
-            <label>First Name:</label>
-            <input type="text" 
-                   name="firstName"
-                   value={this.state.firstName}
-                   onChange={this.handleInputChange}/>
-          </div>
-          <div>
-            <label>Last Name:</label>
-            <input type="text" 
-                   name="lastName"
-                   value={this.state.lastName}
-                   onChange={this.handleInputChange}/>
-          </div>
-          <div>
-            <label>Password:</label>
-            <input ref="password"
+          <div className="mt3">
+            <label className="db fw4 lh-copy">Password:</label>
+            <input class="db pa2 input-reset ba bg-transparent"
+                   ref="password"
                    type="password" 
                    name="password"/>
           </div>
-          <div>
-            <label>Password confirmation:</label>
-            <input ref="password_confirmation" 
+          <div className="mt3">
+            <label className="db fw4 lh-copy">Password confirmation:</label>
+            <input class="db pa2 input-reset ba bg-transparent"
+                   ref="password_confirmation" 
                    type="password" 
                    name="password_confirmation"/>
           </div>
-          <div>
-            <input type="submit" onClick={this.handleSubmit} value="Sign Up"/>
+          <div className="mt3">
+            <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
+              type="submit"
+              onClick={this.handleSubmit} 
+                value="Sign Up"/>
           </div>
         </form>
       </div>

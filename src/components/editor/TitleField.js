@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 
-const inputStyle = "f3 f3-l input-reset bn fl black-80 bg-washed-yellow pa3 lh-solid w-40 w-40-m w-40-l br2-ns br--left-ns";
-
 export default class TitleField extends Component{
   constructor(props){
     super(props)
     this.state = {
-      title: this.props.title,
+      title: '',
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -27,12 +25,13 @@ export default class TitleField extends Component{
   
   render(){
     return (
-      <input type="text" 
+      <div className="f3 ba input-reset bn fl black-100 bg-white pa3 lh-solid w-80 br2-ns br--left-ns">
+        <input type="text" 
             placeholder={'🤔 Need a title here 😈'}
-             className={inputStyle}
              value={this.state.title}
              onChange={this.handleChange}
-      />
+        />
+      </div>
     )
   }
 } 

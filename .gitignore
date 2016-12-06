@@ -3,6 +3,9 @@
 # dependencies
 node_modules
 
+# firebase user auth
+src/config/constants.js
+
 # testing
 coverage
 

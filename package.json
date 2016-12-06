@@ -17,6 +17,7 @@
     "draft-js-plugins-editor": "^2.0.0-beta7",
     "draft-js-side-toolbar-plugin": "^2.0.0-beta6",
     "express": "^4.14.0",
+    "firebase": "^3.6.2",
     "jquery": "^3.1.1",
     "mongoose": "^4.6.8",
     "morgan": "^1.7.0",
