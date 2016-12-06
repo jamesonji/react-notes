@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {login, facebookLogin} from '../../helpers/auth';
+import {login, facebookLogin, googleLogin} from '../../helpers/auth';
 // import $ from 'jquery';
 
 // const BASE_URL = 'http://localhost:3001/users';
@@ -32,6 +32,9 @@ class LoginForm extends Component {
   
   handleFacebookLogin = () => {
     facebookLogin();
+  }
+  handleGoogleLogin = () => {
+    googleLogin();
   }
   
   handleInputChange = (event) =>{
@@ -69,6 +72,8 @@ class LoginForm extends Component {
         <div>
           <a className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
              onClick={this.handleFacebookLogin}> Sign in with Facebook </a>
+          <a className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
+             onClick={this.handleGoogleLogin}> Sign in with Google </a>
         </div>
       </div>
     );

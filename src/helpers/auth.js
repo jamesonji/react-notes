@@ -20,6 +20,16 @@ export function facebookLogin (){
                 });
     
 }
+export function googleLogin (){
+  var provider = new firebase.auth.GoogleAuthProvider();
+  return firebaseAuth().signInWithPopup(provider)
+          .then((result) => {
+                  console.log(result);
+                }).catch((error)=> {
+                  console.log(error);
+                });
+    
+}
 
 export function logout () {
   return firebaseAuth().signOut()
