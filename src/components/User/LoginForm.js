@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import {login, facebookLogin, googleLogin} from '../../helpers/auth';
+import {login, 
+        facebookLogin, 
+        googleLogin} from '../../helpers/auth';
 // import $ from 'jquery';
 
 // const BASE_URL = 'http://localhost:3001/users';
@@ -33,6 +35,7 @@ class LoginForm extends Component {
   handleFacebookLogin = () => {
     facebookLogin();
   }
+  
   handleGoogleLogin = () => {
     googleLogin();
   }

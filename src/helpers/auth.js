@@ -18,8 +18,8 @@ export function facebookLogin (){
                 }).catch((error)=> {
                   console.log(error);
                 });
-    
 }
+
 export function googleLogin (){
   var provider = new firebase.auth.GoogleAuthProvider();
   return firebaseAuth().signInWithPopup(provider)
@@ -27,8 +27,7 @@ export function googleLogin (){
                   console.log(result);
                 }).catch((error)=> {
                   console.log(error);
-                });
-    
+                });    
 }
 
 export function logout () {
