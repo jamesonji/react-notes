@@ -69,7 +69,7 @@ class App extends Component {
           <div className="App">
             <div className="flex justify-between bb b--black-80 " >
               <nav className="f6 fw6 ttu tracked"> 
-              <h2 className="dim white dib mr3">React Notes</h2>
+              <h2 className="black dib mr3">React Notes</h2>
                 <Link to="/" className="link dim black dib mr3"
                                  activeClassName="active">Home</Link>
                 { this.state.authed?

@@ -289,8 +289,7 @@ class MyEditor extends Component {
       console.log('Please log in first');
     }else{
       this.saveNote(title, content, plaintext, user.email);
-    }
-    
+    }  
   }
   
   saveNote(title, content, plaintext, auther){
@@ -300,11 +299,13 @@ class MyEditor extends Component {
             content: content,
             plaintext: plaintext,
             author: auther},
-      type:'POST',
-      success: function (note){
-        console.log(note);
-      }
-    })
+      type:'POST'})
+      .done((note)=>{
+        console.log('Note saved: ' + note)
+      })
+      .fail((error)=>{
+        console.log('Error: ' + error)
+      })
   }
   
   updateNote(id){
