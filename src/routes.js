@@ -1,6 +1,6 @@
 // src/routes.js
 import React, {Component} from 'react';
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+import {Route, IndexRoute } from 'react-router';
 
 import App from './components/App';
 import Index from './components/Index'
@@ -14,7 +14,6 @@ import NotFound from './components/NotFound';
 class Routes extends Component{
 render(){
     return(
-      <Router history={ browserHistory }>
         <Route path="/" component={ App } >
           <IndexRoute component={ Index } />
           <Route path="/about" component={ About } />
@@ -24,7 +23,6 @@ render(){
           <Route path="/signup" component={ SignupForm } />
           <Route path="*" component={ NotFound } />
         </Route>
-      </Router>
     )
   }
 }
