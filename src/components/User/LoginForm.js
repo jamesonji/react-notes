@@ -51,7 +51,7 @@ class LoginForm extends Component {
           </div>
           <div className="mt3">
             <label className="db fw4 lh-copy f6">Password:</label>
-            <input class="db pa2 input-reset ba bg-transparent"
+            <input className="db pa2 input-reset ba bg-transparent"
                    ref="password"
                    type="password" 
                    name="password"/>

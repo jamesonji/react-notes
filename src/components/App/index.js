@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Navigation from './Navigation';
+// import Navigation from './Navigation';
 import { firebaseAuth } from '../../config/constants';
-// import { Link } from 'react-router';g
+import { Link, browserHistory } from 'react-router';
 // import $ from 'jquery';
 import './style.css';
 
@@ -11,22 +11,24 @@ class App extends Component {
     this.state = {
       authed: false,
       user: {},
+      loading: true,
     }
   }
   
   componentDidMount () {
     firebaseAuth().onAuthStateChanged((user) => {
      if (user) {
-       console.log(user);
        this.setState({
          authed: true,
          user: user,
+         loading: false,
        })
-       console.log(user);
+       browserHistory.push('/')
      } else {
        this.setState({
          authed: false,
          user: {},
+         loading: false,
        })
      }
    })
@@ -37,8 +39,10 @@ class App extends Component {
       this.setState({
         authed: false,
         user: {},
+        loading: false,
       })
       console.log('Signed Out');
+      browserHistory.push('/');
     }, function(error) {
       console.error('Sign Out Error', error);
     });
@@ -52,15 +56,48 @@ class App extends Component {
   
   render() {
     return (
-      <div className="App">
-        <Navigation authed={this.state.authed}
-                    logOut={this.logOut}/>
-        <div className="App-main">
-          <div className="ph4 pv4">
-            {this.props.children}
+      this.state.loading === true ? 
+        ( <div className="vh-100 dt w-100 bg-white">
+            <div className="dtc v-mid tc black ph3 ph4-l">
+              <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>
+              <span className="sr-only">Loading...</span>
+            </div>
           </div>
-        </div>
-      </div>
+        ) : 
+        (
+          <div className="App">
+            <div className="flex justify-between bb b--black-80 " >
+              <nav className="f6 fw6 ttu tracked"> 
+              <h2 className="dim white dib mr3">React Notes</h2>
+                <Link to="/" className="link dim black dib mr3"
+                                 activeClassName="active">Home</Link>
+                { this.state.authed?
+                  <span><Link to="/about" className="link dim black dib mr3"
+                                          activeClassName="active">About</Link>
+                        <Link to="/list"  className="link dim black dib mr3"
+                                          activeClassName="active">List</Link>
+                    <span className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2"
+                          onClick={this.logOut}> LogOut 
+                    </span> 
+                  </span> :
+                  <span>
+                    <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2"
+                          to="/login" activeClassName="active">Log In</Link>
+                    <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2"
+                          to="/signup" activeClassName="active">Sign Up</Link>
+                  </span>
+                }
+              </nav>
+            </div>
+            {/* <Navigation authed={this.state.authed} */}
+                        {/* // logOut={this.logOut}/> */}
+            <div className="App-main">
+              <div className="mw8 mw8-ns center bg-white pa3 ph5-ns bl br h-100">
+                {this.props.children}
+              </div>
+            </div>
+          </div>
+      )
     );
   }
 }

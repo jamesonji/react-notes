@@ -327,8 +327,10 @@ class MyEditor extends Component {
     const buttonStyle = "f5 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red";
     return (
             <div className={className}>
+              <div>
               <TitleField title={this.state.title}
                           onChange={this.editTitle}/>
+              </div>
               <div>
                 <a href='#' className={buttonStyle} onClick={this.logState}>Content</a>
                 <a href='#' className={buttonStyle} onClick={this.saveNote}>Save</a>
