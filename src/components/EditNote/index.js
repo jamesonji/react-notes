@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import MyEditor from '../editor/Editor.js';
-import {browserHistory} from 'react-router';
 import $ from 'jquery';
 import './style.css';
 
@@ -14,9 +13,6 @@ export default class EditNote extends Component{
       title: '',
       note: '',
     }
-    this.getNote = this.getNote.bind(this);
-    this.initNote = this.initNote.bind(this);
-    this.deleteNote = this.deleteNote.bind(this);
   }
   
   componentWillMount(){
@@ -26,12 +22,10 @@ export default class EditNote extends Component{
   }
   
   componentDidMount(){
-    console.log(this.props.params.id);
-    console.log(this.props);
     this.getNote();
   }
   
-  getNote(){
+  getNote = () =>{
     console.log(this.state.note_id);
     $.ajax({
       url:`${BASE_URL}/notes/${this.state.note_id}`,
@@ -42,33 +36,11 @@ export default class EditNote extends Component{
     })
   }
   
-  initNote(data){
+  initNote = (data) =>{
     this.setState({
       title: data.note.title,
       note: data.note.content,
     })
-  }
-  
-  handleNewNote = () => {
-    
-    browserHistory.push('/')
-  }
-  
-  deleteNote(){
-    $.ajax({
-      url:`${BASE_URL}/notes/${this.state.note_id}`,
-      type:'DELETE',
-      datatype: 'json',
-      success: function (data){
-        console.log('Note deleted: ' + data);
-        this.redirectToList();
-      }.bind(this)
-    })
-  }
-  
-  redirectToList(){
-    console.log('In redirect function');
-    browserHistory.push('/list');
   }
   
   render (){
@@ -85,6 +57,3 @@ export default class EditNote extends Component{
   }
 }
 
-// EditNote.defaultProps = {
-//   notes: [],
-// }

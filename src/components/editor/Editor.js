@@ -124,10 +124,6 @@ class MyEditor extends Component {
       console.log('text Content:' + getTextContent(convertToRaw(content)));
       this.showFlash('Show Flash', 'alert-success')
     };
-    this.saveNote = this.saveNote.bind(this);
-    this.updateNote = this.updateNote.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
-    this.editTitle = this.editTitle.bind(this);
   }
  
   _onTab(e) {
@@ -275,7 +271,7 @@ class MyEditor extends Component {
     }
   }
   
-  editTitle(title){
+  editTitle = (title) => {
     this.setState({
       title: title,
     })
@@ -310,7 +306,7 @@ class MyEditor extends Component {
     }  
   }
   
-  saveNote(title, content, plaintext, auther){
+  saveNote = (title, content, plaintext, auther) =>{
     $.ajax({
       url:`${BASE_URL}`,
       data:{title: title,
@@ -329,7 +325,7 @@ class MyEditor extends Component {
       })
   }
   
-  updateNote = (id)=>{
+  updateNote = (id) =>{
     const title = this.state.title;
     const {editorState} = this.state;
     let content = convertToRaw(editorState.getCurrentContent()); 
@@ -341,7 +337,7 @@ class MyEditor extends Component {
             content: content,
             plaintext: plaintext
           },
-      type:'PATCH'})
+      type:'PUT'})
       .done((data)=>{
         this.showFlash('Update successful!', 'alert-success');
         console.log('The note is updated' + data);
@@ -364,7 +360,7 @@ class MyEditor extends Component {
               content: content,
               plaintext: plaintext
             },
-        type:'PATCH'})
+        type:'PUT'})
         .done((data)=>{ 
           console.log(data);
           browserHistory.push('/');
@@ -395,7 +391,7 @@ class MyEditor extends Component {
     }
   }
   
-  handleUpdate(){
+  handleUpdate = () => {
     const user = firebase.auth().currentUser;
     if (!user){
       this.showFlash('Please sign in first.', 'alert-warning');
