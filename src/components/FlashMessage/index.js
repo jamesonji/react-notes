@@ -5,6 +5,7 @@ class FlashMessage extends Component{
 
   render(){
     const {message, className} = this.props.flashMessage;
+    
     if(!message){
       return null;
     }
@@ -12,7 +13,7 @@ class FlashMessage extends Component{
     return (
       <div className="row">
         <div 
-        className={'mw8 bg-red pink' + className} 
+        className={'w-100 bg-pink ' + className} 
         role="alert">
           {message}
         </div>

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';  
 import {bindActionCreators} from 'redux';
 
-import {sendFlashMessage} from '../../actions/index';
+import {sendFlashMessage, dismissMessage} from '../../actions/index';
 
 class UserAction extends Component{
 
@@ -27,6 +27,11 @@ class UserAction extends Component{
                 onClick={() => this.props.sendFlashMessage('Way to go...', 'alert-danger')} 
                 className="btn btn-danger">You Blew It</button>
               </div>
+              <div className="btn-group" role="group">
+                <button
+                onClick={() => this.props.dismissMessage(null,null)} 
+                className="btn btn-danger">Dismiss</button>
+              </div>
             </div>
           </div>
 
@@ -36,7 +41,8 @@ class UserAction extends Component{
 }
 
 const mapPropsToDispatch = (dispatch) => {  
-  return bindActionCreators({sendFlashMessage}, dispatch);
+  return bindActionCreators({sendFlashMessage, dismissMessage}, dispatch);
 };
+
 
 export default connect(null, mapPropsToDispatch)(UserAction);
