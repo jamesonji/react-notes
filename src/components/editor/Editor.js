@@ -352,7 +352,7 @@ class MyEditor extends Component {
       })
     }
     
-    updateNoteThenNew = (id) => {
+    updateThenNew = (id) => {
       const title = this.state.title;
       const {editorState} = this.state;
       let content = convertToRaw(editorState.getCurrentContent()); 
@@ -366,6 +366,7 @@ class MyEditor extends Component {
             },
         type:'PATCH'})
         .done((data)=>{ 
+          console.log(data);
           browserHistory.push('/');
         })
         .fail((error)=>{
@@ -383,7 +384,7 @@ class MyEditor extends Component {
           console.log('Note deleted: ' + data);
           browserHistory.push('/list');
           this.showFlash('Your note is Deleted.', 'alert-info');
-        }.bind(this)
+        }
       })
     }
     
@@ -408,7 +409,7 @@ class MyEditor extends Component {
     if (!user){
       this.showFlash('Please sign in first.', 'alert-warning');
     }else{
-      this.updateNoteThenNew(this.state.note_id);
+      this.updateThenNew(this.state.note_id);
     }
   } 
 
