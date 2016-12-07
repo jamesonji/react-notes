@@ -24,12 +24,17 @@ class UserAction extends Component{
               </div>
               <div className="btn-group" role="group">
                 <button
-                onClick={() => this.props.sendFlashMessage('Way to go...', 'alert-danger')} 
+                onClick={() => {
+                  this.props.sendFlashMessage('Way to go...', 'alert-danger')
+                  setTimeout(()=>{
+                    this.props.dismissMessage()
+                  }, 3000)}
+                } 
                 className="btn btn-danger">You Blew It</button>
               </div>
               <div className="btn-group" role="group">
                 <button
-                onClick={() => this.props.dismissMessage(null,null)} 
+                onClick={() => this.props.dismissMessage()} 
                 className="btn btn-danger">Dismiss</button>
               </div>
             </div>
