@@ -32,7 +32,7 @@ class Index extends Component {
   render() {
     return (
       <div className="Home-page">
-        <div className="mw7 mw7-ns center pa3 ph5-ns">
+        <div className="">
           <MyEditor />
         </div>
       </div>

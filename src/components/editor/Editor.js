@@ -295,10 +295,12 @@ class MyEditor extends Component {
     
     if(title === undefined || title === ""){
       console.log('Please enter a title');
+      this.showFlash('Please enter a title', 'alert-warning');
     }else if(plaintext === ""){
       console.log('Note can not be empty');
+      this.showFlash('Please enter some notes', 'alert-warning');
     }else if(!user){
-      console.log('Please log in first');
+      this.showFlash('Please sign in', 'alert-warning');
     }else{
       this.saveNote(title, content, plaintext, user.email);
     }  
@@ -313,14 +315,11 @@ class MyEditor extends Component {
             author: auther},
       type:'POST'})
       .done((note)=>{
-        this.showFlash('Note saved', 'alert-warning')
+        this.showFlash('Note saved', 'alert-success')
       })
       .fail((error)=>{
         console.log('Error: ' + error)
-        this.props.sendFlashMessage('Note is saved', 'alert-warning')
-        setTimeout(()=>{
-          this.props.dismissMessage()
-        }, 3000)
+        this.showFlash('Note is not saved, something went wrong😕', 'alert-danger')
       })
   }
   
@@ -359,31 +358,36 @@ class MyEditor extends Component {
       }
     }
     
-    const buttonStyle = "f5 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red";
+    const buttonStyle = "f4 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red";
     return (
             <div className={className}>
-              <div>
-              <TitleField title={this.state.title}
-                          onChange={this.editTitle}/>
-              </div>
               <div>
                 <a href='#' className={buttonStyle} onClick={this.logState}>Content</a>
                 <a href='#' className={buttonStyle} onClick={this.handleSave}>Save</a>
                 <a href='#' className={buttonStyle} onClick={this.handleUpdate}>Update</a>
               </div>
-              <BlockStyleControls
-                editorState={editorState}
-                onToggle={this.toggleBlockType}
-              />
-              <InlineStyleControls
-                editorState={editorState}
-                onToggle={this.toggleInlineStyle}
-              />
-              <ColorStyleControls
-                editorState={editorState}
-                onToggle={this.toggleColorStyle}
-              />
-              <div id='editor' onClick={this.focus}>
+              <div className="fl w-25 bg-white">
+                <BlockStyleControls
+                  editorState={editorState}
+                  onToggle={this.toggleBlockType}
+                />
+                <InlineStyleControls
+                  editorState={editorState}
+                  onToggle={this.toggleInlineStyle}
+                />
+                <ColorStyleControls
+                  editorState={editorState}
+                  onToggle={this.toggleColorStyle}
+                />
+              </div>
+              <div className="fl w-75">
+              <div className="pb3 w-100 f3 input-reset bn fl black-100 bg-white w-100 bb">
+                <TitleField title={this.state.title}
+                  onChange={this.editTitle}/>
+              </div>
+              <div id='editor' 
+                   onClick={this.focus}
+                   className='pt4 ph2 w-100 bg-white bt--black'>
                 <Editor editorState={editorState}
                         blockStyleFn={getBlockStyle}
                         customStyleMap={styleMap}
@@ -396,7 +400,8 @@ class MyEditor extends Component {
                         blockRenderMap={extendedBlockRenderMap}
                         blockRendererFn={myBlockRenderer}
                         ref="editor"
-                        />
+                      />
+                    </div>
               </div>
             </div>
           );
