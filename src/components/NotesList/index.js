@@ -1,17 +1,31 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import firebase from 'firebase';
+import {browserHistory} from 'react-router';
+
+import {connect} from 'react-redux';  
+import {bindActionCreators} from 'redux';
+import {sendFlashMessage, dismissMessage} from '../../actions/index';
+
 import $ from 'jquery';
 import './style.css';
 
 const BASE_URL = 'http://localhost:3001';
 
-export default class NotesList extends Component{
+class NotesList extends Component{
   constructor(props){
     super(props);
     this.state = { 
       notes: [],
     }
     this.getNotes = this.getNotes.bind(this);
+  }
+  
+  showFlash = (message, className) => {
+    this.props.sendFlashMessage(message, className)
+    setTimeout(()=>{
+      this.props.dismissMessage()
+    }, 3000)
   }
   
   getNotes(){
@@ -24,6 +38,12 @@ export default class NotesList extends Component{
   }
   
   componentDidMount(){
+    const user = firebase.auth().currentUser;
+    if(!user){
+      //Check if user logged in, if not, push to login view
+      browserHistory.push('/login')
+    }
+    
     this.getNotes();
   }
   
@@ -54,3 +74,10 @@ export default class NotesList extends Component{
 NotesList.defaultProps = {
   notes: [],
 }
+
+const mapPropsToDispatch = (dispatch) => {  
+  return bindActionCreators({sendFlashMessage, dismissMessage}, dispatch);
+};
+
+
+export default connect(null, mapPropsToDispatch)(NotesList);

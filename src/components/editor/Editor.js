@@ -16,6 +16,7 @@ import BlockStyleControls from './BlockStyleControls';
 import ColorStyleControls from './ColorStyleControls';
 import TitleField from './TitleField';
 import Immutable from 'immutable';
+import {browserHistory} from 'react-router';
 
 import {connect} from 'react-redux';  
 import {bindActionCreators} from 'redux';
@@ -314,8 +315,10 @@ class MyEditor extends Component {
             plaintext: plaintext,
             author: auther},
       type:'POST'})
-      .done((note)=>{
+      .done((data)=>{
         this.showFlash('Note saved', 'alert-success')
+        console.log(data.note);
+        browserHistory.push('/edit/'+data.note._id);
       })
       .fail((error)=>{
         console.log('Error: ' + error)
@@ -337,12 +340,16 @@ class MyEditor extends Component {
             author: 'Song Ji'},
       type:'PATCH',
       success: function (note){
-        console.log(note);
+        this.showFlash('Update successful!', 'alert-success')
       }
     })
   }
   
   handleUpdate(){
+    const user = firebase.auth().currentUser;
+    if (!user){
+      this.showFlash('Please sign in first.', 'alert-warning');
+    }
     this.updateNote(this.state.note_id);
   }
   
@@ -363,8 +370,10 @@ class MyEditor extends Component {
             <div className={className}>
               <div>
                 <a href='#' className={buttonStyle} onClick={this.logState}>Content</a>
-                <a href='#' className={buttonStyle} onClick={this.handleSave}>Save</a>
-                <a href='#' className={buttonStyle} onClick={this.handleUpdate}>Update</a>
+                {this.state.note_id? 
+                  <a href='#' className={buttonStyle} onClick={this.handleUpdate}>Update</a> :
+                  <a href='#' className={buttonStyle} onClick={this.handleSave}>Save</a>
+                }
               </div>
               <div className="fl w-25 bg-white">
                 <BlockStyleControls
