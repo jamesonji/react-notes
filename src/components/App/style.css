@@ -1,19 +1,11 @@
 body{
-  min-height: 100%;
   margin: 0;
   background-color: #ffffff;
   background-image: url("https://www.transparenttextures.com/patterns/gplay.png");
 }
 
 .App {
-/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 /*.App-nav {
   width: 300px;
   height: 100%;

@@ -29,7 +29,6 @@ export default class About extends Component {
         <h1>
           About
         </h1>
-        <h3>{this.state.email}</h3>
       </div>
     );
   }

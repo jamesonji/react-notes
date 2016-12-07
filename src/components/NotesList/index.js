@@ -37,8 +37,8 @@ export default class NotesList extends Component{
                 return (
                   <Link to={`/edit/${note._id}`} 
                         key={note._id}
-                        className="link ba br4 dim b--dashed b--blue fl w-30 pa3 pointer">
-                    <span className="link f3 orange hover-bg-light-yellow pa2">{note.title}</span>
+                        className="link ba br4 bg-white b--black fl w-25 ma3 pa2 pointer">
+                    <span className="link f3 orange hover-bg-light-yellow">{note.title}</span>
                     <p className="f6 black mw-100 measure">{note.plaintext}</p>
                   </Link>
                 )
