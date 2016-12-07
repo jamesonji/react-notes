@@ -31,6 +31,7 @@ export default class TitleField extends Component{
             placeholder={'🤔 Need a title here 😈'}
              value={this.state.title}
              onChange={this.handleChange}
+             className="w-100 mb2 bb"
         />
       </div>
     )

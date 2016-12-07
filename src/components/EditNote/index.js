@@ -74,19 +74,17 @@ export default class EditNote extends Component{
   render (){
     return (
       <div className="Edite-Note">  
-        <button onClick={ this.deleteNote }> Delete </button>
-        <button onClick={this.handleNewNote}> New </button>
-        
         <MyEditor 
           note_id={ this.state.note_id }
           title={this.state.title}
           note={ this.state.note }
+          editView={true}
          />
       </div>
     )
   }
 }
 
-EditNote.defaultProps = {
-  notes: [],
-}
+// EditNote.defaultProps = {
+//   notes: [],
+// }

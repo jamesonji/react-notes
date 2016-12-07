@@ -33,7 +33,7 @@ class Index extends Component {
     return (
       <div className="Home-page">
         <div className="">
-          <MyEditor />
+          <MyEditor editView={false}/>
         </div>
       </div>
     );
