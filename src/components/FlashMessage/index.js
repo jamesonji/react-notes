@@ -1,6 +1,6 @@
 import React, {Component} from 'react';  
 import {connect} from 'react-redux';
-
+import './style.css'
 class FlashMessage extends Component{
 
   render(){
@@ -13,7 +13,7 @@ class FlashMessage extends Component{
     return (
       <div className="row">
         <div 
-        className={'w-100 bg-pink ' + className} 
+        className={'center h2 w-100 ' + className} 
         role="alert">
           {message}
         </div>

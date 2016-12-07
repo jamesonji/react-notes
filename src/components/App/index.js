@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { firebaseAuth } from '../../config/constants';
 import { Link, browserHistory } from 'react-router';
 import FlashMessage from '../FlashMessage';  
-import UserAction from '../UserAction';
 // import $ from 'jquery';
 import './style.css';
 
@@ -94,7 +93,6 @@ class App extends Component {
             </div>
             <div className="App-main">
               <FlashMessage />
-              <UserAction />
               <div className="bg-white">
                 {this.props.children}
               </div>

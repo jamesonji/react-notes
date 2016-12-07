@@ -26,9 +26,9 @@ export default class About extends Component {
   render() {
     return (
       <div className="About-page">
-        <h1>
+        <p>
           About
-        </h1>
+        </p>
       </div>
     );
   }
