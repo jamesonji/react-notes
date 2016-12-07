@@ -16,6 +16,12 @@ import BlockStyleControls from './BlockStyleControls';
 import ColorStyleControls from './ColorStyleControls';
 import TitleField from './TitleField';
 import Immutable from 'immutable';
+import {browserHistory} from 'react-router';
+
+import {connect} from 'react-redux';  
+import {bindActionCreators} from 'redux';
+import {sendFlashMessage, dismissMessage} from '../../actions/index';
+
 import $ from 'jquery';
 import './style.css';
 
@@ -100,6 +106,7 @@ class MyEditor extends Component {
       title: props.title,
       editorState: EditorState.createEmpty(),
       note_id: props.note_id,
+      editView: false,
     };
     this.focus = () => this.refs.editor.focus();
     this.onChange = (editorState) => this.setState({editorState});
@@ -115,6 +122,7 @@ class MyEditor extends Component {
       console.log('Note Title: ' + this.state.title);
       console.log('Content: ' + content);
       console.log('text Content:' + getTextContent(convertToRaw(content)));
+      this.showFlash('Show Flash', 'alert-success')
     };
     this.saveNote = this.saveNote.bind(this);
     this.updateNote = this.updateNote.bind(this);
@@ -262,6 +270,7 @@ class MyEditor extends Component {
       this.setState({
         editorState: EditorState.createWithContent(convertFromRaw( JSON.parse(props.note))),
         note_id: props.note_id,
+        editView: props.editView,
       })
     }
   }
@@ -272,6 +281,13 @@ class MyEditor extends Component {
     })
   }
   
+  showFlash = (message, className) => {
+    this.props.sendFlashMessage(message, className)
+    setTimeout(()=>{
+      this.props.dismissMessage()
+    }, 3000)
+  }
+  
   handleSave = () =>{
     const title = this.state.title;
     const {editorState} = this.state;
@@ -279,17 +295,19 @@ class MyEditor extends Component {
     let plaintext = getTextContent(content);
     content = JSON.stringify(content);
     const user = firebase.auth().currentUser;
+    console.log(user.email);
     
     if(title === undefined || title === ""){
       console.log('Please enter a title');
+      this.showFlash('Please enter a title', 'alert-warning');
     }else if(plaintext === ""){
       console.log('Note can not be empty');
+      this.showFlash('Please enter some notes', 'alert-warning');
     }else if(!user){
-      console.log('Please log in first');
+      this.showFlash('Please sign in', 'alert-warning');
     }else{
       this.saveNote(title, content, plaintext, user.email);
-    }
-    
+    }  
   }
   
   saveNote(title, content, plaintext, auther){
@@ -299,36 +317,102 @@ class MyEditor extends Component {
             content: content,
             plaintext: plaintext,
             author: auther},
-      type:'POST',
-      success: function (note){
-        console.log(note);
-      }
-    })
+      type:'POST'})
+      .done((data)=>{
+        this.showFlash('Note saved', 'alert-success')
+        console.log(data.note);
+        browserHistory.push('/edit/'+data.note._id);
+      })
+      .fail((error)=>{
+        console.log('Error: ' + error)
+        this.showFlash('Note is not saved, something went wrong😕', 'alert-danger')
+      })
   }
   
-  updateNote(id){
+  updateNote = (id)=>{
     const title = this.state.title;
     const {editorState} = this.state;
     let content = convertToRaw(editorState.getCurrentContent()); 
     let plaintext = getTextContent(content);
     content = JSON.stringify(content);
     $.ajax({
-      url:`${BASE_URL}/notes/${id}`,
+      url:`${BASE_URL}/${id}`,
       data:{title: title,
             content: content,
-            plaintext: plaintext,
-            author: 'Song Ji'},
-      type:'PATCH',
-      success: function (note){
-        console.log(note);
+            plaintext: plaintext
+          },
+      type:'PATCH'})
+      .done((data)=>{
+        this.showFlash('Update successful!', 'alert-success');
+        console.log('The note is updated' + data);
+      })
+      .fail((error)=>{
+        console.log('Error: ' + error)
+        this.showFlash('Note is not updated, something went wrong😕', 'alert-danger')
+      })
+    }
+    
+    updateThenNew = (id) => {
+      const title = this.state.title;
+      const {editorState} = this.state;
+      let content = convertToRaw(editorState.getCurrentContent()); 
+      let plaintext = getTextContent(content);
+      content = JSON.stringify(content);
+      $.ajax({
+        url:`${BASE_URL}/${id}`,
+        data:{title: title,
+              content: content,
+              plaintext: plaintext
+            },
+        type:'PATCH'})
+        .done((data)=>{ 
+          console.log(data);
+          browserHistory.push('/');
+        })
+        .fail((error)=>{
+          console.log('Error: ' + error)
+          this.showFlash("Failed to save your current note, please try again", 'alert-danger')
+        })
       }
-    })
+    
+    deleteNote = () =>{
+      $.ajax({
+        url:`${BASE_URL}/${this.state.note_id}`,
+        type:'DELETE',
+        datatype: 'json',
+        success: function (data){
+          console.log('Note deleted: ' + data);
+          browserHistory.push('/list');
+          this.showFlash('Your note is Deleted.', 'alert-info');
+        }
+      })
+    }
+    
+  handleDelete = () =>{
+    const r = confirm("Delete the note?");
+    if (r === true) {
+      this.deleteNote();
+    }
   }
   
   handleUpdate(){
-    this.updateNote(this.state.note_id);
+    const user = firebase.auth().currentUser;
+    if (!user){
+      this.showFlash('Please sign in first.', 'alert-warning');
+    }else{
+      this.updateNote(this.state.note_id);
+    }
   }
   
+  handleNewNote = () => {
+    const user = firebase.auth().currentUser;
+    if (!user){
+      this.showFlash('Please sign in first.', 'alert-warning');
+    }else{
+      this.updateThenNew(this.state.note_id);
+    }
+  } 
+
   render() {
     const {editorState} = this.state;
     // If the user changes block type before entering any text, we can
@@ -341,31 +425,44 @@ class MyEditor extends Component {
       }
     }
     
-    const buttonStyle = "f5 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red";
+    const buttonStyle = "f4 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red";
     return (
             <div className={className}>
-              <div>
-              <TitleField title={this.state.title}
-                          onChange={this.editTitle}/>
-              </div>
-              <div>
+              <div className="fl w-25 bg-white br3">
                 <a href='#' className={buttonStyle} onClick={this.logState}>Content</a>
-                <a href='#' className={buttonStyle} onClick={this.handleSave}>Save</a>
-                <a href='#' className={buttonStyle} onClick={this.handleUpdate}>Update</a>
+                {this.state.note_id? 
+                  <span className={buttonStyle} onClick={this.handleUpdate}>Update</span> :
+                  <span className={buttonStyle} onClick={this.handleSave}>Save</span>
+                }
+                { this.state.editView?
+                  (<span>
+                    <span className={buttonStyle} onClick={this.handleDelete}>Delete</span>
+                    <span className={buttonStyle} onClick={this.handleNewNote}>New</span>
+                  </span>):
+                  <span></span>
+                } 
+                
+                <BlockStyleControls
+                  editorState={editorState}
+                  onToggle={this.toggleBlockType}
+                />
+                <InlineStyleControls
+                  editorState={editorState}
+                  onToggle={this.toggleInlineStyle}
+                />
+                <ColorStyleControls
+                  editorState={editorState}
+                  onToggle={this.toggleColorStyle}
+                />
               </div>
-              <BlockStyleControls
-                editorState={editorState}
-                onToggle={this.toggleBlockType}
-              />
-              <InlineStyleControls
-                editorState={editorState}
-                onToggle={this.toggleInlineStyle}
-              />
-              <ColorStyleControls
-                editorState={editorState}
-                onToggle={this.toggleColorStyle}
-              />
-              <div id='editor' onClick={this.focus}>
+              <div className="fl w-75">
+              <div className="pb3 w-100 f3 bn fl black-100 bg-white w-100">
+                <TitleField title={this.state.title}
+                  onChange={this.editTitle}/>
+              </div>
+              <div id='editor' 
+                   onClick={this.focus}
+                   className='mt4 ph2 w-100 bg-white bt--black'>
                 <Editor editorState={editorState}
                         blockStyleFn={getBlockStyle}
                         customStyleMap={styleMap}
@@ -378,10 +475,17 @@ class MyEditor extends Component {
                         blockRenderMap={extendedBlockRenderMap}
                         blockRendererFn={myBlockRenderer}
                         ref="editor"
-                        />
+                      />
+                    </div>
               </div>
             </div>
           );
   }
 }
-export default MyEditor;
+
+const mapPropsToDispatch = (dispatch) => {  
+  return bindActionCreators({sendFlashMessage, dismissMessage}, dispatch);
+};
+
+
+export default connect(null, mapPropsToDispatch)(MyEditor);

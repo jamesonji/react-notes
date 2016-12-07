@@ -49,14 +49,18 @@ export default class EditNote extends Component{
     })
   }
   
+  handleNewNote = () => {
+    
+    browserHistory.push('/')
+  }
+  
   deleteNote(){
     $.ajax({
       url:`${BASE_URL}/notes/${this.state.note_id}`,
       type:'DELETE',
       datatype: 'json',
       success: function (data){
-        console.log('hihohoh');
-        console.log(data);
+        console.log('Note deleted: ' + data);
         this.redirectToList();
       }.bind(this)
     })
@@ -70,18 +74,17 @@ export default class EditNote extends Component{
   render (){
     return (
       <div className="Edite-Note">  
-        <button onClick={ this.deleteNote }> Delete </button>
-        <button> New </button>
         <MyEditor 
           note_id={ this.state.note_id }
           title={this.state.title}
           note={ this.state.note }
+          editView={true}
          />
       </div>
     )
   }
 }
 
-EditNote.defaultProps = {
-  notes: [],
-}
+// EditNote.defaultProps = {
+//   notes: [],
+// }

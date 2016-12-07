@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 // import Navigation from './Navigation';
 import { firebaseAuth } from '../../config/constants';
 import { Link, browserHistory } from 'react-router';
+import FlashMessage from '../FlashMessage';  
+
 // import $ from 'jquery';
 import './style.css';
 
@@ -17,6 +19,7 @@ class App extends Component {
   
   componentDidMount () {
     firebaseAuth().onAuthStateChanged((user) => {
+      console.log('User: ' + user)
      if (user) {
        this.setState({
          authed: true,
@@ -43,7 +46,7 @@ class App extends Component {
       })
       console.log('Signed Out');
       browserHistory.push('/');
-    }, function(error) {
+    }.bind(this), function(error) {
       console.error('Sign Out Error', error);
     });
     // $.get({
@@ -65,10 +68,10 @@ class App extends Component {
           </div>
         ) : 
         (
-          <div className="App">
+          <div className="ba--light-red">
             <div className="flex justify-between bb b--black-80 " >
               <nav className="f6 fw6 ttu tracked"> 
-              <h2 className="dim white dib mr3">React Notes</h2>
+              <h2 className="black dib mr3">React Notes</h2>
                 <Link to="/" className="link dim black dib mr3"
                                  activeClassName="active">Home</Link>
                 { this.state.authed?
@@ -89,10 +92,9 @@ class App extends Component {
                 }
               </nav>
             </div>
-            {/* <Navigation authed={this.state.authed} */}
-                        {/* // logOut={this.logOut}/> */}
             <div className="App-main">
-              <div className="mw8 mw8-ns center bg-white pa3 ph5-ns bl br h-100">
+              <FlashMessage />
+              <div className="bg-white">
                 {this.props.children}
               </div>
             </div>
