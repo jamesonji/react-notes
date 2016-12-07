@@ -13,7 +13,7 @@ var INLINE_STYLES = [
 const InlineStyleControls = (props) => {
   var currentStyle = props.editorState.getCurrentInlineStyle();
   return (
-    <div className="bb b--light-gray">
+    <div className="b--light-gray">
       {INLINE_STYLES.map(type =>
         <StyleButton
           key={type.label}

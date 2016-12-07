@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 // import Navigation from './Navigation';
 import { firebaseAuth } from '../../config/constants';
 import { Link, browserHistory } from 'react-router';
+import FlashMessage from '../FlashMessage';  
+
 // import $ from 'jquery';
 import './style.css';
 
@@ -66,7 +68,7 @@ class App extends Component {
           </div>
         ) : 
         (
-          <div className="App">
+          <div className="ba--light-red">
             <div className="flex justify-between bb b--black-80 " >
               <nav className="f6 fw6 ttu tracked"> 
               <h2 className="black dib mr3">React Notes</h2>
@@ -91,7 +93,8 @@ class App extends Component {
               </nav>
             </div>
             <div className="App-main">
-              <div className="mw8 mw8-ns center bg-white pa3 ph5-ns bl br h-100">
+              <FlashMessage />
+              <div className="bg-white">
                 {this.props.children}
               </div>
             </div>
