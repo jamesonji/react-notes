@@ -14,18 +14,18 @@ class UserAction extends Component{
             <div className="btn-group btn-group-justified" role="group">
               <div className="btn-group" role="group">
                 <button
-                onClick={() => this.props.sendFlashMessage('You win!', 'bg-green')} 
+                onClick={() => this.props.sendFlashMessage('You win!', 'alert-success')} 
                 className="btn btn-success">Happy Message</button>
               </div>
               <div className="btn-group" role="group">
                 <button
-                onClick={() => this.props.sendFlashMessage('You\'ve been warned', 'bg-yellow')} 
+                onClick={() => this.props.sendFlashMessage('You\'ve been warned', 'alert-warnning')} 
                 className="btn btn-warning">Warning</button>
               </div>
               <div className="btn-group" role="group">
                 <button
                 onClick={() => {
-                  this.props.sendFlashMessage('Way to go...', 'bg-red')
+                  this.props.sendFlashMessage('Way to go...', 'alert-info')
                   setTimeout(()=>{
                     this.props.dismissMessage()
                   }, 3000)}

@@ -16,6 +16,11 @@ import BlockStyleControls from './BlockStyleControls';
 import ColorStyleControls from './ColorStyleControls';
 import TitleField from './TitleField';
 import Immutable from 'immutable';
+
+import {connect} from 'react-redux';  
+import {bindActionCreators} from 'redux';
+import {sendFlashMessage, dismissMessage} from '../../actions/index';
+
 import $ from 'jquery';
 import './style.css';
 
@@ -272,6 +277,13 @@ class MyEditor extends Component {
     })
   }
   
+  showFlash = (message, className) => {
+    this.props.sendFlashMessage(message, className)
+    setTimeout(()=>{
+      this.props.dismissMessage()
+    }, 3000)
+  }
+  
   handleSave = () =>{
     const title = this.state.title;
     const {editorState} = this.state;
@@ -301,10 +313,14 @@ class MyEditor extends Component {
             author: auther},
       type:'POST'})
       .done((note)=>{
-        console.log('Note saved: ' + note)
+        this.showFlash('Note saved', 'alert-warning')
       })
       .fail((error)=>{
         console.log('Error: ' + error)
+        this.props.sendFlashMessage('Note is saved', 'alert-warning')
+        setTimeout(()=>{
+          this.props.dismissMessage()
+        }, 3000)
       })
   }
   
@@ -386,4 +402,10 @@ class MyEditor extends Component {
           );
   }
 }
-export default MyEditor;
+
+const mapPropsToDispatch = (dispatch) => {  
+  return bindActionCreators({sendFlashMessage, dismissMessage}, dispatch);
+};
+
+
+export default connect(null, mapPropsToDispatch)(MyEditor);

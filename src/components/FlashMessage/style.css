@@ -1,0 +1,24 @@
+.alert-success{
+  background-color: #DFF0D8;
+  color: #3C763D;
+  text-align: center;
+
+}
+
+.alert-danger{
+  background-color: #FF725C;
+  color: #E7040F;
+  text-align: center;
+}
+
+.alert-warnning{
+  background-color: #FBF1A9;
+  color: #FF6300;
+  text-align: center;
+}
+
+.alert-info{
+  background-color: #D9EDF7;
+  color: #317096;
+  text-align: center;
+}
