@@ -34,11 +34,13 @@ class LoginForm extends Component {
   }
   
   handleFacebookLogin = () => {
-    facebookLogin();
+    let facebookCallback = facebookLogin();
+    console.log("Facebook callback: " + facebookCallback.message);
   }
   
   handleGoogleLogin = () => {
-    googleLogin();
+    let googleCallback = googleLogin();
+    console.log("Google Callback: " + googleCallback);
   }
   
   handleGithubLogin = () => {

@@ -1,10 +1,9 @@
 import React from 'react';
 // import Routes from './routes';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux'
 import { Provider } from 'react-redux';
+import store from './store';
 import {Router, browserHistory, Route, IndexRoute } from 'react-router';
-import rootReducer from './reducers/index'; 
 import './index.css';
 
 import App from './components/App';
@@ -20,7 +19,7 @@ import NotFound from './components/NotFound';
 // const store = createStore(rootReducer)
 
 ReactDOM.render(
-  <Provider store={createStore(rootReducer)}>
+  <Provider store={store}>
     <Router history={ browserHistory }>
       <Route path="/" component={ App } >
         <IndexRoute component={ Index } />
