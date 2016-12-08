@@ -55,7 +55,8 @@ class LoginForm extends Component {
     return (
       <div className="Login-Form">
         <h1 className="mw4 center">Log In</h1>
-        <form className="mw5 mw7-ns center ba pa3 ph5-ns">
+        <div className="mw5 mw7-ns center pa3 ph5-ns">
+        <form className="">
           <div className="mt3">
             <label className="db fw4 lh-copy f6">Email:</label>
             <input className="pa2 input-reset ba bg-transparent w-100 measure" 
@@ -77,14 +78,16 @@ class LoginForm extends Component {
                    onClick={this.handleSubmit} value="Log In"/>
             </div>
         </form>
-        <div>
-          <a className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
-             onClick={this.handleFacebookLogin}> Sign in with Facebook </a>
-          <a className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
-             onClick={this.handleGoogleLogin}> Sign in with Google </a>
-          <a className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
-             onClick={this.handleGithubLogin}> Sign in with Github </a>
+        <a href="/signup" className="f6 link dim black db mt3">Sign up</a>
+        <div className="mt4">
+          <a className="b ph3 pv2 dib ma2 input-reset ba b--black bg-dark-blue white grow pointer f6"
+             onClick={this.handleFacebookLogin}><i className="fa fa-facebook"></i>  Sign in with Facebook </a>
+          <a className="b ph3 pv2 ma2 dib input-reset ba b--black bg-red white grow pointer f6"
+             onClick={this.handleGoogleLogin}><i className="fa fa-google"></i> Sign in with Google </a>
+          <a className="b ph3 pv2 ma2 dib input-reset ba b--black grow pointer f6"
+             onClick={this.handleGithubLogin}><i className="fa fa-github"></i> Sign in with Github </a>
         </div>
+      </div>
       </div>
     );
   }

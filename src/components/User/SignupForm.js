@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
-import auth from '../../helpers/auth';
+import {auth, 
+        facebookLogin, 
+        googleLogin,
+        githubLogin} from '../../helpers/auth';
 // import $ from 'jquery';
 
 // const BASE_URL = 'http://localhost:3001/users';
@@ -31,6 +34,18 @@ class SignupForm extends Component{
     } else{
       return true;
     }
+  }
+  
+  handleFacebookLogin = () => {
+    facebookLogin();
+  }
+  
+  handleGoogleLogin = () => {
+    googleLogin();
+  }
+  
+  handleGithubLogin = () => {
+    githubLogin();
   }
   
   handleSubmit = (event) => {
@@ -82,7 +97,8 @@ class SignupForm extends Component{
     return (
       <div className="Signup-Form">
         <h1 className="mw5 center">Sign Up</h1>
-        <form className="mw5 mw7-ns center ba pa3 ph5-ns">
+        <div className="mw5 mw7-ns center pa3 ph5-ns">
+        <form>
           <div className="mt3">
             <label className="db fw4 lh-copy f6">Email:</label>
             <input className="pa2 input-reset ba bg-transparent w-100 measure" 
@@ -112,6 +128,15 @@ class SignupForm extends Component{
                 value="Sign Up"/>
           </div>
         </form>
+        <div className="mt4">
+          <a className="b ph3 pv2 dib ma2 input-reset ba b--black bg-dark-blue white grow pointer f6"
+             onClick={this.handleFacebookLogin}><i className="fa fa-facebook"></i>  Sign in with Facebook </a>
+          <a className="b ph3 pv2 ma2 dib input-reset ba b--black bg-red white grow pointer f6"
+             onClick={this.handleGoogleLogin}><i className="fa fa-google"></i> Sign in with Google </a>
+          <a className="b ph3 pv2 ma2 dib input-reset ba b--black grow pointer f6"
+             onClick={this.handleGithubLogin}><i className="fa fa-github"></i> Sign in with Github </a>
+        </div>
+        </div>
       </div>
     );
   }
