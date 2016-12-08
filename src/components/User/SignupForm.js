@@ -128,6 +128,7 @@ class SignupForm extends Component{
                 value="Sign Up"/>
           </div>
         </form>
+        <div className="f6 mt3">Already have an account?<a href="/login" className="f5 link dim black-80"> Sign in</a></div>
         <div className="mt4">
           <a className="b ph3 pv2 dib ma2 input-reset ba b--black bg-dark-blue white grow pointer f6"
              onClick={this.handleFacebookLogin}><i className="fa fa-facebook"></i>  Sign in with Facebook </a>

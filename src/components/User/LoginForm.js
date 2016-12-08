@@ -78,7 +78,7 @@ class LoginForm extends Component {
                    onClick={this.handleSubmit} value="Log In"/>
             </div>
         </form>
-        <a href="/signup" className="f6 link dim black db mt3">Sign up</a>
+        <div className="mt3">Don't have an account? <a href="/signup" className="f5 link dim black-80">Sign up</a></div>
         <div className="mt4">
           <a className="b ph3 pv2 dib ma2 input-reset ba b--black bg-dark-blue white grow pointer f6"
              onClick={this.handleFacebookLogin}><i className="fa fa-facebook"></i>  Sign in with Facebook </a>
