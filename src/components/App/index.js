@@ -68,10 +68,10 @@ class App extends Component {
           </div>
         ) : 
         (
-          <div className="ba--light-red">
+          <div className="Nav">
             <div className="flex justify-between bb b--black-80 " >
-              <nav className="f6 fw6 ttu tracked"> 
-              <h2 className="black dib mr3">React Notes</h2>
+              <nav className="f6 fw6 ttu tracked pa2"> 
+                <Link to="/" className="f3 link black dim dib mr3">React Notes</Link>
                 <Link to="/" className="link dim black dib mr3"
                                  activeClassName="active">Home</Link>
                 { this.state.authed?
@@ -95,7 +95,7 @@ class App extends Component {
             <div className="App-main">
               <FlashMessage />
               <div className="bg-white">
-                {this.props.children}
+                {this.props.children && React.cloneElement(this.props.children, {authed: this.state.authed})}
               </div>
             </div>
           </div>

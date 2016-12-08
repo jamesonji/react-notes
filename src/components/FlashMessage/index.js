@@ -1,8 +1,8 @@
 import React, {Component} from 'react';  
 import {connect} from 'react-redux';
 import './style.css'
-class FlashMessage extends Component{
 
+class FlashMessage extends Component{
   render(){
     const {message, className} = this.props.flashMessage;
     
