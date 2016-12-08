@@ -25,7 +25,7 @@ import {sendFlashMessage, dismissMessage} from '../../actions/index';
 import $ from 'jquery';
 import './style.css';
 
-const BASE_URL = 'http://localhost:3001/notes';
+const BASE_URL = 'http://localhost:3001/note';
 
 const {hasCommandModifier} = KeyBindingUtil;
 

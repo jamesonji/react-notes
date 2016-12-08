@@ -29,12 +29,23 @@ class NotesList extends Component{
   }
   
   getNotes(){
-    $.ajax({
-      url: `${BASE_URL}/notes`,
-      success: function (data) {
-        this.setState({notes: data.notes})
-      }.bind(this)
-    })
+    const user = firebase.auth().currentUser;
+    if(!user){
+      this.showFlash('Please login first', 'alert-warning');
+      browserHistory.push('/login');
+    }else{      
+      $.ajax({
+        url: `${BASE_URL}/notes`,
+        data:{
+          author: user.email,
+        },
+        type: 'POST',
+        success: function (data) {
+          console.log(data);
+          this.setState({notes: data.notes})
+        }.bind(this)
+      })
+    }
   }
   
   componentDidMount(){
