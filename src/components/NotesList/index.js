@@ -60,7 +60,7 @@ class NotesList extends Component{
   
   render (){
     return (
-      <div> 
+      <div className="note-list cf pa3 mw9 center"> 
         <section className="fl w-100">
           {
             this.state.notes.map(
@@ -68,9 +68,9 @@ class NotesList extends Component{
                 return (
                   <Link to={`/edit/${note._id}`} 
                         key={note._id}
-                        className="link ba br4 bg-white b--black fl w-25 ma3 pa2 pointer shadow-1 hover-bg-light-red hover-white">
-                    <span className="link f3 black hover-white">{note.title}</span>
-                    <p className="f5 black mw-100 measure">{note.plaintext}</p>
+                        className="link fl w-100 w-50-m w-25-l pa3-m pa4-l hover-bg-light-red">
+                    <span className="link f3 black hover-white lh-copy measure">{note.title}</span>
+                    <p className="f5 black f6 lh-copy measure">{note.plaintext.substring(0,50)}</p>
                   </Link>
                 )
               }

@@ -324,12 +324,7 @@ class MyEditor extends Component {
       })
   }
   
-  updateNote = (id) =>{
-    const title = this.state.title;
-    const {editorState} = this.state;
-    let content = convertToRaw(editorState.getCurrentContent()); 
-    let plaintext = getTextContent(content);
-    content = JSON.stringify(content);
+  updateNote = (id, title, content, plaintext) =>{
     $.ajax({
       url:`${BASE_URL}/${id}`,
       data:{title: title,
@@ -347,12 +342,7 @@ class MyEditor extends Component {
       })
     }
     
-    updateThenNew = (id) => {
-      const title = this.state.title;
-      const {editorState} = this.state;
-      let content = convertToRaw(editorState.getCurrentContent()); 
-      let plaintext = getTextContent(content);
-      content = JSON.stringify(content);
+    updateThenNew = (id, title, content, plaintext) => {
       $.ajax({
         url:`${BASE_URL}/${id}`,
         data:{title: title,
@@ -395,7 +385,13 @@ class MyEditor extends Component {
     if (!user){
       this.showFlash('Please sign in first.', 'alert-warning');
     }else{
-      this.updateNote(this.state.note_id);
+      const id = this.state.note_id;
+      const title = this.state.title;
+      const {editorState} = this.state;
+      let content = convertToRaw(editorState.getCurrentContent()); 
+      let plaintext = getTextContent(content);
+      content = JSON.stringify(content);
+      this.updateNote(id, title, content, plaintext);
     }
   }
   
@@ -404,7 +400,13 @@ class MyEditor extends Component {
     if (!user){
       this.showFlash('Please sign in first.', 'alert-warning');
     }else{
-      this.updateThenNew(this.state.note_id);
+      const id = this.state.note_id;
+      const title = this.state.title;
+      const {editorState} = this.state;
+      let content = convertToRaw(editorState.getCurrentContent()); 
+      let plaintext = getTextContent(content);
+      content = JSON.stringify(content);
+      this.updateThenNew(id, title, content, plaintext);
     }
   } 
 
