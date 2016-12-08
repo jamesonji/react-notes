@@ -291,7 +291,6 @@ class MyEditor extends Component {
     let plaintext = getTextContent(content);
     content = JSON.stringify(content);
     const user = firebase.auth().currentUser;
-    console.log(user.email);
     
     if(title === undefined || title === ""){
       console.log('Please enter a title');
@@ -385,8 +384,8 @@ class MyEditor extends Component {
     }
     
   handleDelete = () =>{
-    const r = confirm("Delete the note?");
-    if (r === true) {
+    const promp = confirm("Delete the note?");
+    if (promp === true) {
       this.deleteNote();
     }
   }
@@ -421,10 +420,10 @@ class MyEditor extends Component {
       }
     }
     
-    const buttonStyle = "f4 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red";
+    const buttonStyle = "f4 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red pointer";
     return (
             <div className={className}>
-              <div className="fl w-25 bg-white br3">
+              <div className="pallete fl bg-white br3 pa3 shadow-1">
                 <a href='#' className={buttonStyle} onClick={this.logState}>Content</a>
                 {this.state.note_id? 
                   <span className={buttonStyle} onClick={this.handleUpdate}>Update</span> :
@@ -451,28 +450,28 @@ class MyEditor extends Component {
                   onToggle={this.toggleColorStyle}
                 />
               </div>
-              <div className="fl w-75">
-              <div className="pb3 w-100 f3 bn fl black-100 bg-white w-100">
-                <TitleField title={this.state.title}
-                  onChange={this.editTitle}/>
-              </div>
-              <div id='editor' 
-                   onClick={this.focus}
-                   className='mt4 ph2 w-100 bg-white bt--black'>
-                <Editor editorState={editorState}
-                        blockStyleFn={getBlockStyle}
-                        customStyleMap={styleMap}
-                        onChange={this.onChange}
-                        onTab={this.onTab}
-                        placeholder="Enter some text..."
-                        keyBindingFn={this.keyBindingFn}
-                        handleKeyCommand={this.handleKeyCommand}
-                        handleReturn={this.handleReturn}
-                        blockRenderMap={extendedBlockRenderMap}
-                        blockRendererFn={myBlockRenderer}
-                        ref="editor"
-                      />
-                    </div>
+              <div className="w-90 fl">
+                <div className="w-100 f3 h3 bn fl black-100 bg-white shadow-2">
+                  <TitleField title={this.state.title}
+                              onChange={this.editTitle}/>
+                </div>
+                <div id='editor' 
+                     onClick={this.focus}
+                     className='mt5 pt3 ph4 w-100 bg-white bt--black shadow-1'>
+                  <Editor editorState={editorState}
+                          blockStyleFn={getBlockStyle}
+                          customStyleMap={styleMap}
+                          onChange={this.onChange}
+                          onTab={this.onTab}
+                          placeholder="Enter some text..."
+                          keyBindingFn={this.keyBindingFn}
+                          handleKeyCommand={this.handleKeyCommand}
+                          handleReturn={this.handleReturn}
+                          blockRenderMap={extendedBlockRenderMap}
+                          blockRendererFn={myBlockRenderer}
+                          ref="editor"
+                  />
+                </div>
               </div>
             </div>
           );

@@ -28,10 +28,10 @@ export default class TitleField extends Component{
       // <div className="f3 ba input-reset bn fl black-100 bg-white pa3 lh-solid w-80 br2-ns br--left-ns">
       <div>
         <input type="text" 
-            placeholder={'🤔 Need a title here 😈'}
+            placeholder={'Enter a title'}
              value={this.state.title}
              onChange={this.handleChange}
-             className="w-100 mb2 bb"
+             className="title-field w-100 h3 ph3"
         />
       </div>
     )

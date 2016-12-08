@@ -12,6 +12,10 @@
   margin: 0px 0;
 }
 
+#editor{
+  overflow: scroll;
+}
+
 .RichEditor-controls {
   /*font-family: 'Helvetica', sans-serif;
   font-size: 1em;
@@ -24,11 +28,17 @@
   /*height: 100vh;*/
 }
 .DraftEditor-editorContainer{
-  height: 100vh;
+  height: 85vh;
 }
 
 .RichEditor-hidePlaceholder{
   
+}
+
+.title-field{
+  border: none;
+  border-bottom: 2px solid red;
+  outline: none;
 }
 
 /*.styleButton {
@@ -38,11 +48,18 @@
   padding: 1.1em 0;
   display: inline-block;
 }*/
-
+.text-button{
+  display: inline-block;
+}
 /*.styleButton-active {
   color: #5890ff;
 }*/
-
+.pallete{
+  width: 130px;
+}
+.main-editor{
+  margin-left: 130px;
+}
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

@@ -57,9 +57,9 @@ class NotesList extends Component{
                 return (
                   <Link to={`/edit/${note._id}`} 
                         key={note._id}
-                        className="link ba br4 bg-white b--black fl w-25 ma3 pa2 pointer">
-                    <span className="link f3 orange hover-bg-light-yellow">{note.title}</span>
-                    <p className="f6 black mw-100 measure">{note.plaintext}</p>
+                        className="link ba br4 bg-white b--black fl w-25 ma3 pa2 pointer shadow-1 hover-bg-light-red hover-white">
+                    <span className="link f3 black hover-white">{note.title}</span>
+                    <p className="f5 black mw-100 measure">{note.plaintext}</p>
                   </Link>
                 )
               }
