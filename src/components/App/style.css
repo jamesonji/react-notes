@@ -1,44 +1,7 @@
 body{
   margin: 0;
-  background-color: #ffffff;
-  background-image: url("https://www.transparenttextures.com/patterns/gplay.png");
+  color: #555555;
 }
 
 .App {
 }
-/*.App-nav {
-  width: 300px;
-  height: 100%;
-  position: fixed;
-  float: left;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  color: white;
-  background-color: lightblue;
-  padding: 0.1rem;
-  border-radius: 3px;
-  text-decoration: none;
-  background-image: url('https://www.transparenttextures.com/patterns/dark-mosaic.png');
-}
-
-/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
-
-/*.App-nav a{
-  color: white;
-  text-decoration: none;
-}*/
-/*
-a:visited {
-  text-decoration: none;
-}*/
-
-/*.App-main {
-  font-size: large;
-  margin-left: 300px;
-  float: left;
-  width: auto;
-  min-height: 100vh;
-  max-width: 70vw;
-  min-width: 68vw;
-}*/

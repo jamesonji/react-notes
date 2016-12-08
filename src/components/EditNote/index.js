@@ -3,7 +3,7 @@ import MyEditor from '../editor/Editor.js';
 import $ from 'jquery';
 import './style.css';
 
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = 'http://localhost:3001/note';
 
 export default class EditNote extends Component{
   constructor(props){
@@ -28,7 +28,7 @@ export default class EditNote extends Component{
   getNote = () =>{
     console.log(this.state.note_id);
     $.ajax({
-      url:`${BASE_URL}/notes/${this.state.note_id}`,
+      url:`${BASE_URL}/${this.state.note_id}`,
       type:'GET',
       success: function (data){
         this.initNote(data);

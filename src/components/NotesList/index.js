@@ -29,12 +29,23 @@ class NotesList extends Component{
   }
   
   getNotes(){
-    $.ajax({
-      url: `${BASE_URL}/notes`,
-      success: function (data) {
-        this.setState({notes: data.notes})
-      }.bind(this)
-    })
+    const user = firebase.auth().currentUser;
+    if(!user){
+      this.showFlash('Please login first', 'alert-warning');
+      browserHistory.push('/login');
+    }else{      
+      $.ajax({
+        url: `${BASE_URL}/notes`,
+        data:{
+          author: user.email,
+        },
+        type: 'POST',
+        success: function (data) {
+          console.log(data);
+          this.setState({notes: data.notes})
+        }.bind(this)
+      })
+    }
   }
   
   componentDidMount(){
@@ -49,7 +60,7 @@ class NotesList extends Component{
   
   render (){
     return (
-      <div> 
+      <div className="note-list cf pa3 mw9 center"> 
         <section className="fl w-100">
           {
             this.state.notes.map(
@@ -57,9 +68,9 @@ class NotesList extends Component{
                 return (
                   <Link to={`/edit/${note._id}`} 
                         key={note._id}
-                        className="link ba br4 bg-white b--black fl w-25 ma3 pa2 pointer">
-                    <span className="link f3 orange hover-bg-light-yellow">{note.title}</span>
-                    <p className="f6 black mw-100 measure">{note.plaintext}</p>
+                        className="link fl w-100 w-50-m w-25-l pa3-m pa4-l hover-bg-light-red">
+                    <span className="link f3 black hover-white lh-copy measure">{note.title}</span>
+                    <p className="f5 black f6 lh-copy measure">{note.plaintext.substring(0,50)}</p>
                   </Link>
                 )
               }
