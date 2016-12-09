@@ -422,7 +422,7 @@ class MyEditor extends Component {
       }
     }
     
-    const buttonStyle = "f4 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red pointer";
+    const buttonStyle = "f6 link dim br2 ph3 pv2 mb2 dib white bg-black";
     return (
             <div className={className}>
               <div className="pallete fl bg-white br3 pa3 shadow-1">
