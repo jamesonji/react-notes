@@ -3,9 +3,9 @@ import {auth,
         facebookLogin, 
         googleLogin,
         githubLogin} from '../../helpers/auth';
-// import $ from 'jquery';
-
-// const BASE_URL = 'http://localhost:3001/users';
+import {connect} from 'react-redux';  
+import {bindActionCreators} from 'redux';
+import {sendFlashMessage, dismissMessage} from '../../actions/index';
 
 class SignupForm extends Component{  
   constructor(props){
@@ -13,6 +13,13 @@ class SignupForm extends Component{
     this.state={
       email: '',
     }
+  }
+  
+  showFlash = (message, className) => {
+    this.props.sendFlashMessage(message, className)
+    setTimeout(()=>{
+      this.props.dismissMessage()
+    }, 3000)
   }
   
   validateForm = (event) => {
@@ -40,7 +47,7 @@ class SignupForm extends Component{
     facebookLogin().then((result) => {
         console.log('Facebook result: ' + result);
       }).catch((error)=> {
-        console.log('Facebook Error: ' + error);
+        this.showFlash(error.message, 'alert-warning')
       });;
   }
   
@@ -48,7 +55,7 @@ class SignupForm extends Component{
     googleLogin().then((result) => {
         console.log(result);
       }).catch((error)=> {
-        console.log(error);
+        this.showFlash(error.message, 'alert-warning')
       });
   }
   
@@ -56,7 +63,7 @@ class SignupForm extends Component{
     githubLogin().then((result) => {
         console.log(result);
       }).catch((error)=> {
-        console.log(error);
+        this.showFlash(error.message, 'alert-warning')
       });
   }
   
@@ -76,28 +83,8 @@ class SignupForm extends Component{
       alert("error! email is blank")
     } else{
       auth(this.state.email, this.refs.password.value)
-        .catch((error) => console.log('Normal Signup error: ' +error));
+        .catch((error) => this.showFlash(error.message, 'alert-warning'));
     }
-    
-    // if(!canSignup){
-    //   console.log('Can not sign up');
-    // }
-    // else{
-    // $.post({
-    //   url:`${BASE_URL}/signup`,
-    //   // type:"POST",
-    //   data: {
-    //     email: this.state.email,
-    //     firstName: this.state.firstName,
-    //     lastName: this.state.lastName,
-    //     password: this.refs.password.value,
-    //     password_confirmation: this.refs.password_confirmation.value,
-    //   },
-    //   success: function (data){
-    //     console.log(data)
-    //   }
-    // })
-    // }
   }
   
   handleInputChange = (event) =>{
@@ -156,4 +143,8 @@ class SignupForm extends Component{
   }
 }
 
-export default SignupForm;
+const mapPropsToDispatch = (dispatch) => {  
+  return bindActionCreators({sendFlashMessage, dismissMessage}, dispatch);
+};
+
+export default connect(null, mapPropsToDispatch)(SignupForm);

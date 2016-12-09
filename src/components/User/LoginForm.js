@@ -3,9 +3,9 @@ import {login,
         facebookLogin, 
         googleLogin,
         githubLogin} from '../../helpers/auth';
-// import $ from 'jquery';
-
-// const BASE_URL = 'http://localhost:3001/users';
+import {connect} from 'react-redux';  
+import {bindActionCreators} from 'redux';
+import {sendFlashMessage, dismissMessage} from '../../actions/index';
 
 class LoginForm extends Component {
   constructor(props){
@@ -18,28 +18,24 @@ class LoginForm extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
   
+  showFlash = (message, className) => {
+    this.props.sendFlashMessage(message, className)
+    setTimeout(()=>{
+      this.props.dismissMessage()
+    }, 3000)
+  }
+  
   handleSubmit(event){
     event.preventDefault();
     login(this.state.email, this.refs.password.value)
-      .catch((error) => console.log('Normal login error: ' +error));
-      
-    // $.post({
-    //         url:`${BASE_URL}/login`,
-    //         data:{
-    //           email: this.state.email,
-    //           password: this.refs.password.value
-    //         },
-    //         success: function (data){
-    //           console.log(data)
-    //         }
-    // })
+      .catch((error) => this.showFlash(error, 'alert-warning'));
   }
   
   handleFacebookLogin = () => {
     facebookLogin().then((result) => {
         console.log('Facebook result: ' + result);
       }).catch((error)=> {
-        console.log('Facebook Error: ' + error);
+        this.showFlash(error.message, 'alert-warning')
       });
   }
   
@@ -47,7 +43,7 @@ class LoginForm extends Component {
     googleLogin().then((result) => {
         console.log(result);
       }).catch((error)=> {
-        console.log(error);
+        this.showFlash(error.message, 'alert-warning')
       });
   }
   
@@ -55,7 +51,7 @@ class LoginForm extends Component {
     githubLogin().then((result) => {
         console.log(result);
       }).catch((error)=> {
-        console.log(error);
+        this.showFlash(error.message, 'alert-warning')
       });
   }
   
@@ -107,4 +103,8 @@ class LoginForm extends Component {
   }
 };
 
-export default LoginForm;
+const mapPropsToDispatch = (dispatch) => {  
+  return bindActionCreators({sendFlashMessage, dismissMessage}, dispatch);
+};
+
+export default connect(null, mapPropsToDispatch)(LoginForm);
