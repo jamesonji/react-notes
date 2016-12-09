@@ -5,14 +5,14 @@ import {Editor,
         RichUtils, 
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
+        Modifier,
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
-      
 import { saveNote,
          updateNote,
          deleteNote,
-       } from '../../helpers/notes'      
+       } from '../../helpers/notes'
 import CodeUtils from 'draft-js-code';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
@@ -71,7 +71,7 @@ const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 function getBlockStyle(block) {
   switch (block.getType()) {
     case 'blockquote': return 'ph0 f3 ';
-    case 'code-block': return 'ph4 f4 bg-light-gray';
+    case 'code-block': return 'f4 bg-light-gray';
     case 'section': return 'ph4 f4 white pv2 bg-dark-gray';
     default: return null;
   }
@@ -148,8 +148,14 @@ class MyEditor extends Component {
   }
   
   _toggleColorStyle(inlineStyle) {
+    const {editorState} = this.state;
+    const selectionState = editorState.getSelection();
+    const contentState = editorState.getCurrentContent();
+    console.log('Selection State:' + selectionState);
+    console.log('Current Content:' + contentState);
     this.onChange(
       RichUtils.toggleInlineStyle(
+        Modifier.removeInlineStyle(contentState, selectionState, "RED"),
         this.state.editorState,
         inlineStyle
       )
@@ -310,11 +316,9 @@ class MyEditor extends Component {
       saveNote(title, content, plaintext, user.email)
       .done((data)=>{
         this.showFlash('Note saved', 'alert-success')
-        console.log(data.note);
         browserHistory.push('/edit/'+data.note._id);
       })
       .fail((error)=>{
-        console.log('Error: ' + error)
         this.showFlash('Note is not saved, something went wrong😕', 'alert-danger')
       });
     }  
