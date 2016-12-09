@@ -15,9 +15,6 @@ import LoginForm from './components/User/LoginForm';
 import SignupForm from './components/User/SignupForm';
 import NotFound from './components/NotFound';
 
-// Add the reducer to your store on the `routing` key
-// const store = createStore(rootReducer)
-
 ReactDOM.render(
   <Provider store={store}>
     <Router history={ browserHistory }>

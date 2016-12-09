@@ -44,33 +44,40 @@ class SignupForm extends Component{
   }
   
   handleFacebookLogin = () => {
+    this.props.showLoading();
     facebookLogin().then((result) => {
+      this.props.endLoading();
         console.log('Facebook result: ' + result);
       }).catch((error)=> {
+        this.props.endLoading();
         this.showFlash(error.message, 'alert-warning')
       });;
   }
   
   handleGoogleLogin = () => {
+    this.props.showLoading();
     googleLogin().then((result) => {
+      this.props.endLoading();
         console.log(result);
       }).catch((error)=> {
+        this.props.endLoading();
         this.showFlash(error.message, 'alert-warning')
       });
   }
   
   handleGithubLogin = () => {
+    this.props.showLoading();
     githubLogin().then((result) => {
+      this.props.endLoading();
         console.log(result);
       }).catch((error)=> {
+        this.props.endLoading();
         this.showFlash(error.message, 'alert-warning')
       });
   }
   
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state.email);
-    console.log(this.refs.password.value);
     
     const currentPassword = this.refs.password.value
     const passwordConfirmation = this.refs.password_confirmation.value
@@ -82,7 +89,11 @@ class SignupForm extends Component{
     } else if (this.state.email === "") {
       alert("error! email is blank")
     } else{
+      this.props.showLoading();
       auth(this.state.email, this.refs.password.value)
+        .then(()=>{
+          this.props.endLoading()
+        })
         .catch((error) => this.showFlash(error.message, 'alert-warning'));
     }
   }

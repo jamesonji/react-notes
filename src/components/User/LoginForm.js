@@ -26,31 +26,47 @@ class LoginForm extends Component {
   }
   
   handleSubmit(event){
+    this.props.showLoading();
     event.preventDefault();
     login(this.state.email, this.refs.password.value)
-      .catch((error) => this.showFlash(error, 'alert-warning'));
+      .then(()=>{
+        this.props.endLoading();
+      })
+      .catch((error) => {
+        this.props.endLoading();
+        this.showFlash(error, 'alert-warning')
+      });
   }
   
   handleFacebookLogin = () => {
+    this.props.showLoading();
     facebookLogin().then((result) => {
+        this.props.endLoading();
         console.log('Facebook result: ' + result);
       }).catch((error)=> {
+        this.props.endLoading();
         this.showFlash(error.message, 'alert-warning')
       });
   }
   
   handleGoogleLogin = () => {
+    this.props.showLoading();
     googleLogin().then((result) => {
+        this.props.endLoading();
         console.log(result);
       }).catch((error)=> {
+        this.props.endLoading();
         this.showFlash(error.message, 'alert-warning')
       });
   }
   
   handleGithubLogin = () => {
+    this.props.showLoading();
     githubLogin().then((result) => {
         console.log(result);
+        this.props.endLoading();
       }).catch((error)=> {
+        this.props.endLoading();
         this.showFlash(error.message, 'alert-warning')
       });
   }
