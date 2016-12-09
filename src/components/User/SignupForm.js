@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
-import auth from '../../helpers/auth';
-// import $ from 'jquery';
-
-// const BASE_URL = 'http://localhost:3001/users';
+import {auth, 
+        facebookLogin, 
+        googleLogin,
+        githubLogin} from '../../helpers/auth';
+import {connect} from 'react-redux';  
+import {bindActionCreators} from 'redux';
+import {sendFlashMessage, dismissMessage} from '../../actions/index';
 
 class SignupForm extends Component{  
   constructor(props){
@@ -10,6 +13,13 @@ class SignupForm extends Component{
     this.state={
       email: '',
     }
+  }
+  
+  showFlash = (message, className) => {
+    this.props.sendFlashMessage(message, className)
+    setTimeout(()=>{
+      this.props.dismissMessage()
+    }, 3000)
   }
   
   validateForm = (event) => {
@@ -33,10 +43,41 @@ class SignupForm extends Component{
     }
   }
   
+  handleFacebookLogin = () => {
+    this.props.showLoading();
+    facebookLogin().then((result) => {
+      this.props.endLoading();
+        console.log('Facebook result: ' + result);
+      }).catch((error)=> {
+        this.props.endLoading();
+        this.showFlash(error.message, 'alert-warning')
+      });;
+  }
+  
+  handleGoogleLogin = () => {
+    this.props.showLoading();
+    googleLogin().then((result) => {
+      this.props.endLoading();
+        console.log(result);
+      }).catch((error)=> {
+        this.props.endLoading();
+        this.showFlash(error.message, 'alert-warning')
+      });
+  }
+  
+  handleGithubLogin = () => {
+    this.props.showLoading();
+    githubLogin().then((result) => {
+      this.props.endLoading();
+        console.log(result);
+      }).catch((error)=> {
+        this.props.endLoading();
+        this.showFlash(error.message, 'alert-warning')
+      });
+  }
+  
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state.email);
-    console.log(this.refs.password.value);
     
     const currentPassword = this.refs.password.value
     const passwordConfirmation = this.refs.password_confirmation.value
@@ -48,28 +89,13 @@ class SignupForm extends Component{
     } else if (this.state.email === "") {
       alert("error! email is blank")
     } else{
-      auth(this.state.email, this.refs.password.value);
+      this.props.showLoading();
+      auth(this.state.email, this.refs.password.value)
+        .then(()=>{
+          this.props.endLoading()
+        })
+        .catch((error) => this.showFlash(error.message, 'alert-warning'));
     }
-    
-    // if(!canSignup){
-    //   console.log('Can not sign up');
-    // }
-    // else{
-    // $.post({
-    //   url:`${BASE_URL}/signup`,
-    //   // type:"POST",
-    //   data: {
-    //     email: this.state.email,
-    //     firstName: this.state.firstName,
-    //     lastName: this.state.lastName,
-    //     password: this.refs.password.value,
-    //     password_confirmation: this.refs.password_confirmation.value,
-    //   },
-    //   success: function (data){
-    //     console.log(data)
-    //   }
-    // })
-    // }
   }
   
   handleInputChange = (event) =>{
@@ -82,7 +108,8 @@ class SignupForm extends Component{
     return (
       <div className="Signup-Form">
         <h1 className="mw5 center">Sign Up</h1>
-        <form className="mw5 mw7-ns center ba pa3 ph5-ns">
+        <div className="mw5 mw7-ns center pa3 ph5-ns">
+        <form>
           <div className="mt3">
             <label className="db fw4 lh-copy f6">Email:</label>
             <input className="pa2 input-reset ba bg-transparent w-100 measure" 
@@ -93,14 +120,14 @@ class SignupForm extends Component{
           </div>
           <div className="mt3">
             <label className="db fw4 lh-copy">Password:</label>
-            <input class="db pa2 input-reset ba bg-transparent"
+            <input className="db pa2 input-reset ba bg-transparent"
                    ref="password"
                    type="password" 
                    name="password"/>
           </div>
           <div className="mt3">
             <label className="db fw4 lh-copy">Password confirmation:</label>
-            <input class="db pa2 input-reset ba bg-transparent"
+            <input className="db pa2 input-reset ba bg-transparent"
                    ref="password_confirmation" 
                    type="password" 
                    name="password_confirmation"/>
@@ -112,9 +139,23 @@ class SignupForm extends Component{
                 value="Sign Up"/>
           </div>
         </form>
+        <div className="f6 mt3">Already have an account?<a href="/login" className="f5 link dim black-80"> Sign in</a></div>
+        <div className="mt4">
+          <a className="b ph3 pv2 dib ma2 input-reset ba b--black bg-dark-blue white grow pointer f6"
+             onClick={this.handleFacebookLogin}><i className="fa fa-facebook"></i>  Sign in with Facebook </a>
+          <a className="b ph3 pv2 ma2 dib input-reset ba b--black bg-red white grow pointer f6"
+             onClick={this.handleGoogleLogin}><i className="fa fa-google"></i> Sign in with Google </a>
+          <a className="b ph3 pv2 ma2 dib input-reset ba b--black grow pointer f6"
+             onClick={this.handleGithubLogin}><i className="fa fa-github"></i> Sign in with Github </a>
+        </div>
+        </div>
       </div>
     );
   }
 }
 
-export default SignupForm;
+const mapPropsToDispatch = (dispatch) => {  
+  return bindActionCreators({sendFlashMessage, dismissMessage}, dispatch);
+};
+
+export default connect(null, mapPropsToDispatch)(SignupForm);

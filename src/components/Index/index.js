@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MyEditor from '../editor/Editor';
+import LandingPage from '../LandingPage';
 import $ from 'jquery';
 import './style.css'
 
@@ -9,6 +10,7 @@ class Index extends Component {
   constructor (props){
     super(props)
     this.state={
+      authed: false,
       text: "Please enter your notes",
     }
     this.initNote = this.initNote.bind(this);
@@ -25,16 +27,29 @@ class Index extends Component {
     })
   }
   
+  componentWillReceiveProps(props){
+    this.setState({
+      authed: props.authed,
+    })
+  }
+  
   componentDidMount(){
+    this.setState({
+      authed: this.props.authed,
+    })
     this.initNote();
   }
   
   render() {
     return (
       <div className="Home-page">
-        <div className="">
-          <MyEditor editView={false}/>
-        </div>
+        {this.state.authed?
+          <div className="">
+            <MyEditor editView={false}/>
+          </div>    
+          :
+          <LandingPage />
+        }
       </div>
     );
   }

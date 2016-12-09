@@ -49,12 +49,20 @@ class App extends Component {
     }.bind(this), function(error) {
       console.error('Sign Out Error', error);
     });
-    // $.get({
-    //   url: 'http://localhost:3001/logout',
-    //   success: function(data){
-    //     console.log(data);
-    //   }
-    // })
+  }
+  
+  showLoading = () => {
+    console.log('On loading')
+    this.setState({
+      loading: true,
+    })
+  }
+  
+  endLoading = () => {
+    console.log('End Loading')
+    this.setState({
+      loading: false,
+    })
   }
   
   render() {
@@ -68,26 +76,29 @@ class App extends Component {
           </div>
         ) : 
         (
-          <div className="ba--light-red">
+          <div className="Nav">
             <div className="flex justify-between bb b--black-80 " >
-              <nav className="f6 fw6 ttu tracked"> 
-              <h2 className="black dib mr3">React Notes</h2>
+              <nav className="f6 fw6 ttu tracked pa2"> 
+                <Link to="/" className="f3 link black dim dib mr3">React Notes</Link>
                 <Link to="/" className="link dim black dib mr3"
-                                 activeClassName="active">Home</Link>
+                             activeClassName="active">Home</Link>
                 { this.state.authed?
-                  <span><Link to="/about" className="link dim black dib mr3"
-                                          activeClassName="active">About</Link>
-                        <Link to="/list"  className="link dim black br2 dib mr3 ba ph3 pv2 dim"
-                                          activeClassName="active">{this.state.user.email}</Link>                   
+                  <span>
+                    <Link to="/about" className="link dim black dib mr3"
+                                      activeClassName="active">About</Link>
+                    <Link to="/list"  className="link dim black br2 dib mr3 ba ph3 pv2 dim"
+                                      activeClassName="active">{this.state.user.email}</Link>                   
                     <span className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2"
                           onClick={this.logOut}> LogOut 
                     </span> 
                   </span> :
                   <span>
                     <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2"
-                          to="/login" activeClassName="active">Log In</Link>
+                          to="/login" 
+                          activeClassName="active">Log In</Link>
                     <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2"
-                          to="/signup" activeClassName="active">Sign Up</Link>
+                          to="/signup" 
+                          activeClassName="active">Sign Up</Link>
                   </span>
                 }
               </nav>
@@ -95,7 +106,11 @@ class App extends Component {
             <div className="App-main">
               <FlashMessage />
               <div className="bg-white">
-                {this.props.children}
+                {this.props.children && 
+                  React.cloneElement(this.props.children, 
+                                    { authed: this.state.authed,
+                                      showLoading: this.showLoading,
+                                      endLoading: this.endLoading})}
               </div>
             </div>
           </div>
