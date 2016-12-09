@@ -37,15 +37,27 @@ class SignupForm extends Component{
   }
   
   handleFacebookLogin = () => {
-    facebookLogin();
+    facebookLogin().then((result) => {
+        console.log('Facebook result: ' + result);
+      }).catch((error)=> {
+        console.log('Facebook Error: ' + error);
+      });;
   }
   
   handleGoogleLogin = () => {
-    googleLogin();
+    googleLogin().then((result) => {
+        console.log(result);
+      }).catch((error)=> {
+        console.log(error);
+      });
   }
   
   handleGithubLogin = () => {
-    githubLogin();
+    githubLogin().then((result) => {
+        console.log(result);
+      }).catch((error)=> {
+        console.log(error);
+      });
   }
   
   handleSubmit = (event) => {
@@ -63,7 +75,8 @@ class SignupForm extends Component{
     } else if (this.state.email === "") {
       alert("error! email is blank")
     } else{
-      auth(this.state.email, this.refs.password.value);
+      auth(this.state.email, this.refs.password.value)
+        .catch((error) => console.log('Normal Signup error: ' +error));
     }
     
     // if(!canSignup){
@@ -109,14 +122,14 @@ class SignupForm extends Component{
           </div>
           <div className="mt3">
             <label className="db fw4 lh-copy">Password:</label>
-            <input class="db pa2 input-reset ba bg-transparent"
+            <input className="db pa2 input-reset ba bg-transparent"
                    ref="password"
                    type="password" 
                    name="password"/>
           </div>
           <div className="mt3">
             <label className="db fw4 lh-copy">Password confirmation:</label>
-            <input class="db pa2 input-reset ba bg-transparent"
+            <input className="db pa2 input-reset ba bg-transparent"
                    ref="password_confirmation" 
                    type="password" 
                    name="password_confirmation"/>

@@ -21,6 +21,8 @@ class LoginForm extends Component {
   handleSubmit(event){
     event.preventDefault();
     login(this.state.email, this.refs.password.value)
+      .catch((error) => console.log('Normal login error: ' +error));
+      
     // $.post({
     //         url:`${BASE_URL}/login`,
     //         data:{
@@ -34,17 +36,27 @@ class LoginForm extends Component {
   }
   
   handleFacebookLogin = () => {
-    let facebookCallback = facebookLogin();
-    console.log("Facebook callback: " + facebookCallback.message);
+    facebookLogin().then((result) => {
+        console.log('Facebook result: ' + result);
+      }).catch((error)=> {
+        console.log('Facebook Error: ' + error);
+      });
   }
   
   handleGoogleLogin = () => {
-    let googleCallback = googleLogin();
-    console.log("Google Callback: " + googleCallback);
+    googleLogin().then((result) => {
+        console.log(result);
+      }).catch((error)=> {
+        console.log(error);
+      });
   }
   
   handleGithubLogin = () => {
-    githubLogin();
+    githubLogin().then((result) => {
+        console.log(result);
+      }).catch((error)=> {
+        console.log(error);
+      });
   }
   
   handleInputChange = (event) =>{
