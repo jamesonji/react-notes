@@ -1,17 +1,3 @@
-.RichEditor-blockquote {
-  color: #999;
-  /*font-family: 'Hoefler Text', Georgia, serif;*/
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  font-size: 1em;
-  font-style: italic;
-  text-align: center;
-}
-
-.RichEditor-codeblock {
-  background: #eff0f1;
-  margin: 0px 0;
-}
-
 #editor{
   overflow: scroll;
 }
@@ -29,10 +15,6 @@
 }
 .DraftEditor-editorContainer{
   height: 85vh;
-}
-
-.RichEditor-hidePlaceholder{
-  
 }
 
 .title-field{
@@ -55,7 +37,7 @@
   color: #5890ff;
 }*/
 .pallete{
-  width: 130px;
+  width: 200px;
 }
 .main-editor{
   margin-left: 130px;

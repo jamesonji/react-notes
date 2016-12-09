@@ -81,8 +81,8 @@ const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 function getBlockStyle(block) {
   switch (block.getType()) {
-    case 'blockquote': return 'RichEditor-blockquote';
-    case 'code-block': return 'RichEditor-codeblock';
+    case 'blockquote': return 'ph0 f3 ';
+    case 'code-block': return 'ph4 f4 bg-light-gray';
     default: return null;
   }
 }
@@ -452,14 +452,14 @@ class MyEditor extends Component {
                   onToggle={this.toggleColorStyle}
                 />
               </div>
-              <div className="w-90 fl">
-                <div className="w-100 f3 h3 bn fl black-100 bg-white shadow-2">
+              <div className="w-80 fl">
+                <div className="w-80 center f3 h3 bn black-100 bg-white shadow-2">
                   <TitleField title={this.state.title}
                               onChange={this.editTitle}/>
                 </div>
                 <div id='editor' 
                      onClick={this.focus}
-                     className='mt5 pt3 ph4 w-100 bg-white bt--black shadow-1'>
+                     className='pt3 center ph4 w-80 bg-white bt--black shadow-1'>
                   <Editor editorState={editorState}
                           blockStyleFn={getBlockStyle}
                           customStyleMap={styleMap}
