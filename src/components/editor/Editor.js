@@ -3,10 +3,8 @@ import firebase from 'firebase';
 import {Editor, 
         EditorState, 
         RichUtils, 
-        DraftEditorBlock,
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
-        KeyBindingUtil,
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
@@ -26,8 +24,6 @@ import $ from 'jquery';
 import './style.css';
 
 const BASE_URL = 'http://localhost:3001/note';
-
-const {hasCommandModifier} = KeyBindingUtil;
 
 const styleMap = {
   'RED':{
@@ -57,23 +53,14 @@ const styleMap = {
 };
 
 function myBlockRenderer(contentBlock) {
-  const type = contentBlock.getType();
-  if (type === 'paragraph') {
-    return {
-      component: DraftEditorBlock,
-      editable: true,
-      props: {
-        foo: 'bar',
-      },
-    };
-  }
+  // const type = contentBlock.getType();
 }
 
 // Define a new block tag
 const blockRenderMap = Immutable.Map({
   'section': {
     element: 'section'
-  }
+  },
 });
 
 // add new block tag to the block render map
@@ -83,6 +70,7 @@ function getBlockStyle(block) {
   switch (block.getType()) {
     case 'blockquote': return 'ph0 f3 ';
     case 'code-block': return 'ph4 f4 bg-light-gray';
+    case 'section': return 'ph4 f4 white pv2 bg-dark-gray';
     default: return null;
   }
 }
@@ -185,12 +173,20 @@ class MyEditor extends Component {
       this.toggleBlockType('header-four');
       return true;
     }
+    if (command === 'toggle-h5') {
+      this.toggleBlockType('header-five');
+      return true;
+    }
+    if (command === 'toggle-h6') {
+      this.toggleBlockType('header-six');
+      return true;
+    }
     if (command === 'toggle-code') {
       this.toggleBlockType('code-block');
       return true;
     }
     if (command === 'toggle-up') {
-      this.toggleInlineStyle('Uppercase');
+      this.toggleInlineStyle('UPP');
       return true;
     }
 
@@ -213,27 +209,35 @@ class MyEditor extends Component {
     if (CodeUtils.hasSelectionInBlock(editorState)) {
       command = CodeUtils.getKeyBinding(event);
     }
-    if (event.keyCode === 49 /* `1` key */ && hasCommandModifier(event)) {
+    if (event.keyCode === 49 /* `1` key */ && event.ctrlKey) {
       // toggle H1
       return 'toggle-h1';
     }
-    if (event.keyCode === 50 /* `2` key */ && hasCommandModifier(event)) {
+    if (event.keyCode === 50 /* `2` key */ && event.ctrlKey) {
       // toggle H2
       return 'toggle-h2';
     }
-    if (event.keyCode === 51 /* `3` key */ && hasCommandModifier(event)) {
+    if (event.keyCode === 51 /* `3` key */ && event.ctrlKey) {
       // toggle H3
       return 'toggle-h3';
     }
-    if (event.keyCode === 52 /* `4` key */ && hasCommandModifier(event)) {
+    if (event.keyCode === 52 /* `4` key */ && event.ctrlKey) {
       // toggle H4
       return 'toggle-h4';
     }
-    if (event.keyCode === 71 /* `G` key */ && hasCommandModifier(event)) {
+    if (event.keyCode === 53 /* `4` key */ && event.ctrlKey) {
+      // toggle H4
+      return 'toggle-h5';
+    }
+    if (event.keyCode === 54 /* `4` key */ && event.ctrlKey) {
+      // toggle H4
+      return 'toggle-h6';
+    }
+    if (event.keyCode === 67 /* `C` key */ && event.ctrlKey) {
       // toggle Code mode
       return 'toggle-code';
     }
-    if (event.keyCode === 67 /* `U` key */ && hasCommandModifier(event)) {
+    if (event.keyCode === 85 /* `U` key */ && event.ctrlKey) {
       // toggle upper case 
       return 'toggle-up';
     }
@@ -422,7 +426,7 @@ class MyEditor extends Component {
       }
     }
     
-    const buttonStyle = "f6 link dim br2 ph3 pv2 mb2 dib white bg-black";
+    const buttonStyle = "f6 link dim br2 ph3 pv2 mb2 mr2 dib white bg-red";
     return (
             <div className={className}>
               <div className="pallete fl bg-white br3 pa3 shadow-1">
