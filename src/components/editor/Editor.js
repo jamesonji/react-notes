@@ -8,6 +8,11 @@ import {Editor,
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
+      
+import { saveNote,
+         updateNote,
+         deleteNote,
+       } from '../../helpers/notes'      
 import CodeUtils from 'draft-js-code';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
@@ -20,10 +25,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {sendFlashMessage, dismissMessage} from '../../actions/index';
 
-import $ from 'jquery';
 import './style.css';
-
-const BASE_URL = 'http://localhost:3001/note';
 
 const styleMap = {
   'RED':{
@@ -305,18 +307,7 @@ class MyEditor extends Component {
     }else if(!user){
       this.showFlash('Please sign in', 'alert-warning');
     }else{
-      this.saveNote(title, content, plaintext, user.email);
-    }  
-  }
-  
-  saveNote = (title, content, plaintext, auther) =>{
-    $.ajax({
-      url:`${BASE_URL}`,
-      data:{title: title,
-            content: content,
-            plaintext: plaintext,
-            author: auther},
-      type:'POST'})
+      saveNote(title, content, plaintext, user.email)
       .done((data)=>{
         this.showFlash('Note saved', 'alert-success')
         console.log(data.note);
@@ -325,62 +316,21 @@ class MyEditor extends Component {
       .fail((error)=>{
         console.log('Error: ' + error)
         this.showFlash('Note is not saved, something went wrong😕', 'alert-danger')
-      })
+      });
+    }  
   }
-  
-  updateNote = (id, title, content, plaintext) =>{
-    $.ajax({
-      url:`${BASE_URL}/${id}`,
-      data:{title: title,
-            content: content,
-            plaintext: plaintext
-          },
-      type:'PUT'})
-      .done((data)=>{
-        this.showFlash('Update successful!', 'alert-success');
-        console.log('The note is updated' + data);
-      })
-      .fail((error)=>{
-        console.log('Error: ' + error)
-        this.showFlash('Note is not updated, something went wrong😕', 'alert-danger')
-      })
-    }
-    
-    updateThenNew = (id, title, content, plaintext) => {
-      $.ajax({
-        url:`${BASE_URL}/${id}`,
-        data:{title: title,
-              content: content,
-              plaintext: plaintext
-            },
-        type:'PUT'})
-        .done((data)=>{ 
-          console.log(data);
-          browserHistory.push('/');
-        })
-        .fail((error)=>{
-          console.log('Error: ' + error)
-          this.showFlash("Failed to save your current note, please try again", 'alert-danger')
-        })
-      }
-    
-    deleteNote = () =>{
-      $.ajax({
-        url:`${BASE_URL}/${this.state.note_id}`,
-        type:'DELETE',
-        datatype: 'json',
-        success: function (data){
-          console.log('Note deleted: ' + data);
-          browserHistory.push('/list');
-          this.showFlash('Your note is Deleted.', 'alert-info');
-        }
-      })
-    }
     
   handleDelete = () =>{
     const promp = confirm("Delete the note?");
     if (promp === true) {
-      this.deleteNote();
+      deleteNote(this.state.note_id)
+        .done((data)=>{
+          browserHistory.push('/list');
+          this.showFlash('Your note is Deleted.', 'alert-info');
+        })
+        .fail((error)=>{
+          this.showFlash("Failed to delete your current note, please try again", 'alert-danger')
+        });
     }
   }
   
@@ -395,7 +345,15 @@ class MyEditor extends Component {
       let content = convertToRaw(editorState.getCurrentContent()); 
       let plaintext = getTextContent(content);
       content = JSON.stringify(content);
-      this.updateNote(id, title, content, plaintext);
+      updateNote(id, title, content, plaintext)
+        .done((data)=>{
+          this.showFlash('Update successful!', 'alert-success');
+          console.log('The note is updated' + data);
+        })
+        .fail((error)=>{
+          console.log('Error: ' + error)
+          this.showFlash('Note is not updated, something went wrong😕', 'alert-danger')
+        });
     }
   }
   
@@ -410,7 +368,15 @@ class MyEditor extends Component {
       let content = convertToRaw(editorState.getCurrentContent()); 
       let plaintext = getTextContent(content);
       content = JSON.stringify(content);
-      this.updateThenNew(id, title, content, plaintext);
+      updateNote(id, title, content, plaintext)
+        .done((data)=>{ 
+          console.log(data);
+          browserHistory.push('/');
+        })
+        .fail((error)=>{
+          console.log('Error: ' + error)
+          this.showFlash("Failed to save your current note, please try again", 'alert-danger')
+        });
     }
   } 
 
