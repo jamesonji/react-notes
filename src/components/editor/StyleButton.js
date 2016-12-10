@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 class StyleButton extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.onToggle = (e) => {
       e.preventDefault();
       this.props.onToggle(this.props.style);

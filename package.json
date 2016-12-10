@@ -10,6 +10,7 @@
     "classnames": "^2.2.5",
     "draft-js": "^0.9.1",
     "draft-js-alignment-plugin": "^2.0.0-beta1",
+    "draft-js-block-breakout-plugin": "^1.0.0",
     "draft-js-code": "^0.2.0",
     "draft-js-focus-plugin": "^2.0.0-beta1",
     "draft-js-image-plugin": "^2.0.0-beta1",

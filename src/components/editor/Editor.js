@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import {Editor, 
+// import Editor from 'draft-js-plugins-editor';
+import { Editor,
         EditorState, 
         RichUtils, 
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
-        Modifier,
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
@@ -13,10 +13,10 @@ import { saveNote,
          updateNote,
          deleteNote,
        } from '../../helpers/notes'
+// import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
 import CodeUtils from 'draft-js-code';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
-import ColorStyleControls from './ColorStyleControls';
 import TitleField from './TitleField';
 import Immutable from 'immutable';
 import {browserHistory} from 'react-router';
@@ -27,21 +27,11 @@ import {sendFlashMessage, dismissMessage} from '../../actions/index';
 
 import './style.css';
 
+// const blockBreakoutPlugin = createBlockBreakoutPlugin();
+// const plugins = [blockBreakoutPlugin]
 const styleMap = {
-  'RED':{
-    color: 'red',
-  },
-  'GOLD':{
-    color: 'gold',
-  },
-  'BLUE':{
-    color: 'blue',
-  },
-  'GREEN':{
-    color: 'green',
-  },
-  'PINK':{
-    color: 'HotPink',
+  'HIGHLIGHT':{
+    backgroundColor:'gold'
   },
   'CAP':{
     textTransform: 'capitalize'
@@ -56,6 +46,7 @@ const styleMap = {
 
 function myBlockRenderer(contentBlock) {
   // const type = contentBlock.getType();
+  
 }
 
 // Define a new block tag
@@ -142,21 +133,6 @@ class MyEditor extends Component {
   _toggleInlineStyle(inlineStyle) {
     this.onChange(
       RichUtils.toggleInlineStyle(
-        this.state.editorState,
-        inlineStyle
-      )
-    ); 
-  }
-  
-  _toggleColorStyle(inlineStyle) {
-    const {editorState} = this.state;
-    const selectionState = editorState.getSelection();
-    const contentState = editorState.getCurrentContent();
-    console.log('Selection State:' + selectionState);
-    console.log('Current Content:' + contentState);
-    this.onChange(
-      RichUtils.toggleInlineStyle(
-        Modifier.removeInlineStyle(contentState, selectionState, "RED"),
         this.state.editorState,
         inlineStyle
       )
@@ -266,7 +242,7 @@ class MyEditor extends Component {
     )
     return true
   }
-
+  
   componentWillReceiveProps(props){
     // If parent component passes in a note props, set editor to display the new text component
     if( props.title !== ''){
@@ -324,7 +300,7 @@ class MyEditor extends Component {
       });
     }  
   }
-    
+  
   handleDelete = () =>{
     const promp = confirm("Delete the note?");
     if (promp === true) {
@@ -362,6 +338,14 @@ class MyEditor extends Component {
     }
   }
   
+  handlePastedText = (text) =>{
+    this.onChange(
+      console.log('from handle pasted text: ' + text),
+    )
+      
+    return true
+  } 
+   
   handleNewNote = () => {
     const user = firebase.auth().currentUser;
     if (!user){
@@ -422,10 +406,6 @@ class MyEditor extends Component {
                   editorState={editorState}
                   onToggle={this.toggleInlineStyle}
                 />
-                <ColorStyleControls
-                  editorState={editorState}
-                  onToggle={this.toggleColorStyle}
-                />
               </div>
               <div className="w-80 fl">
                 <div className="w-80 center f3 h3 bn black-100 bg-white shadow-2">
@@ -447,6 +427,7 @@ class MyEditor extends Component {
                           blockRenderMap={extendedBlockRenderMap}
                           blockRendererFn={myBlockRenderer}
                           stripPastedStyles={true}
+                          // plugins={plugins}
                           ref="editor"
                   />
                 </div>
