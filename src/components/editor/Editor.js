@@ -71,7 +71,7 @@ const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 function getBlockStyle(block) {
   switch (block.getType()) {
     case 'blockquote': return 'ph0 f3 ';
-    case 'code-block': return 'f4 bg-light-gray';
+    case 'code-block': return 'bg-light-gray';
     case 'section': return 'ph4 f4 white pv2 bg-dark-gray';
     default: return null;
   }
@@ -102,6 +102,7 @@ class MyEditor extends Component {
     this.onChange = (editorState) => this.setState({editorState});
     this.handleKeyCommand = (command) => this._handleKeyCommand(command);
     this.keyBindingFn = (e) => this._keyBindingFn(e);
+    this.handleReturn = (e) => this._handleReturn(e);
     this.onTab = (e) => this._onTab(e);
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
@@ -255,7 +256,7 @@ class MyEditor extends Component {
     return getDefaultKeyBinding(event);
   } 
   
-  handleReturn = (e) => {
+  _handleReturn(e) {
     const {editorState} = this.state;
     if (!CodeUtils.hasSelectionInBlock(editorState)) {
       return;
