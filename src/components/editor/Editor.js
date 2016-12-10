@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import { Editor,
         EditorState, 
         RichUtils, 
+        Modifier,
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
         convertToRaw,
@@ -31,7 +32,7 @@ import './style.css';
 // const plugins = [blockBreakoutPlugin]
 const styleMap = {
   'HIGHLIGHT':{
-    backgroundColor:'gold'
+    backgroundColor:'yellow'
   },
   'CAP':{
     textTransform: 'capitalize'
@@ -44,9 +45,10 @@ const styleMap = {
   },
 };
 
+const tabCharacter = "  ";
+  
 function myBlockRenderer(contentBlock) {
   // const type = contentBlock.getType();
-  
 }
 
 // Define a new block tag
@@ -61,9 +63,9 @@ const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 function getBlockStyle(block) {
   switch (block.getType()) {
-    case 'blockquote': return 'ph0 f3 ';
-    case 'code-block': return 'bg-light-gray';
-    case 'section': return 'ph4 f4 white pv2 bg-dark-gray';
+    case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
+    case 'code-block': return 'Code-block';
+    case 'section': return 'Terminal ph4 f4 white pv2 bg-dark-gray';
     default: return null;
   }
 }
@@ -109,16 +111,18 @@ class MyEditor extends Component {
   }
  
   _onTab(e) {
-    const {editorState} = this.state;
+    e.preventDefault();
 
-    if (!CodeUtils.hasSelectionInBlock(editorState)) {
-      this.onChange(RichUtils.onTab(e, editorState, 2));
-        // return;
-    }
-
-    this.onChange(
-        CodeUtils.handleTab(e, editorState)
+    let currentState = this.state.editorState;
+    let newContentState = Modifier.replaceText(
+      currentState.getCurrentContent(),
+      currentState.getSelection(),
+      tabCharacter
     );
+
+    this.setState({ 
+      editorState: EditorState.push(currentState, newContentState, 'insert-characters')
+    });
   }
   
   _toggleBlockType(blockType) {
