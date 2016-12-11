@@ -80,7 +80,7 @@ class LoginForm extends Component {
   render(){
     return (
       <div className="Login-Form">
-        <h1 className="mw4 center">Log In</h1>
+        <h1 className="mw5 center">Log In</h1>
         <div className="mw5 mw7-ns center pa3 ph5-ns">
         <form className="">
           <div className="mt3">
@@ -106,11 +106,11 @@ class LoginForm extends Component {
         </form>
         <div className="mt3">Don't have an account? <a href="/signup" className="f5 link dim black-80">Sign up</a></div>
         <div className="mt4">
-          <a className="b ph3 pv2 dib ma2 input-reset ba b--black bg-dark-blue white grow pointer f6"
+          <a className="b ph2 pv2 dib ma2 input-reset ba b--black bg-dark-blue white grow pointer f6"
              onClick={this.handleFacebookLogin}><i className="fa fa-facebook"></i>  Sign in with Facebook </a>
-          <a className="b ph3 pv2 ma2 dib input-reset ba b--black bg-red white grow pointer f6"
+          <a className="b ph2 pv2 ma2 dib input-reset ba b--black bg-red white grow pointer f6"
              onClick={this.handleGoogleLogin}><i className="fa fa-google"></i> Sign in with Google </a>
-          <a className="b ph3 pv2 ma2 dib input-reset ba b--black grow pointer f6"
+          <a className="b ph2 pv2 ma2 dib input-reset ba b--black grow pointer f6"
              onClick={this.handleGithubLogin}><i className="fa fa-github"></i> Sign in with Github </a>
         </div>
       </div>

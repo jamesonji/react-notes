@@ -4,7 +4,6 @@
 
 h1{
   font-size: 3em;
-  font-family: serif;
 }
 
 h2{
@@ -28,12 +27,15 @@ h5{
   font-family: serif;
 }
 
-h6{
+/*h6{
   font-size: 1.3em;
+  line-height: 0.1em;
   font-weight: lighter;
   color: #FF725C;
+}*/
+p{
+  font-size: 1em;
 }
-
 .RichEditor-controls {
 }
 
@@ -82,7 +84,11 @@ h6{
 }
 
 .Terminal{
-  
+  font-family: Consolas,monaco,monospace;
+}
+
+.Folder{
+  text-align: center;
 }
 
 @keyframes App-logo-spin {

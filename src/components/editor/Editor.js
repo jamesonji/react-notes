@@ -65,7 +65,8 @@ function getBlockStyle(block) {
   switch (block.getType()) {
     case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
     case 'code-block': return 'Code-block';
-    case 'section': return 'Terminal ph4 f4 white pv2 bg-dark-gray';
+    case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
+    case 'section': return 'Terminal ph2 f4 white pv2 bg-dark-gray';
     default: return null;
   }
 }
@@ -385,19 +386,19 @@ class MyEditor extends Component {
       }
     }
     
-    const buttonStyle = "f6 link dim br2 ph3 pv2 mb2 mr2 dib white bg-red";
+    const buttonStyle = "f6 link mw4 dim br2 ph3 pv2 mb2 mr2 dib white pointer";
     return (
             <div className={className}>
-              <div className="w-100-ns w-10-l fl-l bg-white br3 pa3 shadow-1">
-                <a href='#' className={buttonStyle} onClick={this.logState}>Content</a>
+              <div className="ml5-l w-100-ns w-10-l fl-l bg-white br3 pa2 shadow-1">
+                <a href='#' className={buttonStyle + " bg-blue"} onClick={this.logState}>Content</a>
                 {this.state.note_id? 
-                  <span className={buttonStyle} onClick={this.handleUpdate}>Update</span> :
-                  <span className={buttonStyle} onClick={this.handleSave}>Save</span>
+                  <span className={buttonStyle + " bg-blue"} onClick={this.handleUpdate}>Update</span> :
+                  <span className={buttonStyle + " bg-orange"} onClick={this.handleSave}>Save</span>
                 }
                 { this.state.editView?
                   (<span>
-                    <span className={buttonStyle} onClick={this.handleDelete}>Delete</span>
-                    <span className={buttonStyle} onClick={this.handleNewNote}>New</span>
+                    <span className={buttonStyle + " bg-red"} onClick={this.handleDelete}>Delete</span>
+                    <span className={buttonStyle + " bg-orange"} onClick={this.handleNewNote}>New</span>
                   </span>):
                   <span></span>
                 } 
@@ -412,13 +413,13 @@ class MyEditor extends Component {
                 />
               </div>
               <div className="w-80-l w-100-ns fl-l">
-                <div className="w-80-l w-100-ns center f3 h3 bn black-100 bg-white shadow-2">
+                <div className="w-80-l w-100-ns f3 h3 bn black-100 bg-white shadow-2">
                   <TitleField title={this.state.title}
                               onChange={this.editTitle}/>
                 </div>
                 <div id='editor' 
                      onClick={this.focus}
-                     className='w-80-l w-100-ns pt3 center ph4-l ph0-ns  bg-white bt--black shadow-1'>
+                     className='w-80-l w-100-ns pt3 ph4-l ph3-ns ph3-m bg-white shadow-1'>
                   <Editor editorState={editorState}
                           blockStyleFn={getBlockStyle}
                           customStyleMap={styleMap}

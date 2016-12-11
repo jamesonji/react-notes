@@ -120,14 +120,14 @@ class SignupForm extends Component{
           </div>
           <div className="mt3">
             <label className="db fw4 lh-copy">Password:</label>
-            <input className="db pa2 input-reset ba bg-transparent"
+            <input className="db pa2 input-reset ba bg-transparent w-80 measure"
                    ref="password"
                    type="password" 
                    name="password"/>
           </div>
           <div className="mt3">
             <label className="db fw4 lh-copy">Password confirmation:</label>
-            <input className="db pa2 input-reset ba bg-transparent"
+            <input className="db pa2 input-reset ba bg-transparent w-80 measure"
                    ref="password_confirmation" 
                    type="password" 
                    name="password_confirmation"/>

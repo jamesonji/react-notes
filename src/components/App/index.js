@@ -77,13 +77,13 @@ class App extends Component {
         ) : 
         (
           <div className="Nav">
-            <div className="flex justify-between bb b--black-80 " >
+            <div className="flex justify-between bb items-center" >
               <nav className="f6 fw6 ttu tracked pa2"> 
-                <Link to="/" className="f3 link black dim dib mr3">React Notes</Link>
+                <Link to="/" className="f3 link black dim dib pa3 mr3">React Notes</Link>
                 <Link to="/" className="link dim black dib mr3"
                              activeClassName="active">Home</Link>
                 { this.state.authed?
-                  <span>
+                  <span className="flex-grow">
                     <Link to="/about" className="link dim black dib mr3"
                                       activeClassName="active">About</Link>
                     <Link to="/list"  className="link dim black br2 dib mr3 ba ph3 pv2 dim"
@@ -92,7 +92,7 @@ class App extends Component {
                           onClick={this.logOut}> LogOut 
                     </span> 
                   </span> :
-                  <span>
+                  <span className="flex-grow">
                     <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2"
                           to="/login" 
                           activeClassName="active">Log In</Link>
