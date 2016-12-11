@@ -388,7 +388,7 @@ class MyEditor extends Component {
     const buttonStyle = "f6 link dim br2 ph3 pv2 mb2 mr2 dib white bg-red";
     return (
             <div className={className}>
-              <div className="pallete fl bg-white br3 pa3 shadow-1">
+              <div className="w-100-ns w-10-l fl-l bg-white br3 pa3 shadow-1">
                 <a href='#' className={buttonStyle} onClick={this.logState}>Content</a>
                 {this.state.note_id? 
                   <span className={buttonStyle} onClick={this.handleUpdate}>Update</span> :
@@ -411,14 +411,14 @@ class MyEditor extends Component {
                   onToggle={this.toggleInlineStyle}
                 />
               </div>
-              <div className="w-80 fl">
-                <div className="w-80 center f3 h3 bn black-100 bg-white shadow-2">
+              <div className="w-80-l w-100-ns fl-l">
+                <div className="w-80-l w-100-ns center f3 h3 bn black-100 bg-white shadow-2">
                   <TitleField title={this.state.title}
                               onChange={this.editTitle}/>
                 </div>
                 <div id='editor' 
                      onClick={this.focus}
-                     className='pt3 center ph4 w-80 bg-white bt--black shadow-1'>
+                     className='w-80-l w-100-ns pt3 center ph4-l ph0-ns  bg-white bt--black shadow-1'>
                   <Editor editorState={editorState}
                           blockStyleFn={getBlockStyle}
                           customStyleMap={styleMap}
