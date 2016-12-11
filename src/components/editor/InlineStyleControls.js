@@ -5,6 +5,7 @@ var INLINE_STYLES = [
   {label: 'Bold', style: 'BOLD', icon: 'fa fa-bold'},
   {label: 'Italic', style: 'ITALIC', icon: 'fa fa-italic'},
   {label: 'Underline', style: 'UNDERLINE', icon: 'fa fa-underline'},
+  {label: 'Highlight', style: 'HIGHLIGHT', icon: 'fa fa-pencil yellow'},
   {label: 'Cap', style: 'CAP', icon: ''},
   {label: 'UP', style: 'UPP', icon: ''},
   {label: 'Line-through', style: 'LINETHROUGH', icon: 'fa fa-strikethrough'},

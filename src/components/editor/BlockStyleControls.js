@@ -13,6 +13,7 @@ const BLOCK_TYPES = [
   {label: 'UL', style: 'unordered-list-item', icon:'fa fa-list-ul'},
   {label: 'OL', style: 'ordered-list-item', icon:'fa fa-list-ol'},
   {label: 'Code Block', style: 'code-block', icon:'fa fa-code'},
+  {label: 'Section', style: 'section', icon:'fa fa-terminal'},
 ];
 
 

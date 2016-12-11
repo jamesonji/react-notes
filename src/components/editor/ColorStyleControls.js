@@ -1,5 +1,5 @@
 import React from 'react';
-import ColorButton from './StyleButton'
+import ColorButton from './ColorButton'
 
 var COLOR_STYLES = [
   {label: 'Red', style: 'RED', icon:''},

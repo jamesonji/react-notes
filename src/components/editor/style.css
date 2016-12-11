@@ -1,27 +1,40 @@
-.RichEditor-blockquote {
-  color: #999;
-  /*font-family: 'Hoefler Text', Georgia, serif;*/
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  font-size: 1em;
-  font-style: italic;
-  text-align: center;
-}
-
-.RichEditor-codeblock {
-  background: #eff0f1;
-  margin: 0px 0;
-}
-
 #editor{
   overflow: scroll;
 }
 
+h1{
+  font-size: 3em;
+  font-family: serif;
+}
+
+h2{
+  font-size: 2em;
+  color: #FF725C;
+}
+
+h3{
+  font-size: 1.7em;
+  font-family: serif;
+}
+
+h4{
+  font-size: 1.3em;
+  color: #FF725C;
+}
+
+h5{
+  font-size: 1.3em;
+  font-weight: lighter;
+  font-family: serif;
+}
+
+h6{
+  font-size: 1.3em;
+  font-weight: lighter;
+  color: #FF725C;
+}
+
 .RichEditor-controls {
-  /*font-family: 'Helvetica', sans-serif;
-  font-size: 1em;
-  margin-bottom: 0.2em;
-  user-select: none;
-  padding: 0.1em;*/
 }
 
 .RichEditor-root{
@@ -29,10 +42,6 @@
 }
 .DraftEditor-editorContainer{
   height: 85vh;
-}
-
-.RichEditor-hidePlaceholder{
-  
 }
 
 .title-field{
@@ -48,6 +57,8 @@
   padding: 1.1em 0;
   display: inline-block;
 }*/
+
+
 .text-button{
   display: inline-block;
 }
@@ -55,11 +66,29 @@
   color: #5890ff;
 }*/
 .pallete{
-  width: 130px;
+  width: 200px;
 }
 .main-editor{
   margin-left: 130px;
 }
+
+.Block-quote{
+  font-size: 2em;
+  text-align: center;
+  color: red;
+}
+
+.Code-block{
+  background-color: #F4F4F4;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  border-radius: 6px;
+}
+
+.Terminal{
+  
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

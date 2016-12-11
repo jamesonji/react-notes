@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import {Editor, 
+// import Editor from 'draft-js-plugins-editor';
+import { Editor,
         EditorState, 
         RichUtils, 
-        DraftEditorBlock,
+        Modifier,
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
-        KeyBindingUtil,
         convertToRaw,
         convertFromRaw,
       } from 'draft-js';
+import { saveNote,
+         updateNote,
+         deleteNote,
+       } from '../../helpers/notes'
+// import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin'
 import CodeUtils from 'draft-js-code';
 import InlineStyleControls from './InlineStyleControls';
 import BlockStyleControls from './BlockStyleControls';
-import ColorStyleControls from './ColorStyleControls';
 import TitleField from './TitleField';
 import Immutable from 'immutable';
 import {browserHistory} from 'react-router';
@@ -22,28 +26,13 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {sendFlashMessage, dismissMessage} from '../../actions/index';
 
-import $ from 'jquery';
 import './style.css';
 
-const BASE_URL = 'http://localhost:3001/note';
-
-const {hasCommandModifier} = KeyBindingUtil;
-
+// const blockBreakoutPlugin = createBlockBreakoutPlugin();
+// const plugins = [blockBreakoutPlugin]
 const styleMap = {
-  'RED':{
-    color: 'red',
-  },
-  'GOLD':{
-    color: 'gold',
-  },
-  'BLUE':{
-    color: 'blue',
-  },
-  'GREEN':{
-    color: 'green',
-  },
-  'PINK':{
-    color: 'HotPink',
+  'HIGHLIGHT':{
+    backgroundColor:'yellow'
   },
   'CAP':{
     textTransform: 'capitalize'
@@ -56,24 +45,17 @@ const styleMap = {
   },
 };
 
+const tabCharacter = "  ";
+  
 function myBlockRenderer(contentBlock) {
-  const type = contentBlock.getType();
-  if (type === 'paragraph') {
-    return {
-      component: DraftEditorBlock,
-      editable: true,
-      props: {
-        foo: 'bar',
-      },
-    };
-  }
+  // const type = contentBlock.getType();
 }
 
 // Define a new block tag
 const blockRenderMap = Immutable.Map({
   'section': {
     element: 'section'
-  }
+  },
 });
 
 // add new block tag to the block render map
@@ -81,8 +63,9 @@ const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
 function getBlockStyle(block) {
   switch (block.getType()) {
-    case 'blockquote': return 'RichEditor-blockquote';
-    case 'code-block': return 'RichEditor-codeblock';
+    case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
+    case 'code-block': return 'Code-block';
+    case 'section': return 'Terminal ph4 f4 white pv2 bg-dark-gray';
     default: return null;
   }
 }
@@ -112,6 +95,7 @@ class MyEditor extends Component {
     this.onChange = (editorState) => this.setState({editorState});
     this.handleKeyCommand = (command) => this._handleKeyCommand(command);
     this.keyBindingFn = (e) => this._keyBindingFn(e);
+    this.handleReturn = (e) => this._handleReturn(e);
     this.onTab = (e) => this._onTab(e);
     this.toggleBlockType = (type) => this._toggleBlockType(type);
     this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
@@ -127,16 +111,18 @@ class MyEditor extends Component {
   }
  
   _onTab(e) {
-    const {editorState} = this.state;
+    e.preventDefault();
 
-    if (!CodeUtils.hasSelectionInBlock(editorState)) {
-      this.onChange(RichUtils.onTab(e, editorState, 2));
-        // return;
-    }
-
-    this.onChange(
-        CodeUtils.handleTab(e, editorState)
+    let currentState = this.state.editorState;
+    let newContentState = Modifier.replaceText(
+      currentState.getCurrentContent(),
+      currentState.getSelection(),
+      tabCharacter
     );
+
+    this.setState({ 
+      editorState: EditorState.push(currentState, newContentState, 'insert-characters')
+    });
   }
   
   _toggleBlockType(blockType) {
@@ -149,15 +135,6 @@ class MyEditor extends Component {
   }
 
   _toggleInlineStyle(inlineStyle) {
-    this.onChange(
-      RichUtils.toggleInlineStyle(
-        this.state.editorState,
-        inlineStyle
-      )
-    ); 
-  }
-  
-  _toggleColorStyle(inlineStyle) {
     this.onChange(
       RichUtils.toggleInlineStyle(
         this.state.editorState,
@@ -185,12 +162,20 @@ class MyEditor extends Component {
       this.toggleBlockType('header-four');
       return true;
     }
+    if (command === 'toggle-h5') {
+      this.toggleBlockType('header-five');
+      return true;
+    }
+    if (command === 'toggle-h6') {
+      this.toggleBlockType('header-six');
+      return true;
+    }
     if (command === 'toggle-code') {
       this.toggleBlockType('code-block');
       return true;
     }
     if (command === 'toggle-up') {
-      this.toggleInlineStyle('Uppercase');
+      this.toggleInlineStyle('UPP');
       return true;
     }
 
@@ -213,27 +198,35 @@ class MyEditor extends Component {
     if (CodeUtils.hasSelectionInBlock(editorState)) {
       command = CodeUtils.getKeyBinding(event);
     }
-    if (event.keyCode === 49 /* `1` key */ && hasCommandModifier(event)) {
+    if (event.keyCode === 49 /* `1` key */ && event.ctrlKey) {
       // toggle H1
       return 'toggle-h1';
     }
-    if (event.keyCode === 50 /* `2` key */ && hasCommandModifier(event)) {
+    if (event.keyCode === 50 /* `2` key */ && event.ctrlKey) {
       // toggle H2
       return 'toggle-h2';
     }
-    if (event.keyCode === 51 /* `3` key */ && hasCommandModifier(event)) {
+    if (event.keyCode === 51 /* `3` key */ && event.ctrlKey) {
       // toggle H3
       return 'toggle-h3';
     }
-    if (event.keyCode === 52 /* `4` key */ && hasCommandModifier(event)) {
+    if (event.keyCode === 52 /* `4` key */ && event.ctrlKey) {
       // toggle H4
       return 'toggle-h4';
     }
-    if (event.keyCode === 71 /* `G` key */ && hasCommandModifier(event)) {
+    if (event.keyCode === 53 /* `4` key */ && event.ctrlKey) {
+      // toggle H4
+      return 'toggle-h5';
+    }
+    if (event.keyCode === 54 /* `4` key */ && event.ctrlKey) {
+      // toggle H4
+      return 'toggle-h6';
+    }
+    if (event.keyCode === 67 /* `C` key */ && event.ctrlKey) {
       // toggle Code mode
       return 'toggle-code';
     }
-    if (event.keyCode === 67 /* `U` key */ && hasCommandModifier(event)) {
+    if (event.keyCode === 85 /* `U` key */ && event.ctrlKey) {
       // toggle upper case 
       return 'toggle-up';
     }
@@ -243,7 +236,7 @@ class MyEditor extends Component {
     return getDefaultKeyBinding(event);
   } 
   
-  handleReturn = (e) => {
+  _handleReturn(e) {
     const {editorState} = this.state;
     if (!CodeUtils.hasSelectionInBlock(editorState)) {
       return;
@@ -253,7 +246,7 @@ class MyEditor extends Component {
     )
     return true
   }
-
+  
   componentWillReceiveProps(props){
     // If parent component passes in a note props, set editor to display the new text component
     if( props.title !== ''){
@@ -301,82 +294,28 @@ class MyEditor extends Component {
     }else if(!user){
       this.showFlash('Please sign in', 'alert-warning');
     }else{
-      this.saveNote(title, content, plaintext, user.email);
-    }  
-  }
-  
-  saveNote = (title, content, plaintext, auther) =>{
-    $.ajax({
-      url:`${BASE_URL}`,
-      data:{title: title,
-            content: content,
-            plaintext: plaintext,
-            author: auther},
-      type:'POST'})
+      saveNote(title, content, plaintext, user.email)
       .done((data)=>{
         this.showFlash('Note saved', 'alert-success')
-        console.log(data.note);
         browserHistory.push('/edit/'+data.note._id);
       })
       .fail((error)=>{
-        console.log('Error: ' + error)
         this.showFlash('Note is not saved, something went wrong😕', 'alert-danger')
-      })
+      });
+    }  
   }
   
-  updateNote = (id, title, content, plaintext) =>{
-    $.ajax({
-      url:`${BASE_URL}/${id}`,
-      data:{title: title,
-            content: content,
-            plaintext: plaintext
-          },
-      type:'PUT'})
-      .done((data)=>{
-        this.showFlash('Update successful!', 'alert-success');
-        console.log('The note is updated' + data);
-      })
-      .fail((error)=>{
-        console.log('Error: ' + error)
-        this.showFlash('Note is not updated, something went wrong😕', 'alert-danger')
-      })
-    }
-    
-    updateThenNew = (id, title, content, plaintext) => {
-      $.ajax({
-        url:`${BASE_URL}/${id}`,
-        data:{title: title,
-              content: content,
-              plaintext: plaintext
-            },
-        type:'PUT'})
-        .done((data)=>{ 
-          console.log(data);
-          browserHistory.push('/');
-        })
-        .fail((error)=>{
-          console.log('Error: ' + error)
-          this.showFlash("Failed to save your current note, please try again", 'alert-danger')
-        })
-      }
-    
-    deleteNote = () =>{
-      $.ajax({
-        url:`${BASE_URL}/${this.state.note_id}`,
-        type:'DELETE',
-        datatype: 'json',
-        success: function (data){
-          console.log('Note deleted: ' + data);
-          browserHistory.push('/list');
-          this.showFlash('Your note is Deleted.', 'alert-info');
-        }
-      })
-    }
-    
   handleDelete = () =>{
     const promp = confirm("Delete the note?");
     if (promp === true) {
-      this.deleteNote();
+      deleteNote(this.state.note_id)
+        .done((data)=>{
+          browserHistory.push('/list');
+          this.showFlash('Your note is Deleted.', 'alert-info');
+        })
+        .fail((error)=>{
+          this.showFlash("Failed to delete your current note, please try again", 'alert-danger')
+        });
     }
   }
   
@@ -391,10 +330,26 @@ class MyEditor extends Component {
       let content = convertToRaw(editorState.getCurrentContent()); 
       let plaintext = getTextContent(content);
       content = JSON.stringify(content);
-      this.updateNote(id, title, content, plaintext);
+      updateNote(id, title, content, plaintext)
+        .done((data)=>{
+          this.showFlash('Update successful!', 'alert-success');
+          console.log('The note is updated' + data);
+        })
+        .fail((error)=>{
+          console.log('Error: ' + error)
+          this.showFlash('Note is not updated, something went wrong😕', 'alert-danger')
+        });
     }
   }
   
+  handlePastedText = (text) =>{
+    this.onChange(
+      console.log('from handle pasted text: ' + text),
+    )
+      
+    return true
+  } 
+   
   handleNewNote = () => {
     const user = firebase.auth().currentUser;
     if (!user){
@@ -406,7 +361,15 @@ class MyEditor extends Component {
       let content = convertToRaw(editorState.getCurrentContent()); 
       let plaintext = getTextContent(content);
       content = JSON.stringify(content);
-      this.updateThenNew(id, title, content, plaintext);
+      updateNote(id, title, content, plaintext)
+        .done((data)=>{ 
+          console.log(data);
+          browserHistory.push('/');
+        })
+        .fail((error)=>{
+          console.log('Error: ' + error)
+          this.showFlash("Failed to save your current note, please try again", 'alert-danger')
+        });
     }
   } 
 
@@ -422,7 +385,7 @@ class MyEditor extends Component {
       }
     }
     
-    const buttonStyle = "f4 grow no-underline br-pill ba bw2 ph3 pv2 mb2 dib dark-red pointer";
+    const buttonStyle = "f6 link dim br2 ph3 pv2 mb2 mr2 dib white bg-red";
     return (
             <div className={className}>
               <div className="pallete fl bg-white br3 pa3 shadow-1">
@@ -447,19 +410,15 @@ class MyEditor extends Component {
                   editorState={editorState}
                   onToggle={this.toggleInlineStyle}
                 />
-                <ColorStyleControls
-                  editorState={editorState}
-                  onToggle={this.toggleColorStyle}
-                />
               </div>
-              <div className="w-90 fl">
-                <div className="w-100 f3 h3 bn fl black-100 bg-white shadow-2">
+              <div className="w-80 fl">
+                <div className="w-80 center f3 h3 bn black-100 bg-white shadow-2">
                   <TitleField title={this.state.title}
                               onChange={this.editTitle}/>
                 </div>
                 <div id='editor' 
                      onClick={this.focus}
-                     className='mt5 pt3 ph4 w-100 bg-white bt--black shadow-1'>
+                     className='pt3 center ph4 w-80 bg-white bt--black shadow-1'>
                   <Editor editorState={editorState}
                           blockStyleFn={getBlockStyle}
                           customStyleMap={styleMap}
@@ -471,6 +430,7 @@ class MyEditor extends Component {
                           handleReturn={this.handleReturn}
                           blockRenderMap={extendedBlockRenderMap}
                           blockRendererFn={myBlockRenderer}
+                          // plugins={plugins}
                           ref="editor"
                   />
                 </div>
