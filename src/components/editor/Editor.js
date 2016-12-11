@@ -430,7 +430,6 @@ class MyEditor extends Component {
                           handleReturn={this.handleReturn}
                           blockRenderMap={extendedBlockRenderMap}
                           blockRendererFn={myBlockRenderer}
-                          stripPastedStyles={true}
                           // plugins={plugins}
                           ref="editor"
                   />
