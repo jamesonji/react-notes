@@ -45,7 +45,8 @@ class Index extends Component {
       <div className="Home-page">
         {this.state.authed?
           <div className="">
-            <MyEditor editView={false}/>
+            <MyEditor editView={false}
+                      editable={true}/>
           </div>    
           :
           <LandingPage />

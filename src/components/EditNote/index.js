@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MyEditor from '../editor/Editor.js';
+import { firebaseAuth } from '../../config/constants';
 import $ from 'jquery';
 import './style.css';
 
@@ -12,6 +13,7 @@ export default class EditNote extends Component{
       note_id: '',
       title: '',
       note: '',
+      readonly: false,
     }
   }
   
@@ -37,6 +39,12 @@ export default class EditNote extends Component{
   }
   
   initNote = (data) =>{
+    const user = firebaseAuth().currentUser; 
+    if (!user || (user.email !== data.note.author)){
+      this.setState({
+        readonly: true,
+      })
+    }
     this.setState({
       title: data.note.title,
       note: data.note.content,
@@ -51,6 +59,7 @@ export default class EditNote extends Component{
           title={this.state.title}
           note={ this.state.note }
           editView={true}
+          readonly={this.state.readonly}
          />
       </div>
     )

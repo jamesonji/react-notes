@@ -32,6 +32,7 @@ export default class TitleField extends Component{
              value={this.state.title}
              onChange={this.handleChange}
              className="title-field w-100 h3 ph3"
+             readOnly={this.props.readOnly}
         />
       </div>
     )
