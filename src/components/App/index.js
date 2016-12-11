@@ -91,6 +91,8 @@ class App extends Component {
                     <span className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2"
                           onClick={this.logOut}> LogOut 
                     </span> 
+                    <span className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2">Settings
+                    </span>
                   </span> :
                   <span className="flex-grow">
                     <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2"
