@@ -13,7 +13,7 @@ export default class EditNote extends Component{
       note_id: '',
       title: '',
       note: '',
-      readonly: false,
+      readOnly: false,
     }
   }
   
@@ -42,7 +42,7 @@ export default class EditNote extends Component{
     const user = firebaseAuth().currentUser; 
     if (!user || (user.email !== data.note.author)){
       this.setState({
-        readonly: true,
+        readOnly: true,
       })
     }
     this.setState({
@@ -59,7 +59,7 @@ export default class EditNote extends Component{
           title={this.state.title}
           note={ this.state.note }
           editView={true}
-          readonly={this.state.readonly}
+          readOnly={this.state.readOnly}
          />
       </div>
     )

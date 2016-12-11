@@ -423,7 +423,7 @@ class MyEditor extends Component {
                 <div className="w-80-l w-100-ns f3 h3 bn black-100 bg-white shadow-2">
                   <TitleField title={this.state.title}
                               onChange={this.editTitle}
-                              readOnly={this.props.readonly}/>
+                              readOnly={this.props.readOnly}/>
                 </div>
                 <div id='editor' 
                      onClick={this.focus}
@@ -439,7 +439,7 @@ class MyEditor extends Component {
                           handleReturn={this.handleReturn}
                           blockRenderMap={extendedBlockRenderMap}
                           blockRendererFn={myBlockRenderer}
-                          readOnly={this.props.readonly}
+                          readOnly={this.props.readOnly}
                           // plugins={plugins}
                           ref="editor"
                   />
