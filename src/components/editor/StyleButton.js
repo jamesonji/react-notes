@@ -11,15 +11,11 @@ class StyleButton extends Component {
 
   render() {
     // let className = 'RichEditor-styleButton';
-    let className = this.props.icon + ' wrapper f4 pa2 pointer';
+    let className = this.props.icon + ' wrapper f4 ph3 pv2 pointer';
     if (this.props.theme === 'black'){
-      if (this.props.active) {
-        className += ' bg-blue black br2';
-      }else{
-        className += " blue"
-      }
+      this.props.active? className += ' bg-orange dark-gray br2' : className += " orange";
     }else{
-      this.props.active? className += ' bg-black-80 white br2' : className += " black-80"
+      this.props.active? className += ' bg-black-80 white br2' : className += " black-80";
     }
 
     

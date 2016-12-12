@@ -43,7 +43,7 @@ p{
   /*height: 100vh;*/
 }
 .DraftEditor-editorContainer{
-  height: 85vh;
+  height: 75vh;
 }
 
 .title-field{
@@ -91,7 +91,6 @@ p{
   text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+::-webkit-scrollbar-track-piece  { 
+  color: orange;
 }

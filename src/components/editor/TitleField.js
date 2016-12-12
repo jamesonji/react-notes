@@ -26,7 +26,7 @@ export default class TitleField extends Component{
   render(){
     let themeColor;
     if (this.props.theme === 'black'){
-      themeColor = "bg-dark-gray blue"
+      themeColor = "bg-dark-gray orange"
     }else{
       themeColor = "bg-white black"
     }
