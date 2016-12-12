@@ -68,9 +68,9 @@ class NotesList extends Component{
     let titleClass = "link f3 hover-white lh-copy measure "
     let noteClass = "f5 f6 lh-copy measure "
     if (this.props.theme === 'black'){
-      listClass += "hover-bg-light-blue"
-      titleClass += "blue"
-      noteClass += "blue"
+      listClass += "hover-bg-light-yellow"
+      titleClass += "orange"
+      noteClass += "orange"
     }else {
       listClass += "hover-bg-light-red"
       titleClass += "black"
