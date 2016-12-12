@@ -95,12 +95,14 @@ class App extends Component {
         (
           <div className={"App-root " + themeColor}>
             <div className="flex justify-between bb items-center" >
-              <nav className="dt border-box f6 fw6 ttu tracked pa2 w-100"> 
-                <Link to="/" className={"f3 w-25 link black dim dib pa3 mr3 dtc v-mid " + themeColor}>React Notes</Link>
+              <nav className="dt border-box f6 fw6 tracked pa2 w-100"> 
+                <Link to="/" className={"f3 w-25 link black ttu dim dib pa3 mr3 dtc v-mid " + themeColor}>React Notes</Link>
                 { this.state.authed?
                   <span className="w-75 tr dtc v-mid">
+                    <span className="mr3 ">Hi, {this.state.user.email}</span>
                     <Link to="/list"  className={"link dim black br2 dib mr3 ba ph3 pv2 dim " + themeColor}
-                                      activeClassName="active">{this.state.user.email}</Link>
+                                      activeClassName="active">My Notes</Link>
+                                      
                     <a className={"f6 link dim br2 ba ph3 pv2 mb2 dib pointer mr2 " + themeColor}
                           onClick={this.logOut}> LogOut 
                     </a> 

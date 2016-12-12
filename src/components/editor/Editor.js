@@ -32,7 +32,8 @@ import './style.css';
 // const plugins = [blockBreakoutPlugin]
 const styleMap = {
   'HIGHLIGHT':{
-    backgroundColor:'yellow'
+    backgroundColor:'yellow',
+    color:'black'
   },
   'CAP':{
     textTransform: 'capitalize'
@@ -101,7 +102,7 @@ class MyEditor extends Component {
       this.showFlash('Show Flash', 'alert-success')
     };
   }
- 
+  
   _onTab(e) {
     e.preventDefault();
 
