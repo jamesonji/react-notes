@@ -406,7 +406,7 @@ class MyEditor extends Component {
     
     return (
             <div className={className + themeColor}>
-              {this.props.readonly?
+              {this.props.readOnly?
                 <span className={"ml5-l w-100-ns w-10-l fl-l br3 pa2 "+ themeColor}>Please login to create your notes
                 </span>
                 :
