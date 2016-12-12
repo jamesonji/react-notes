@@ -5,6 +5,7 @@ import { Editor,
         EditorState, 
         RichUtils, 
         Modifier,
+        ContentState,
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
         convertToRaw,
@@ -336,11 +337,13 @@ class MyEditor extends Component {
   }
   
   handlePastedText = (text) =>{
-    this.onChange(
-      console.log('from handle pasted text: ' + text),
-    )
-      
-    return true
+    console.log(text);
+    const {editorState} = this.state;
+    // const blockMap = ContentState.createFromText(text.trim()).blockMap;
+    const blockMap = ContentState.createFromText(text.trim(), '\r\n').blockMap;
+    const newState = Modifier.replaceWithFragment(editorState.getCurrentContent(), editorState.getSelection(), blockMap);
+    this.onChange(EditorState.push(editorState, newState, 'insert-fragment'));
+    return true;
   } 
    
   handleNewNote = () => {
@@ -460,6 +463,7 @@ class MyEditor extends Component {
                           blockRenderMap={extendedBlockRenderMap}
                           blockRendererFn={myBlockRenderer}
                           readOnly={this.props.readOnly}
+                          handlePastedText={this.handlePastedText}
                           // plugins={plugins}
                           ref="editor"
                   />
