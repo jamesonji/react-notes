@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { firebaseAuth } from '../../config/constants';
 import { Link, browserHistory } from 'react-router';
 import FlashMessage from '../FlashMessage';  
+import Loading from './Loading';
 
 // import $ from 'jquery';
 import './style.css';
@@ -14,8 +15,10 @@ class App extends Component {
       authed: false,
       user: {},
       loading: true,
+      theme:'white'
     }
   }
+  
   
   componentDidMount () {
     firebaseAuth().onAuthStateChanged((user) => {
@@ -37,6 +40,17 @@ class App extends Component {
    })
   }
   
+  whiteTheme = () =>{
+    this.setState({
+      theme: 'white',
+    })
+  }
+  blackTheme = () =>{
+    this.setState({
+      theme: 'black',
+    })
+  }
+  
   logOut = () =>{
     firebaseAuth().signOut().then(function() {
       this.setState({
@@ -45,6 +59,9 @@ class App extends Component {
         loading: false,
       })
       console.log('Signed Out');
+      this.setState({
+        theme:'white',
+      })
       browserHistory.push('/');
     }.bind(this), function(error) {
       console.error('Sign Out Error', error);
@@ -66,51 +83,54 @@ class App extends Component {
   }
   
   render() {
+    let themeColor;
+    if(this.state.theme === "black"){
+      themeColor = 'bg-dark-gray orange'
+    }else{
+      themeColor = "bg-white black"
+    }
     return (
       this.state.loading === true ? 
-        ( <div className="vh-100 dt w-100 bg-white">
-            <div className="dtc v-mid tc black ph3 ph4-l">
-              <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-              <span className="sr-only">Loading...</span>
-            </div>
-          </div>
-        ) : 
+        ( <Loading theme={this.state.theme}/>) : 
         (
-          <div className="Nav">
+          <div className={"App-root " + themeColor}>
             <div className="flex justify-between bb items-center" >
-              <nav className="f6 fw6 ttu tracked pa2"> 
-                <Link to="/" className="f3 link black dim dib pa3 mr3">React Notes</Link>
-                <Link to="/" className="link dim black dib mr3"
-                             activeClassName="active">Home</Link>
+              <nav className="dt border-box f6 fw6 ttu tracked pa2 w-100"> 
+                <Link to="/" className={"f3 w-25 link black dim dib pa3 mr3 dtc v-mid " + themeColor}>React Notes</Link>
                 { this.state.authed?
-                  <span className="flex-grow">
-                    <Link to="/about" className="link dim black dib mr3"
-                                      activeClassName="active">About</Link>
-                    <Link to="/list"  className="link dim black br2 dib mr3 ba ph3 pv2 dim"
-                                      activeClassName="active">{this.state.user.email}</Link>                   
-                    <span className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2"
+                  <span className="w-75 tr dtc v-mid">
+                    <Link to="/list"  className={"link dim black br2 dib mr3 ba ph3 pv2 dim " + themeColor}
+                                      activeClassName="active">{this.state.user.email}</Link>
+                    <a className={"f6 link dim br2 ba ph3 pv2 mb2 dib pointer mr2 " + themeColor}
                           onClick={this.logOut}> LogOut 
-                    </span> 
+                    </a> 
+                    <a className={"f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2 " + themeColor}
+                          onClick={this.whiteTheme}>white
+                    </a>
+                    <a className={"f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2 " + themeColor}
+                          onClick={this.blackTheme}>black
+                    </a>
                   </span> :
-                  <span className="flex-grow">
-                    <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2"
+                  <span className="w-75 tr dtc v-mid">
+                    <Link className={"f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2 " + themeColor}
                           to="/login" 
                           activeClassName="active">Log In</Link>
-                    <Link className="f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2"
+                    <Link className={"f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2 " + themeColor}
                           to="/signup" 
                           activeClassName="active">Sign Up</Link>
                   </span>
                 }
               </nav>
             </div>
-            <div className="App-main">
+            <div className={"App-main " + themeColor}>
               <FlashMessage />
-              <div className="bg-white">
+              <div className={themeColor}>
                 {this.props.children && 
                   React.cloneElement(this.props.children, 
                                     { authed: this.state.authed,
                                       showLoading: this.showLoading,
-                                      endLoading: this.endLoading})}
+                                      endLoading: this.endLoading,
+                                      theme:this.state.theme})}
               </div>
             </div>
           </div>

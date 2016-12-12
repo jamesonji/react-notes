@@ -24,9 +24,15 @@ const BlockStyleControls = (props) => {
     .getCurrentContent()
     .getBlockForKey(selection.getStartKey())
     .getType();
-
+    
+  let blockClass;
+  if(props.theme === 'black'){
+    blockClass = "bg-dark-gray"
+  }else{
+    blockClass = "bg-white"
+  }
   return (
-    <div className="bb b--light-gray">
+    <div className={blockClass}>
       {BLOCK_TYPES.map((type) =>
         <StyleButton
           key={type.label}
@@ -35,6 +41,7 @@ const BlockStyleControls = (props) => {
           icon={type.icon}
           onToggle={props.onToggle}
           style={type.style}
+          theme={props.theme}
         />
       )}
     </div>

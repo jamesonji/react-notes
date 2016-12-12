@@ -60,6 +60,7 @@ export default class EditNote extends Component{
           note={ this.state.note }
           editView={true}
           readOnly={this.state.readOnly}
+          theme={this.props.theme}
          />
       </div>
     )

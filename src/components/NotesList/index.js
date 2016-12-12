@@ -47,6 +47,11 @@ class NotesList extends Component{
       })
     }
   }
+  componentWillReceiveProps(){
+    this.setState({
+      theme: this.props.theme,
+    })
+  }
   
   componentDidMount(){
     const user = firebase.auth().currentUser;
@@ -59,6 +64,20 @@ class NotesList extends Component{
   }
   
   render (){
+    let listClass = "link fl w-100 w-50-m w-25-l pa3-m pa4-l "
+    let titleClass = "link f3 hover-white lh-copy measure "
+    let noteClass = "f5 f6 lh-copy measure "
+    if (this.props.theme === 'black'){
+      listClass += "hover-bg-light-blue"
+      titleClass += "blue"
+      noteClass += "blue"
+    }else {
+      listClass += "hover-bg-light-red"
+      titleClass += "black"
+      noteClass += "black"
+    }
+    
+    
     return (
       <div className="note-list cf pa3 mw9 center"> 
         <section className="fl w-100">
@@ -68,9 +87,9 @@ class NotesList extends Component{
                 return (
                   <Link to={`/edit/${note._id}`} 
                         key={note._id}
-                        className="link fl w-100 w-50-m w-25-l pa3-m pa4-l hover-bg-light-red">
-                    <span className="link f3 black hover-white lh-copy measure">{note.title}</span>
-                    <p className="f5 black f6 lh-copy measure">{note.plaintext.substring(0,50)}</p>
+                        className={listClass}>
+                    <span className={titleClass}>{note.title}</span>
+                    <p className={noteClass}>{note.plaintext.substring(0,50)}</p>
                   </Link>
                 )
               }

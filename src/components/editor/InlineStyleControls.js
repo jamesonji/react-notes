@@ -13,8 +13,14 @@ var INLINE_STYLES = [
 
 const InlineStyleControls = (props) => {
   var currentStyle = props.editorState.getCurrentInlineStyle();
+  let inlineClass;
+  if(props.theme === 'black'){
+    inlineClass = "bg-dark-gray"
+  }else{
+    inlineClass = "bg-white"
+  }
   return (
-    <div className="b--light-gray">
+    <div className={inlineClass}>
       {INLINE_STYLES.map(type =>
         <StyleButton
           key={type.label}
@@ -23,6 +29,7 @@ const InlineStyleControls = (props) => {
           label={type.label}
           onToggle={props.onToggle}
           style={type.style}
+          theme={props.theme}
         />
       )}
     </div>

@@ -1,5 +1,6 @@
 #editor{
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 h1{
@@ -43,7 +44,7 @@ p{
   /*height: 100vh;*/
 }
 .DraftEditor-editorContainer{
-  height: 85vh;
+  height: 75vh;
 }
 
 .title-field{
@@ -91,7 +92,37 @@ p{
   text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.editor-white::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
 }
+
+.editor-white::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+.editor-white::-webkit-scrollbar-thumb
+{
+	background-color: red;
+}
+
+.editor-black::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+.editor-black::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+.editor-black::-webkit-scrollbar-thumb
+{
+	background-color: orange;
+}
+

@@ -61,16 +61,6 @@ const blockRenderMap = Immutable.Map({
 // add new block tag to the block render map
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap);
 
-function getBlockStyle(block) {
-  switch (block.getType()) {
-    case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
-    case 'code-block': return 'Code-block';
-    case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
-    case 'section': return 'Terminal ph2 f4 white pv2 bg-dark-gray';
-    default: return null;
-  }
-}
-
 // get text content from contentState
 function getTextContent(content){
   let contentText='';
@@ -373,28 +363,54 @@ class MyEditor extends Component {
           this.showFlash("Failed to save your current note, please try again", 'alert-danger')
         });
     }
-  } 
-
+  }
+  
+  getBlockStyle = (block) => {
+    if (this.props.theme === 'black'){
+      switch (block.getType()) {
+        case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
+        case 'code-block': return 'br2 bg-washed-yellow black ph3 pv2 shadow-2';
+        case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
+        case 'section': return 'Terminal ph2 f4 black pv2 bg-light-yellow';
+        default: return null;
+      }
+    }else{    
+      switch (block.getType()) {
+        case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
+        case 'code-block': return 'Code-block shadow-2';
+        case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
+        case 'section': return 'Terminal ph2 f4 white pv2 bg-dark-gray';
+        default: return null;
+      }
+    }
+  }
   render() {
     const {editorState} = this.state;
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
-    let className = 'RichEditor-root';
+    let className = 'RichEditor-root ';
     var contentState = editorState.getCurrentContent();
     if (!contentState.hasText()) {
       if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-        className += ' RichEditor-hidePlaceholder';
+        className += ' RichEditor-hidePlaceholder ';
       }
     }
     
-    const buttonStyle = "f6 link mw4 dim br2 ph3 pv2 mb2 mr2 dib white pointer";
+    const buttonStyle = "f6 link mw4 dim br2 pa2 mb2 mr2 dib white pointer";
+    let themeColor;
+    if(this.props.theme === 'black'){
+      themeColor = "bg-dark-gray white"
+    }else{
+      themeColor = "bg-white black"
+    }
+    
     return (
-            <div className={className}>
-              {this.props.readonly?
-                <span className="ml5-l w-100-ns w-10-l fl-l bg-white br3 pa2">Please login to create your notes
+            <div className={className + themeColor}>
+              {this.props.readOnly?
+                <span className={"ml5-l w-100-ns w-10-l fl-l br3 pa2 "+ themeColor}>Please login to create your notes
                 </span>
                 :
-                <div className="ml5-l w-100-ns w-10-l fl-l bg-white br3 pa2 shadow-1">
+                <div className={"ml5-l w-100-ns w-10-l fl-l br3 pa2 shadow-1 " + themeColor}>
                   <a href='#' className={buttonStyle + " bg-blue"} onClick={this.logState}>Content</a>
                   {this.state.note_id? 
                     <span className={buttonStyle + " bg-blue"} onClick={this.handleUpdate}>Update</span> :
@@ -411,25 +427,28 @@ class MyEditor extends Component {
                   <BlockStyleControls
                     editorState={editorState}
                     onToggle={this.toggleBlockType}
+                    theme={this.props.theme}
                   />
                   <InlineStyleControls
                     editorState={editorState}
                     onToggle={this.toggleInlineStyle}
+                    theme={this.props.theme}
                   />
                 </div>
               }
 
               <div className="w-80-l w-100-ns fl-l">
-                <div className="w-80-l w-100-ns f3 h3 bn black-100 bg-white shadow-2">
+                <div className={"w-80-l w-100-ns f3 h3 bn black-100 shadow-2 " + themeColor}>
                   <TitleField title={this.state.title}
                               onChange={this.editTitle}
-                              readOnly={this.props.readOnly}/>
+                              readOnly={this.props.readOnly}
+                              theme={this.props.theme}/>
                 </div>
-                <div id='editor' 
+                <div id="editor" 
                      onClick={this.focus}
-                     className='w-80-l w-100-ns pt3 ph4-l ph3-ns ph3-m bg-white shadow-1'>
+                     className={'w-80-l w-100-ns pt3 ph4-l ph3-ns ph3-m shadow-1 ' + themeColor + ' editor-'+ this.props.theme}>
                   <Editor editorState={editorState}
-                          blockStyleFn={getBlockStyle}
+                          blockStyleFn={this.getBlockStyle}
                           customStyleMap={styleMap}
                           onChange={this.onChange}
                           onTab={this.onTab}

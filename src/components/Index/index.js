@@ -46,7 +46,8 @@ class Index extends Component {
         {this.state.authed?
           <div className="">
             <MyEditor editView={false}
-                      editable={true}/>
+                      editable={true}
+                      theme={this.props.theme}/>
           </div>    
           :
           <LandingPage />
