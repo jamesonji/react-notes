@@ -369,7 +369,7 @@ class MyEditor extends Component {
     if (this.props.theme === 'black'){
       switch (block.getType()) {
         case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
-        case 'code-block': return 'br2 bg-washed-yellow black ph3 pv2';
+        case 'code-block': return 'br2 bg-washed-yellow black ph3 pv2 shadow-2';
         case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
         case 'section': return 'Terminal ph2 f4 black pv2 bg-light-yellow';
         default: return null;
@@ -377,7 +377,7 @@ class MyEditor extends Component {
     }else{    
       switch (block.getType()) {
         case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
-        case 'code-block': return 'Code-block';
+        case 'code-block': return 'Code-block shadow-2';
         case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
         case 'section': return 'Terminal ph2 f4 white pv2 bg-dark-gray';
         default: return null;
@@ -396,7 +396,7 @@ class MyEditor extends Component {
       }
     }
     
-    const buttonStyle = "f6 link mw4 dim br2 ph3 pv2 mb2 mr2 dib white pointer";
+    const buttonStyle = "f6 link mw4 dim br2 pa2 mb2 mr2 dib white pointer";
     let themeColor;
     if(this.props.theme === 'black'){
       themeColor = "bg-dark-gray white"
@@ -446,7 +446,7 @@ class MyEditor extends Component {
                 </div>
                 <div id="editor" 
                      onClick={this.focus}
-                     className={'w-80-l w-100-ns pt3 ph4-l ph3-ns ph3-m shadow-1 ' + themeColor}>
+                     className={'w-80-l w-100-ns pt3 ph4-l ph3-ns ph3-m shadow-1 ' + themeColor + ' editor-'+ this.props.theme}>
                   <Editor editorState={editorState}
                           blockStyleFn={this.getBlockStyle}
                           customStyleMap={styleMap}

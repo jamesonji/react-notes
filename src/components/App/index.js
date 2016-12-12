@@ -95,27 +95,23 @@ class App extends Component {
         (
           <div className={"App-root " + themeColor}>
             <div className="flex justify-between bb items-center" >
-              <nav className="f6 fw6 ttu tracked pa2"> 
-                <Link to="/" className={"f3 link black dim dib pa3 mr3 " + themeColor}>React Notes</Link>
-                <Link to="/" className={"link dim black dib mr3 "+ themeColor}
-                             activeClassName="active">Home</Link>
+              <nav className="dt border-box f6 fw6 ttu tracked pa2 w-100"> 
+                <Link to="/" className={"f3 w-25 link black dim dib pa3 mr3 dtc v-mid " + themeColor}>React Notes</Link>
                 { this.state.authed?
-                  <span className="flex-grow">
-                    <Link to="/about" className={"link dim dib mr3 " + themeColor}
-                                      activeClassName="active">About</Link>
+                  <span className="w-75 tr dtc v-mid">
                     <Link to="/list"  className={"link dim black br2 dib mr3 ba ph3 pv2 dim " + themeColor}
-                                      activeClassName="active">{this.state.user.email}</Link>                   
-                    <span className={"f6 link dim br2 ba ph3 pv2 mb2 dib pointer mr2 " + themeColor}
+                                      activeClassName="active">{this.state.user.email}</Link>
+                    <a className={"f6 link dim br2 ba ph3 pv2 mb2 dib pointer mr2 " + themeColor}
                           onClick={this.logOut}> LogOut 
-                    </span> 
-                    <span className={"f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2 " + themeColor}
+                    </a> 
+                    <a className={"f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2 " + themeColor}
                           onClick={this.whiteTheme}>white
-                    </span>
-                    <span className={"f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2 " + themeColor}
+                    </a>
+                    <a className={"f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2 " + themeColor}
                           onClick={this.blackTheme}>black
-                    </span>
+                    </a>
                   </span> :
-                  <span className="flex-grow">
+                  <span className="w-75 tr dtc v-mid">
                     <Link className={"f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2 " + themeColor}
                           to="/login" 
                           activeClassName="active">Log In</Link>
