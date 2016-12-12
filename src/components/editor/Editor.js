@@ -388,13 +388,20 @@ class MyEditor extends Component {
     }
     
     const buttonStyle = "f6 link mw4 dim br2 ph3 pv2 mb2 mr2 dib white pointer";
+    let themeColor;
+    if(this.props.theme === 'black'){
+      themeColor = "bg-dark-gray blue"
+    }else{
+      themeColor = "bg-white black"
+    }
+    
     return (
             <div className={className}>
               {this.props.readonly?
-                <span className="ml5-l w-100-ns w-10-l fl-l bg-white br3 pa2">Please login to create your notes
+                <span className={"ml5-l w-100-ns w-10-l fl-l br3 pa2 "+ themeColor}>Please login to create your notes
                 </span>
                 :
-                <div className="ml5-l w-100-ns w-10-l fl-l bg-white br3 pa2 shadow-1">
+                <div className={"ml5-l w-100-ns w-10-l fl-l br3 pa2 shadow-1 " + themeColor}>
                   <a href='#' className={buttonStyle + " bg-blue"} onClick={this.logState}>Content</a>
                   {this.state.note_id? 
                     <span className={buttonStyle + " bg-blue"} onClick={this.handleUpdate}>Update</span> :
@@ -411,23 +418,26 @@ class MyEditor extends Component {
                   <BlockStyleControls
                     editorState={editorState}
                     onToggle={this.toggleBlockType}
+                    theme={this.props.theme}
                   />
                   <InlineStyleControls
                     editorState={editorState}
                     onToggle={this.toggleInlineStyle}
+                    theme={this.props.theme}
                   />
                 </div>
               }
 
               <div className="w-80-l w-100-ns fl-l">
-                <div className="w-80-l w-100-ns f3 h3 bn black-100 bg-white shadow-2">
+                <div className={"w-80-l w-100-ns f3 h3 bn black-100 shadow-2 " + themeColor}>
                   <TitleField title={this.state.title}
                               onChange={this.editTitle}
-                              readOnly={this.props.readOnly}/>
+                              readOnly={this.props.readOnly}
+                              theme={this.props.theme}/>
                 </div>
-                <div id='editor' 
+                <div id="editor" 
                      onClick={this.focus}
-                     className='w-80-l w-100-ns pt3 ph4-l ph3-ns ph3-m bg-white shadow-1'>
+                     className={'w-80-l w-100-ns pt3 ph4-l ph3-ns ph3-m shadow-1 ' + themeColor}>
                   <Editor editorState={editorState}
                           blockStyleFn={getBlockStyle}
                           customStyleMap={styleMap}

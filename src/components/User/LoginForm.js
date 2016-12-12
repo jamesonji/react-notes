@@ -85,7 +85,7 @@ class LoginForm extends Component {
         <form className="">
           <div className="mt3">
             <label className="db fw4 lh-copy f6">Email:</label>
-            <input className="pa2 input-reset ba bg-transparent w-100 measure" 
+            <input className="pa2 input-reset ba w-100 measure" 
                   type="text" 
                   value={this.state.email} 
                   onChange={this.handleInputChange}
@@ -93,13 +93,13 @@ class LoginForm extends Component {
           </div>
           <div className="mt3">
             <label className="db fw4 lh-copy f6">Password:</label>
-            <input className="db pa2 input-reset ba bg-transparent"
+            <input className="db pa2 input-reset ba "
                    ref="password"
                    type="password" 
                    name="password"/>
           </div>
           <div className="mt3">
-            <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6"
+            <input className="b ph3 pv2 input-reset ba b--black grow pointer f6"
                    type="submit" 
                    onClick={this.handleSubmit} value="Log In"/>
             </div>
