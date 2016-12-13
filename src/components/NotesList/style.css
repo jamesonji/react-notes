@@ -20,3 +20,7 @@
 .List-Item a{
   list-style-type: none;
 }
+
+.NoteListItem{
+  height: 180px;
+}

@@ -4,6 +4,7 @@ import { firebaseAuth } from '../../config/constants';
 import { Link, browserHistory } from 'react-router';
 import FlashMessage from '../FlashMessage';  
 import Loading from './Loading';
+import Toggle from 'react-toggle'
 
 // import $ from 'jquery';
 import './style.css';
@@ -15,7 +16,8 @@ class App extends Component {
       authed: false,
       user: {},
       loading: true,
-      theme:'white'
+      theme:'white',
+      nightview: false,
     }
   }
   
@@ -40,11 +42,20 @@ class App extends Component {
    })
   }
   
+  handleNightView = (e) => {
+    if(e.target.checked){
+      this.blackTheme()
+    }else{
+      this.whiteTheme()
+    }
+  }
+  
   whiteTheme = () =>{
     this.setState({
       theme: 'white',
     })
   }
+  
   blackTheme = () =>{
     this.setState({
       theme: 'black',
@@ -106,12 +117,14 @@ class App extends Component {
                     <a className={"f6 link dim br2 ba ph3 pv2 mb2 dib pointer mr2 " + themeColor}
                           onClick={this.logOut}> LogOut 
                     </a> 
-                    <a className={"f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2 " + themeColor}
-                          onClick={this.whiteTheme}>white
-                    </a>
-                    <a className={"f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mr2 " + themeColor}
-                          onClick={this.blackTheme}>black
-                    </a>
+                    <span className={themeColor}>
+                      <span>Night View </span>
+                      <Toggle
+                            id='nightview'
+                            className="v-mid"
+                            defaultChecked={false}
+                            onChange={this.handleNightView} />
+                    </span>
                   </span> :
                   <span className="w-75 tr dtc v-mid">
                     <Link className={"f6 link dim br2 ba ph3 pv2 mb2 dib black pointer mh2 " + themeColor}
