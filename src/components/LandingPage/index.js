@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from '../Footer';
 import './style.css';
 const LandingPage = () => {
     return (
@@ -15,7 +14,6 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
 
     )
