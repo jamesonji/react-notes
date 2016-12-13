@@ -451,7 +451,7 @@ class MyEditor extends Component {
                 </div>
                 <div id="editor" 
                      onClick={this.focus}
-                     className={'pt3 ph4-l ph3-ns ph3-m shadow-1 ' + themeColor + ' editor-'+ this.props.theme}>
+                     className={'pv3 ph4-l ph3-ns ph3-m shadow-1 ' + themeColor + ' editor-'+ this.props.theme}>
                   <Editor editorState={editorState}
                           blockStyleFn={this.getBlockStyle}
                           customStyleMap={styleMap}

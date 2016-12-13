@@ -4,6 +4,7 @@ import { firebaseAuth } from '../../config/constants';
 import { Link, browserHistory } from 'react-router';
 import FlashMessage from '../FlashMessage';  
 import Loading from './Loading';
+import Footer from '../Footer';
 import Toggle from 'react-toggle'
 
 // import $ from 'jquery';
@@ -146,6 +147,7 @@ class App extends Component {
                                       endLoading: this.endLoading,
                                       theme:this.state.theme})}
               </div>
+              <Footer />
             </div>
           </div>
       )
