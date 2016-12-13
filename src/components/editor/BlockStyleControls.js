@@ -32,7 +32,7 @@ const BlockStyleControls = (props) => {
     blockClass = "bg-white"
   }
   return (
-    <div className={blockClass}>
+    <span className={blockClass}>
       {BLOCK_TYPES.map((type) =>
         <StyleButton
           key={type.label}
@@ -44,7 +44,7 @@ const BlockStyleControls = (props) => {
           theme={props.theme}
         />
       )}
-    </div>
+    </span>
   );
 };
 

@@ -411,10 +411,10 @@ class MyEditor extends Component {
     return (
             <div className={className + themeColor}>
               {this.props.readOnly?
-                <span className={"ml5-l w-100-ns w-10-l fl-l br3 pa2 "+ themeColor}>Please login to create your notes
+                <span className={"mw8 center  "+ themeColor}>Please login to create your notes
                 </span>
                 :
-                <div className={"ml5-l w-100-ns w-10-l fl-l br3 pa2 shadow-1 " + themeColor}>
+                <div className={"mw8 center shadow-1 pa2 " + themeColor}>
                   <a href='#' className={buttonStyle + " bg-blue"} onClick={this.logState}>Content</a>
                   {this.state.note_id? 
                     <span className={buttonStyle + " bg-blue"} onClick={this.handleUpdate}>Update</span> :
@@ -422,8 +422,8 @@ class MyEditor extends Component {
                   }
                   { this.state.editView?
                     (<span>
-                      <span className={buttonStyle + " bg-red"} onClick={this.handleDelete}>Delete</span>
                       <span className={buttonStyle + " bg-orange"} onClick={this.handleNewNote}>New</span>
+                      <span className={buttonStyle + " bg-red"} onClick={this.handleDelete}>Delete</span>
                     </span>):
                     <span></span>
                   } 
@@ -437,12 +437,13 @@ class MyEditor extends Component {
                     editorState={editorState}
                     onToggle={this.toggleInlineStyle}
                     theme={this.props.theme}
+                    className="tr"
                   />
                 </div>
               }
 
-              <div className="w-80-l w-100-ns fl-l">
-                <div className={"w-80-l w-100-ns f3 h3 bn black-100 shadow-2 " + themeColor}>
+              <div className="mw8 center ">
+                <div className={"f3 h3 bn black-100 shadow-2 " + themeColor}>
                   <TitleField title={this.state.title}
                               onChange={this.editTitle}
                               readOnly={this.props.readOnly}
@@ -450,7 +451,7 @@ class MyEditor extends Component {
                 </div>
                 <div id="editor" 
                      onClick={this.focus}
-                     className={'w-80-l w-100-ns pt3 ph4-l ph3-ns ph3-m shadow-1 ' + themeColor + ' editor-'+ this.props.theme}>
+                     className={'pt3 ph4-l ph3-ns ph3-m shadow-1 ' + themeColor + ' editor-'+ this.props.theme}>
                   <Editor editorState={editorState}
                           blockStyleFn={this.getBlockStyle}
                           customStyleMap={styleMap}
