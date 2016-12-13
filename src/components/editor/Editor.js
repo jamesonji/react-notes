@@ -168,8 +168,36 @@ class MyEditor extends Component {
       this.toggleBlockType('code-block');
       return true;
     }
+    if (command === 'toggle-quote') {
+      this.toggleBlockType('blockquote');
+      return true;
+    }
+    if (command === 'toggle-ul') {
+      this.toggleBlockType('unordered-list-item');
+      return true;
+    }
+    if (command === 'toggle-ol') {
+      this.toggleBlockType('ordered-list-item');
+      return true;
+    }
+    if(command === 'toggle-terminal'){
+      this.toggleBlockType('section');
+      return true
+    }
     if (command === 'toggle-up') {
       this.toggleInlineStyle('UPP');
+      return true;
+    }
+    if (command === 'toggle-cap') {
+      this.toggleInlineStyle('CAP');
+      return true;
+    }
+    if (command === 'toggle-strikethrough') {
+      this.toggleInlineStyle('LINETHROUGH');
+      return true;
+    }
+    if (command === 'toggle-highlight') {
+      this.toggleInlineStyle('HIGHLIGHT');
       return true;
     }
 
@@ -208,17 +236,45 @@ class MyEditor extends Component {
       // toggle H4
       return 'toggle-h4';
     }
-    if (event.keyCode === 53 /* `4` key */ && event.ctrlKey) {
+    if (event.keyCode === 53 /* `5` key */ && event.ctrlKey) {
       // toggle H4
       return 'toggle-h5';
     }
-    if (event.keyCode === 54 /* `4` key */ && event.ctrlKey) {
+    if (event.keyCode === 54 /* `6` key */ && event.ctrlKey) {
       // toggle H4
       return 'toggle-h6';
     }
     if (event.keyCode === 67 /* `C` key */ && event.ctrlKey) {
       // toggle Code mode
       return 'toggle-code';
+    }
+    if (event.keyCode === 72 /* `H` key */ && event.ctrlKey) {
+      // toggle Code mode
+      return 'toggle-highlight';
+    }
+    if (event.keyCode === 76 /* `L` key */ && event.ctrlKey) {
+      // toggle Code mode
+      return 'toggle-ul';
+    }
+    if (event.keyCode === 79 /* `O` key */ && event.ctrlKey) {
+      // toggle Code mode
+      return 'toggle-ol';
+    }
+    if (event.keyCode === 80 /* `P` key */ && event.ctrlKey) {
+      // toggle Code mode
+      return 'toggle-cap';
+    }
+    if (event.keyCode === 81 /* `C` key */ && event.ctrlKey) {
+      // toggle Code mode
+      return 'toggle-quote';
+    }
+    if (event.keyCode === 83 /* `S` key */ && event.ctrlKey) {
+      // toggle upper case 
+      return 'toggle-strikethrough';
+    }
+    if (event.keyCode === 84 /* `T` key */ && event.ctrlKey) {
+      // toggle upper case 
+      return 'toggle-terminal';
     }
     if (event.keyCode === 85 /* `U` key */ && event.ctrlKey) {
       // toggle upper case 
