@@ -34,6 +34,11 @@ h5{
   font-weight: lighter;
   color: #FF725C;
 }*/
+
+.Icon {
+  width: 35px;
+}
+
 p{
   font-size: 1em;
 }
@@ -44,7 +49,7 @@ p{
   /*height: 100vh;*/
 }
 .DraftEditor-editorContainer{
-  height: 75vh;
+  height: 90vh;
 }
 
 .title-field{

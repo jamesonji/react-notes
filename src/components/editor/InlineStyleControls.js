@@ -2,13 +2,13 @@ import React from 'react';
 import StyleButton from './StyleButton'
 
 var INLINE_STYLES = [
-  {label: 'Bold', style: 'BOLD', icon: 'fa fa-bold'},
-  {label: 'Italic', style: 'ITALIC', icon: 'fa fa-italic'},
-  {label: 'Underline', style: 'UNDERLINE', icon: 'fa fa-underline'},
-  {label: 'Highlight', style: 'HIGHLIGHT', icon: 'fa fa-pencil yellow'},
+  {label: 'Bold', style: 'BOLD', icon: 'Icon fa fa-bold '},
+  {label: 'Italic', style: 'ITALIC', icon: 'Icon fa fa-italic '},
+  {label: 'Underline', style: 'UNDERLINE', icon: 'Icon fa fa-underline '},
+  {label: 'Highlight', style: 'HIGHLIGHT', icon: 'Icon fa fa-pencil yellow '},
   {label: 'Cap', style: 'CAP', icon: ''},
   {label: 'UP', style: 'UPP', icon: ''},
-  {label: 'Line-through', style: 'LINETHROUGH', icon: 'fa fa-strikethrough'},
+  {label: 'Line-through', style: 'LINETHROUGH', icon: 'Icon fa fa-strikethrough '},
 ];
 
 const InlineStyleControls = (props) => {
@@ -20,7 +20,7 @@ const InlineStyleControls = (props) => {
     inlineClass = "bg-white"
   }
   return (
-    <div className={inlineClass}>
+    <span className={inlineClass}>
       {INLINE_STYLES.map(type =>
         <StyleButton
           key={type.label}
@@ -32,7 +32,7 @@ const InlineStyleControls = (props) => {
           theme={props.theme}
         />
       )}
-    </div>
+    </span>
   );
 };
 

@@ -64,9 +64,9 @@ class NotesList extends Component{
   }
   
   render (){
-    let listClass = "link fl w-100 w-50-m w-25-l pa3-m pa4-l "
-    let titleClass = "link f3 hover-white lh-copy measure "
-    let noteClass = "f5 f6 lh-copy measure "
+    let listClass = "NoteListItem link fl w-100 w-50-m w-third-l "
+    let titleClass = "link f2 hover-white lh-copy measure ph3 "
+    let noteClass = "f6 measure ph3 "
     if (this.props.theme === 'black'){
       listClass += "hover-bg-light-yellow"
       titleClass += "orange"
@@ -79,7 +79,7 @@ class NotesList extends Component{
     
     
     return (
-      <div className="note-list cf pa3 mw9 center"> 
+      <div className="note-list cf pt3 ph4 pb3 mw8 center"> 
         <section className="fl w-100">
           {
             this.state.notes.map(
@@ -88,8 +88,13 @@ class NotesList extends Component{
                   <Link to={`/edit/${note._id}`} 
                         key={note._id}
                         className={listClass}>
-                    <span className={titleClass}>{note.title}</span>
-                    <p className={noteClass}>{note.plaintext.substring(0,50)}</p>
+                    <span className={titleClass}>{
+                      note.title.length>15? 
+                      note.title.substring(0,15)+ '...' :
+                      note.title
+                    }</span>
+                    <p className={noteClass + ' blue'}>Created at: {note.createdAt.substring(0,10)}</p>
+                    <p className={noteClass}>{note.plaintext.substring(0,100)+'...'}</p>
                   </Link>
                 )
               }

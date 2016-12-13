@@ -9,11 +9,11 @@ const BLOCK_TYPES = [
   {label: 'H4', style: 'header-four', icon:''},
   {label: 'H5', style: 'header-five', icon:''},
   {label: 'H6', style: 'header-six', icon:''},
-  {label: 'Blockquote', style: 'blockquote', icon:'fa fa-quote-right'},
-  {label: 'UL', style: 'unordered-list-item', icon:'fa fa-list-ul'},
-  {label: 'OL', style: 'ordered-list-item', icon:'fa fa-list-ol'},
-  {label: 'Code Block', style: 'code-block', icon:'fa fa-code'},
-  {label: 'Section', style: 'section', icon:'fa fa-terminal'},
+  {label: 'Blockquote', style: 'blockquote', icon:'fa fa-quote-right fa-fw Icon'},
+  {label: 'UL', style: 'unordered-list-item', icon:'fa fa-list-ul fa-fw Icon'},
+  {label: 'OL', style: 'ordered-list-item', icon:'fa fa-list-ol fa-fw Icon'},
+  {label: 'Code Block', style: 'code-block', icon:'fa fa-code fa-fw Icon'},
+  {label: 'Section', style: 'section', icon:'fa fa-terminal fa-fw Icon'},
 ];
 
 
@@ -32,7 +32,7 @@ const BlockStyleControls = (props) => {
     blockClass = "bg-white"
   }
   return (
-    <div className={blockClass}>
+    <span className={blockClass}>
       {BLOCK_TYPES.map((type) =>
         <StyleButton
           key={type.label}
@@ -44,7 +44,7 @@ const BlockStyleControls = (props) => {
           theme={props.theme}
         />
       )}
-    </div>
+    </span>
   );
 };
 
