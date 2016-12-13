@@ -5,6 +5,7 @@ import {login,
         githubLogin} from '../../helpers/auth';
 import {connect} from 'react-redux';  
 import {bindActionCreators} from 'redux';
+import {browserHistory} from 'react-router';
 import {sendFlashMessage, dismissMessage} from '../../actions/index';
 
 class LoginForm extends Component {
@@ -31,10 +32,11 @@ class LoginForm extends Component {
     login(this.state.email, this.refs.password.value)
       .then(()=>{
         this.props.endLoading();
+        browserHistory.push('/');
       })
       .catch((error) => {
         this.props.endLoading();
-        this.showFlash(error, 'alert-warning')
+        this.showFlash(error, 'alert-warning');
       });
   }
   
@@ -43,6 +45,7 @@ class LoginForm extends Component {
     facebookLogin().then((result) => {
         this.props.endLoading();
         console.log('Facebook result: ' + result);
+        browserHistory.push('/');
       }).catch((error)=> {
         this.props.endLoading();
         this.showFlash(error.message, 'alert-warning')
@@ -53,7 +56,7 @@ class LoginForm extends Component {
     this.props.showLoading();
     googleLogin().then((result) => {
         this.props.endLoading();
-        console.log(result);
+        browserHistory.push('/');
       }).catch((error)=> {
         this.props.endLoading();
         this.showFlash(error.message, 'alert-warning')
@@ -63,8 +66,8 @@ class LoginForm extends Component {
   handleGithubLogin = () => {
     this.props.showLoading();
     githubLogin().then((result) => {
-        console.log(result);
         this.props.endLoading();
+        browserHistory.push('/');
       }).catch((error)=> {
         this.props.endLoading();
         this.showFlash(error.message, 'alert-warning')

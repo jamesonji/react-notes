@@ -4,6 +4,7 @@ import {auth,
         googleLogin,
         githubLogin} from '../../helpers/auth';
 import {connect} from 'react-redux';  
+import {browserHistory} from 'react-router';
 import {bindActionCreators} from 'redux';
 import {sendFlashMessage, dismissMessage} from '../../actions/index';
 
@@ -45,35 +46,38 @@ class SignupForm extends Component{
   
   handleFacebookLogin = () => {
     this.props.showLoading();
-    facebookLogin().then((result) => {
+    facebookLogin()
+    .then((result) => {
       this.props.endLoading();
-        console.log('Facebook result: ' + result);
-      }).catch((error)=> {
-        this.props.endLoading();
-        this.showFlash(error.message, 'alert-warning')
-      });;
+      browserHistory.push('/');
+    }).catch((error)=> {
+      this.props.endLoading();
+      this.showFlash(error.message, 'alert-warning')
+    });;
   }
   
   handleGoogleLogin = () => {
     this.props.showLoading();
-    googleLogin().then((result) => {
+    googleLogin()
+    .then((result) => {
       this.props.endLoading();
-        console.log(result);
-      }).catch((error)=> {
-        this.props.endLoading();
-        this.showFlash(error.message, 'alert-warning')
-      });
+      browserHistory.push('/');
+    }).catch((error)=> {
+      this.props.endLoading();
+      this.showFlash(error.message, 'alert-warning')
+    });
   }
   
   handleGithubLogin = () => {
     this.props.showLoading();
-    githubLogin().then((result) => {
+    githubLogin()
+    .then((result) => {
       this.props.endLoading();
-        console.log(result);
-      }).catch((error)=> {
-        this.props.endLoading();
-        this.showFlash(error.message, 'alert-warning')
-      });
+      browserHistory.push('/');
+    }).catch((error)=> {
+      this.props.endLoading();
+      this.showFlash(error.message, 'alert-warning')
+    });
   }
   
   handleSubmit = (event) => {
@@ -92,7 +96,8 @@ class SignupForm extends Component{
       this.props.showLoading();
       auth(this.state.email, this.refs.password.value)
         .then(()=>{
-          this.props.endLoading()
+          this.props.endLoading();
+          browserHistory.push('/');
         })
         .catch((error) => this.showFlash(error.message, 'alert-warning'));
     }
