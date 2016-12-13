@@ -9,8 +9,9 @@ const BASE_URL = 'http://localhost:3001/note';
 export default class EditNote extends Component{
   constructor(props){
     super(props);
+    
     this.state = { 
-      note_id: '',
+      note_id: props.params.id,
       title: '',
       note: '',
       readOnly: false,
@@ -18,19 +19,20 @@ export default class EditNote extends Component{
   }
   
   componentWillMount(){
-    this.setState({
-      note_id: this.props.params.id,
-    })
   }
   
   componentDidMount(){
+    console.log('Mounted EditNote')
     this.getNote();
   }
   
+  componentWillUnmount () {
+    console.log('Unmounted EditNote!')
+  }
+  
   getNote = () =>{
-    console.log(this.state.note_id);
     $.ajax({
-      url:`${BASE_URL}/${this.state.note_id}`,
+      url:`${BASE_URL}/${this.props.params.id}`,
       type:'GET',
       success: function (data){
         this.initNote(data);
@@ -40,7 +42,9 @@ export default class EditNote extends Component{
   
   initNote = (data) =>{
     const user = firebaseAuth().currentUser; 
+    console.log('Current User: ' + user);
     if (!user || (user.email !== data.note.author)){
+      console.log('initNote user: '+ user);
       this.setState({
         readOnly: true,
       })

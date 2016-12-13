@@ -31,7 +31,6 @@ class App extends Component {
          user: user,
          loading: false,
        })
-       browserHistory.push('/')
      } else {
        this.setState({
          authed: false,

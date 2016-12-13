@@ -411,8 +411,8 @@ class MyEditor extends Component {
     return (
             <div className={className + themeColor}>
               {this.props.readOnly?
-                <span className={"mw8 center  "+ themeColor}>Please login to create your notes
-                </span>
+                <div className={"mw8 center "+ themeColor}>Please login to create your own notes
+                </div>
                 :
                 <div className={"mw8 center shadow-1 pa2 " + themeColor}>
                   <a href='#' className={buttonStyle + " bg-blue"} onClick={this.logState}>Content</a>
