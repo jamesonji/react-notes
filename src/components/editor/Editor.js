@@ -5,6 +5,7 @@ import { Editor,
         EditorState, 
         RichUtils, 
         Modifier,
+        // CompositeDecorator,
         ContentState,
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
@@ -49,6 +50,32 @@ const styleMap = {
 
 const tabCharacter = "  ";
   
+// const SNIPPET_REGEX = /`[.\S]+/g;
+// 
+// function snippetStrategy(contentBlock, callback, contentState) {
+//   findWithRegex(SNIPPET_REGEX, contentBlock, callback);
+// }
+// 
+// function findWithRegex(regex, contentBlock, callback) {
+//   const text = contentBlock.getText();
+//   let matchArr, start;
+//   while ((matchArr = regex.exec(text)) !== null) {
+//     start = matchArr.index;
+//     callback(start, start + matchArr[0].length);
+//   }
+// }
+// 
+// const SnippetSpan = (props) => {
+//   return (
+//     <span
+//       className={"Snippet"}
+//       data-offset-key={props.offsetKey}
+//     >
+//       {props.children}
+//     </span>
+//   );
+// };
+
 function myBlockRenderer(contentBlock) {
   // const type = contentBlock.getType();
 }
@@ -77,7 +104,14 @@ function getTextContent(content){
 
 class MyEditor extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    // const compositeDecorator = new CompositeDecorator([
+    //   {
+    //     strategy: snippetStrategy,
+    //     component: SnippetSpan,
+    //   },
+    // ]);
+    
     this.state = {
       title: props.title,
       editorState: EditorState.createEmpty(),
@@ -168,8 +202,36 @@ class MyEditor extends Component {
       this.toggleBlockType('code-block');
       return true;
     }
+    if (command === 'toggle-quote') {
+      this.toggleBlockType('blockquote');
+      return true;
+    }
+    if (command === 'toggle-ul') {
+      this.toggleBlockType('unordered-list-item');
+      return true;
+    }
+    if (command === 'toggle-ol') {
+      this.toggleBlockType('ordered-list-item');
+      return true;
+    }
+    if(command === 'toggle-terminal'){
+      this.toggleBlockType('section');
+      return true
+    }
     if (command === 'toggle-up') {
       this.toggleInlineStyle('UPP');
+      return true;
+    }
+    if (command === 'toggle-cap') {
+      this.toggleInlineStyle('CAP');
+      return true;
+    }
+    if (command === 'toggle-strikethrough') {
+      this.toggleInlineStyle('LINETHROUGH');
+      return true;
+    }
+    if (command === 'toggle-highlight') {
+      this.toggleInlineStyle('HIGHLIGHT');
       return true;
     }
 
@@ -192,35 +254,63 @@ class MyEditor extends Component {
     if (CodeUtils.hasSelectionInBlock(editorState)) {
       command = CodeUtils.getKeyBinding(event);
     }
-    if (event.keyCode === 49 /* `1` key */ && event.ctrlKey) {
+    if (event.keyCode === 49 /* `1` key */ && event.altKey) {
       // toggle H1
       return 'toggle-h1';
     }
-    if (event.keyCode === 50 /* `2` key */ && event.ctrlKey) {
+    if (event.keyCode === 50 /* `2` key */ && event.altKey) {
       // toggle H2
       return 'toggle-h2';
     }
-    if (event.keyCode === 51 /* `3` key */ && event.ctrlKey) {
+    if (event.keyCode === 51 /* `3` key */ && event.altKey) {
       // toggle H3
       return 'toggle-h3';
     }
-    if (event.keyCode === 52 /* `4` key */ && event.ctrlKey) {
+    if (event.keyCode === 52 /* `4` key */ && event.altKey) {
       // toggle H4
       return 'toggle-h4';
     }
-    if (event.keyCode === 53 /* `4` key */ && event.ctrlKey) {
+    if (event.keyCode === 53 /* `5` key */ && event.altKey) {
       // toggle H4
       return 'toggle-h5';
     }
-    if (event.keyCode === 54 /* `4` key */ && event.ctrlKey) {
+    if (event.keyCode === 54 /* `6` key */ && event.altKey) {
       // toggle H4
       return 'toggle-h6';
     }
-    if (event.keyCode === 67 /* `C` key */ && event.ctrlKey) {
+    if (event.keyCode === 67 /* `C` key */ && event.altKey) {
       // toggle Code mode
       return 'toggle-code';
     }
-    if (event.keyCode === 85 /* `U` key */ && event.ctrlKey) {
+    if (event.keyCode === 72 /* `H` key */ && event.altKey) {
+      // toggle Code mode
+      return 'toggle-highlight';
+    }
+    if (event.keyCode === 76 /* `L` key */ && event.altKey) {
+      // toggle Code mode
+      return 'toggle-ul';
+    }
+    if (event.keyCode === 79 /* `O` key */ && event.altKey) {
+      // toggle Code mode
+      return 'toggle-ol';
+    }
+    if (event.keyCode === 80 /* `P` key */ && event.altKey) {
+      // toggle Code mode
+      return 'toggle-cap';
+    }
+    if (event.keyCode === 81 /* `C` key */ && event.altKey) {
+      // toggle Code mode
+      return 'toggle-quote';
+    }
+    if (event.keyCode === 83 /* `S` key */ && event.altKey) {
+      // toggle upper case 
+      return 'toggle-strikethrough';
+    }
+    if (event.keyCode === 84 /* `T` key */ && event.altKey) {
+      // toggle upper case 
+      return 'toggle-terminal';
+    }
+    if (event.keyCode === 85 /* `U` key */ && event.altKey) {
       // toggle upper case 
       return 'toggle-up';
     }
@@ -374,15 +464,15 @@ class MyEditor extends Component {
       switch (block.getType()) {
         case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
         case 'code-block': return 'br2 bg-washed-yellow black ph3 pv2 shadow-2';
-        case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
+        // case 'header-six': return 'Folder f5 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
         case 'section': return 'Terminal ph2 f4 black pv2 bg-light-yellow';
         default: return null;
       }
     }else{    
       switch (block.getType()) {
-        case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
-        case 'code-block': return 'Code-block shadow-2';
-        case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
+        case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b--light-red';
+        case 'code-block': return 'Code-block shadow-2 ba b--black-30';
+        // case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
         case 'section': return 'Terminal ph2 f4 white pv2 bg-dark-gray';
         default: return null;
       }
@@ -415,15 +505,22 @@ class MyEditor extends Component {
                 </div>
                 :
                 <div className={"mw8 center shadow-1 pa2 " + themeColor}>
-                  <a href='#' className={buttonStyle + " bg-blue"} onClick={this.logState}>Content</a>
                   {this.state.note_id? 
-                    <span className={buttonStyle + " bg-blue"} onClick={this.handleUpdate}>Update</span> :
-                    <span className={buttonStyle + " bg-orange"} onClick={this.handleSave}>Save</span>
+                    <span className={buttonStyle + " bg-orange"} onClick={this.handleUpdate}>
+                      <i className="fa fa-floppy-o"></i>
+                    </span> :
+                    <span className={buttonStyle + " bg-orange"} onClick={this.handleSave}>
+                      <i className="fa fa-floppy-o"></i>
+                    </span>
                   }
                   { this.state.editView?
                     (<span>
-                      <span className={buttonStyle + " bg-orange"} onClick={this.handleNewNote}>New</span>
-                      <span className={buttonStyle + " bg-red"} onClick={this.handleDelete}>Delete</span>
+                      <span className={buttonStyle + " bg-blue"} onClick={this.handleNewNote}>
+                        <i className="fa fa-file-o"></i>
+                      </span>
+                      <span className={buttonStyle + " bg-red"} onClick={this.handleDelete}>
+                        <i className="fa fa-trash-o"></i>
+                      </span>
                     </span>):
                     <span></span>
                   } 

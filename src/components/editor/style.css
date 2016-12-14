@@ -5,38 +5,43 @@
 
 h1{
   font-size: 3em;
+  margin: 1em;
 }
 
 h2{
   font-size: 2em;
   color: #FF725C;
+  margin: 1em;
 }
 
 h3{
   font-size: 1.7em;
   font-family: serif;
+  margin: 1em;
 }
 
 h4{
   font-size: 1.3em;
   color: #FF725C;
+  margin: 1em;
 }
 
 h5{
   font-size: 1.3em;
   font-weight: lighter;
   font-family: serif;
+  margin: 1em;
 }
 
-/*h6{
+h6{
   font-size: 1.3em;
   line-height: 0.1em;
   font-weight: lighter;
   color: #FF725C;
-}*/
+}
 
 .Icon {
-  width: 35px;
+  width: 30px;
 }
 
 p{
@@ -93,9 +98,21 @@ p{
   font-family: Consolas,monaco,monospace;
 }
 
-.Folder{
-  text-align: center;
+.Snippet{
+  background: #EEEEEE;
+  font-family: Consolas, monaco, monospace;
+  color: darkred;
+  font-weight: bold;
+  box-shadow:1px #AAAAAA;
+  padding-left: 0.5em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  padding-right: 0.5em;
 }
+/*.Folder{
+  text-align: center;
+  margin: 1em 0 1em 0;
+}*/
 
 .editor-white::-webkit-scrollbar-track
 {
