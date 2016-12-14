@@ -5,7 +5,7 @@ import { Editor,
         EditorState, 
         RichUtils, 
         Modifier,
-        CompositeDecorator,
+        // CompositeDecorator,
         ContentState,
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
@@ -48,44 +48,33 @@ const styleMap = {
   },
 };
 
-const styles = {
-  snippet:{
-    background: '#EEEEEE',
-    fontFamily: 'Consolas, monaco, monospace',
-    color:'#FF4136',
-    fontWeight: 'bold',
-    boxShadow:'1px #AAAAAA',
-    padding: '0.1em',
-  }
-};
-
 const tabCharacter = "  ";
   
-const SNIPPET_REGEX = /`[.\S]+/g;
-
-function snippetStrategy(contentBlock, callback, contentState) {
-  findWithRegex(SNIPPET_REGEX, contentBlock, callback);
-}
-
-function findWithRegex(regex, contentBlock, callback) {
-  const text = contentBlock.getText();
-  let matchArr, start;
-  while ((matchArr = regex.exec(text)) !== null) {
-    start = matchArr.index;
-    callback(start, start + matchArr[0].length);
-  }
-}
-
-const SnippetSpan = (props) => {
-  return (
-    <span
-      style={styles.snippet}
-      data-offset-key={props.offsetKey}
-    >
-      {props.children}
-    </span>
-  );
-};
+// const SNIPPET_REGEX = /`[.\S]+/g;
+// 
+// function snippetStrategy(contentBlock, callback, contentState) {
+//   findWithRegex(SNIPPET_REGEX, contentBlock, callback);
+// }
+// 
+// function findWithRegex(regex, contentBlock, callback) {
+//   const text = contentBlock.getText();
+//   let matchArr, start;
+//   while ((matchArr = regex.exec(text)) !== null) {
+//     start = matchArr.index;
+//     callback(start, start + matchArr[0].length);
+//   }
+// }
+// 
+// const SnippetSpan = (props) => {
+//   return (
+//     <span
+//       className={"Snippet"}
+//       data-offset-key={props.offsetKey}
+//     >
+//       {props.children}
+//     </span>
+//   );
+// };
 
 function myBlockRenderer(contentBlock) {
   // const type = contentBlock.getType();
@@ -116,16 +105,16 @@ function getTextContent(content){
 class MyEditor extends Component {
   constructor(props) {
     super(props);
-    const compositeDecorator = new CompositeDecorator([
-      {
-        strategy: snippetStrategy,
-        component: SnippetSpan,
-      },
-    ]);
+    // const compositeDecorator = new CompositeDecorator([
+    //   {
+    //     strategy: snippetStrategy,
+    //     component: SnippetSpan,
+    //   },
+    // ]);
     
     this.state = {
       title: props.title,
-      editorState: EditorState.createEmpty(compositeDecorator),
+      editorState: EditorState.createEmpty(),
       note_id: props.note_id,
       editView: false,
       readonly: false,
@@ -265,63 +254,63 @@ class MyEditor extends Component {
     if (CodeUtils.hasSelectionInBlock(editorState)) {
       command = CodeUtils.getKeyBinding(event);
     }
-    if (event.keyCode === 49 /* `1` key */ && event.ctrlKey) {
+    if (event.keyCode === 49 /* `1` key */ && event.altKey) {
       // toggle H1
       return 'toggle-h1';
     }
-    if (event.keyCode === 50 /* `2` key */ && event.ctrlKey) {
+    if (event.keyCode === 50 /* `2` key */ && event.altKey) {
       // toggle H2
       return 'toggle-h2';
     }
-    if (event.keyCode === 51 /* `3` key */ && event.ctrlKey) {
+    if (event.keyCode === 51 /* `3` key */ && event.altKey) {
       // toggle H3
       return 'toggle-h3';
     }
-    if (event.keyCode === 52 /* `4` key */ && event.ctrlKey) {
+    if (event.keyCode === 52 /* `4` key */ && event.altKey) {
       // toggle H4
       return 'toggle-h4';
     }
-    if (event.keyCode === 53 /* `5` key */ && event.ctrlKey) {
+    if (event.keyCode === 53 /* `5` key */ && event.altKey) {
       // toggle H4
       return 'toggle-h5';
     }
-    if (event.keyCode === 54 /* `6` key */ && event.ctrlKey) {
+    if (event.keyCode === 54 /* `6` key */ && event.altKey) {
       // toggle H4
       return 'toggle-h6';
     }
-    if (event.keyCode === 67 /* `C` key */ && event.ctrlKey) {
+    if (event.keyCode === 67 /* `C` key */ && event.altKey) {
       // toggle Code mode
       return 'toggle-code';
     }
-    if (event.keyCode === 72 /* `H` key */ && event.ctrlKey) {
+    if (event.keyCode === 72 /* `H` key */ && event.altKey) {
       // toggle Code mode
       return 'toggle-highlight';
     }
-    if (event.keyCode === 76 /* `L` key */ && event.ctrlKey) {
+    if (event.keyCode === 76 /* `L` key */ && event.altKey) {
       // toggle Code mode
       return 'toggle-ul';
     }
-    if (event.keyCode === 79 /* `O` key */ && event.ctrlKey) {
+    if (event.keyCode === 79 /* `O` key */ && event.altKey) {
       // toggle Code mode
       return 'toggle-ol';
     }
-    if (event.keyCode === 80 /* `P` key */ && event.ctrlKey) {
+    if (event.keyCode === 80 /* `P` key */ && event.altKey) {
       // toggle Code mode
       return 'toggle-cap';
     }
-    if (event.keyCode === 81 /* `C` key */ && event.ctrlKey) {
+    if (event.keyCode === 81 /* `C` key */ && event.altKey) {
       // toggle Code mode
       return 'toggle-quote';
     }
-    if (event.keyCode === 83 /* `S` key */ && event.ctrlKey) {
+    if (event.keyCode === 83 /* `S` key */ && event.altKey) {
       // toggle upper case 
       return 'toggle-strikethrough';
     }
-    if (event.keyCode === 84 /* `T` key */ && event.ctrlKey) {
+    if (event.keyCode === 84 /* `T` key */ && event.altKey) {
       // toggle upper case 
       return 'toggle-terminal';
     }
-    if (event.keyCode === 85 /* `U` key */ && event.ctrlKey) {
+    if (event.keyCode === 85 /* `U` key */ && event.altKey) {
       // toggle upper case 
       return 'toggle-up';
     }
@@ -481,8 +470,8 @@ class MyEditor extends Component {
       }
     }else{    
       switch (block.getType()) {
-        case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
-        case 'code-block': return 'Code-block shadow-2';
+        case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b--light-red';
+        case 'code-block': return 'Code-block shadow-2 ba b--black-30';
         // case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
         case 'section': return 'Terminal ph2 f4 white pv2 bg-dark-gray';
         default: return null;
@@ -516,7 +505,6 @@ class MyEditor extends Component {
                 </div>
                 :
                 <div className={"mw8 center shadow-1 pa2 " + themeColor}>
-                  <a href='#' className={buttonStyle + " bg-blue"} onClick={this.logState}>Content</a>
                   {this.state.note_id? 
                     <span className={buttonStyle + " bg-blue"} onClick={this.handleUpdate}>Update</span> :
                     <span className={buttonStyle + " bg-orange"} onClick={this.handleSave}>Save</span>
