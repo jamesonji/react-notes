@@ -5,7 +5,6 @@ import { Link, browserHistory } from 'react-router';
 import FlashMessage from '../FlashMessage';  
 import Loading from './Loading';
 import Footer from '../Footer';
-import Toggle from 'react-toggle'
 
 // import $ from 'jquery';
 import './style.css';
@@ -42,12 +41,12 @@ class App extends Component {
    })
   }
   
-  handleNightView = (e) => {
-    if(e.target.checked){
-      this.blackTheme()
-    }else{
-      this.whiteTheme()
-    }
+  toggleNightView = () => {
+    console.log(this.state.nightview);
+    this.state.nightview? this.setState({nightview: false,
+                                          theme: 'white'}): 
+                          this.setState({nightview: true,
+                                         theme: 'black'});
   }
   
   whiteTheme = () =>{
@@ -118,12 +117,8 @@ class App extends Component {
                           onClick={this.logOut}> LogOut 
                     </a> 
                     <span className={themeColor}>
-                      <span>Night View </span>
-                      <Toggle
-                            id='nightview'
-                            className="v-mid"
-                            defaultChecked={false}
-                            onChange={this.handleNightView} />
+                      <i className="v-mid fa fa-lightbulb-o fa-2x mh2 pointer"
+                         onClick={this.toggleNightView}></i>
                     </span>
                   </span> :
                   <span className="w-75 tr dtc v-mid">

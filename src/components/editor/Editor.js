@@ -506,13 +506,21 @@ class MyEditor extends Component {
                 :
                 <div className={"mw8 center shadow-1 pa2 " + themeColor}>
                   {this.state.note_id? 
-                    <span className={buttonStyle + " bg-blue"} onClick={this.handleUpdate}>Update</span> :
-                    <span className={buttonStyle + " bg-orange"} onClick={this.handleSave}>Save</span>
+                    <span className={buttonStyle + " bg-orange"} onClick={this.handleUpdate}>
+                      <i className="fa fa-floppy-o"></i>
+                    </span> :
+                    <span className={buttonStyle + " bg-orange"} onClick={this.handleSave}>
+                      <i className="fa fa-floppy-o"></i>
+                    </span>
                   }
                   { this.state.editView?
                     (<span>
-                      <span className={buttonStyle + " bg-orange"} onClick={this.handleNewNote}>New</span>
-                      <span className={buttonStyle + " bg-red"} onClick={this.handleDelete}>Delete</span>
+                      <span className={buttonStyle + " bg-blue"} onClick={this.handleNewNote}>
+                        <i className="fa fa-file-o"></i>
+                      </span>
+                      <span className={buttonStyle + " bg-red"} onClick={this.handleDelete}>
+                        <i className="fa fa-trash-o"></i>
+                      </span>
                     </span>):
                     <span></span>
                   } 
