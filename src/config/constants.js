@@ -11,4 +11,4 @@ firebase.initializeApp(config)
 export const ref = firebase.database().ref()
 export const firebaseAuth = firebase.auth
 
-export const BASE_URL = process.env.BASE_URLh
+export const BASE_URL = process.env.BASE_URL
