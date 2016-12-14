@@ -1,9 +1,9 @@
-const BASE_URL = 'http://localhost:3001/note';
+import BASE_URL from '../config/constants.js'
 import $ from 'jquery';
 
 export function saveNote(title, content, plaintext, auther){
   return $.ajax({
-    url:`${BASE_URL}`,
+    url:`${BASE_URL}/note`,
     data:{title: title,
           content: content,
           plaintext: plaintext,
@@ -13,7 +13,7 @@ export function saveNote(title, content, plaintext, auther){
 
 export function updateNote (id, title, content, plaintext){
   return $.ajax({
-    url:`${BASE_URL}/${id}`,
+    url:`${BASE_URL}/note/${id}`,
     data:{title: title,
           content: content,
           plaintext: plaintext
@@ -23,7 +23,7 @@ export function updateNote (id, title, content, plaintext){
 
 export function deleteNote(id){
   return $.ajax({
-    url:`${BASE_URL}/${id}`,
+    url:`${BASE_URL}/note/${id}`,
     type:'DELETE',
     datatype: 'json'
     })
