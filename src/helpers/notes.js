@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:3001/note';
+// const BASE_URL = 'http://localhost:3001/note';
+const BASE_URL = 'https://reactnotesserver.herokuapp.com/note';
 import $ from 'jquery';
 
 export function saveNote(title, content, plaintext, auther){

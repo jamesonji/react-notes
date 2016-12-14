@@ -4,7 +4,8 @@ import { firebaseAuth } from '../../config/constants';
 import $ from 'jquery';
 import './style.css';
 
-const BASE_URL = 'http://localhost:3001/note';
+// const BASE_URL = 'http://localhost:3001/note';
+const BASE_URL = 'https://reactnotesserver.herokuapp.com/note';
 
 export default class EditNote extends Component{
   constructor(props){

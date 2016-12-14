@@ -554,7 +554,7 @@ class MyEditor extends Component {
                           customStyleMap={styleMap}
                           onChange={this.onChange}
                           onTab={this.onTab}
-                          placeholder="Enter some text..."
+                          // placeholder="Enter some text..."
                           keyBindingFn={this.keyBindingFn}
                           handleKeyCommand={this.handleKeyCommand}
                           handleReturn={this.handleReturn}
