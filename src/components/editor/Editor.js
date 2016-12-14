@@ -417,7 +417,8 @@ class MyEditor extends Component {
       updateNote(id, title, content, plaintext)
         .done((data)=>{
           this.showFlash('Update successful!', 'alert-success');
-          console.log('The note is updated' + data);
+          console.log('The note is updated');
+          console.log(data);
         })
         .fail((error)=>{
           console.log('Error: ' + error)
