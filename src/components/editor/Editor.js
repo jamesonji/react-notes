@@ -310,7 +310,7 @@ class MyEditor extends Component {
       // toggle upper case 
       return 'toggle-terminal';
     }
-    if (event.keyCode === 85 /* `U` key */ && event.altKey) {
+    if (event.keyCode === 85 /* `U` key */ && event.ctrlKey) {
       // toggle upper case 
       return 'toggle-up';
     }
