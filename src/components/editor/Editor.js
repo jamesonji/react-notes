@@ -5,6 +5,7 @@ import { Editor,
         EditorState, 
         RichUtils, 
         Modifier,
+        CompositeDecorator,
         ContentState,
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
@@ -47,8 +48,45 @@ const styleMap = {
   },
 };
 
+const styles = {
+  snippet:{
+    background: '#EEEEEE',
+    fontFamily: 'Consolas, monaco, monospace',
+    color:'#FF4136',
+    fontWeight: 'bold',
+    boxShadow:'1px #AAAAAA',
+    padding: '0.1em',
+  }
+};
+
 const tabCharacter = "  ";
   
+const SNIPPET_REGEX = /`[.\S]+/g;
+
+function snippetStrategy(contentBlock, callback, contentState) {
+  findWithRegex(SNIPPET_REGEX, contentBlock, callback);
+}
+
+function findWithRegex(regex, contentBlock, callback) {
+  const text = contentBlock.getText();
+  let matchArr, start;
+  while ((matchArr = regex.exec(text)) !== null) {
+    start = matchArr.index;
+    callback(start, start + matchArr[0].length);
+  }
+}
+
+const SnippetSpan = (props) => {
+  return (
+    <span
+      style={styles.snippet}
+      data-offset-key={props.offsetKey}
+    >
+      {props.children}
+    </span>
+  );
+};
+
 function myBlockRenderer(contentBlock) {
   // const type = contentBlock.getType();
 }
@@ -77,10 +115,17 @@ function getTextContent(content){
 
 class MyEditor extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    const compositeDecorator = new CompositeDecorator([
+      {
+        strategy: snippetStrategy,
+        component: SnippetSpan,
+      },
+    ]);
+    
     this.state = {
       title: props.title,
-      editorState: EditorState.createEmpty(),
+      editorState: EditorState.createEmpty(compositeDecorator),
       note_id: props.note_id,
       editView: false,
       readonly: false,
@@ -430,7 +475,7 @@ class MyEditor extends Component {
       switch (block.getType()) {
         case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
         case 'code-block': return 'br2 bg-washed-yellow black ph3 pv2 shadow-2';
-        case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
+        // case 'header-six': return 'Folder f5 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
         case 'section': return 'Terminal ph2 f4 black pv2 bg-light-yellow';
         default: return null;
       }
@@ -438,7 +483,7 @@ class MyEditor extends Component {
       switch (block.getType()) {
         case 'blockquote': return 'Block-quote pa4 athelas ml0 mt0 pl4 black-90 bl bw2 b-light-red';
         case 'code-block': return 'Code-block shadow-2';
-        case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
+        // case 'header-six': return 'Folder f5 h1 pt1 ph2 bg-light-yellow ba br--top b--black-80 br3 mw5';
         case 'section': return 'Terminal ph2 f4 white pv2 bg-dark-gray';
         default: return null;
       }
