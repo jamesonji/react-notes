@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import MyEditor from '../editor/Editor.js';
-import { firebaseAuth } from '../../config/constants';
+import { firebaseAuth, BASE_URL } from '../../config/constants';
 import $ from 'jquery';
 import './style.css';
-
-// const BASE_URL = 'http://localhost:3001/note';
-const BASE_URL = 'https://reactnotesserver.herokuapp.com/note';
 
 export default class EditNote extends Component{
   constructor(props){
@@ -33,7 +30,7 @@ export default class EditNote extends Component{
   
   getNote = () =>{
     $.ajax({
-      url:`${BASE_URL}/${this.props.params.id}`,
+      url:`${BASE_URL}/note/${this.props.params.id}`,
       type:'GET',
       success: function (data){
         this.initNote(data);

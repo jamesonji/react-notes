@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import firebase from 'firebase';
+import {BASE_URL} from '../../config/constants';
 import {browserHistory} from 'react-router';
 
 import {connect} from 'react-redux';  
@@ -9,9 +10,6 @@ import {sendFlashMessage, dismissMessage} from '../../actions/index';
 
 import $ from 'jquery';
 import './style.css';
-
-// const BASE_URL = 'http://localhost:3001';
-const BASE_URL = 'https://reactnotesserver.herokuapp.com';
 
 class NotesList extends Component{
   constructor(props){

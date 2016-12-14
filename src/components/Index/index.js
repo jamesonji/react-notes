@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import MyEditor from '../editor/Editor';
+import {BASE_URL} from '../../config/constants';
 import LandingPage from '../LandingPage';
 import $ from 'jquery';
 import './style.css'
-
-// const BASE_URL = 'http://localhost:3001';
-const BASE_URL = 'https://reactnotesserver.herokuapp.com';
 
 class Index extends Component {
   constructor (props){
