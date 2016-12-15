@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import Navigation from './Navigation';
-import { firebaseAuth } from '../../config/constants';
+import { firebaseAuth } from '../../config/constants.js';
 import { Link, browserHistory } from 'react-router';
 import FlashMessage from '../FlashMessage';  
 import Loading from './Loading';
