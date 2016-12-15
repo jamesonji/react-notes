@@ -1,4 +1,4 @@
-import BASE_URL from '../config/constants.js'
+import {BASE_URL} from '../config/constants'
 import $ from 'jquery';
 
 export function saveNote(title, content, plaintext, auther){
@@ -12,6 +12,7 @@ export function saveNote(title, content, plaintext, auther){
 }
 
 export function updateNote (id, title, content, plaintext){
+  console.log(`${BASE_URL}`);
   return $.ajax({
     url:`${BASE_URL}/note/${id}`,
     data:{title: title,

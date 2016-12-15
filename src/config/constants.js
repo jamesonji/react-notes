@@ -1,4 +1,3 @@
-import React from 'react';
 import runtimeEnv from '@mars/heroku-js-runtime-env';
 import firebase from 'firebase'
 
@@ -9,7 +8,6 @@ const config = {
   authDomain: env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   databaseURL: env.REACT_APP_FIREBASE_DATABASE_URL,
 }
-
 
 firebase.initializeApp(config)
 
