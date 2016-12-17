@@ -7,6 +7,7 @@ import { Editor,
         Modifier,
         // CompositeDecorator,
         ContentState,
+        KeyBindingUtil,
         DefaultDraftBlockRenderMap,
         getDefaultKeyBinding,
         convertToRaw,
@@ -32,6 +33,9 @@ import './style.css';
 
 // const blockBreakoutPlugin = createBlockBreakoutPlugin();
 // const plugins = [blockBreakoutPlugin]
+
+const {hasCommandModifier} = KeyBindingUtil;
+
 const styleMap = {
   'HIGHLIGHT':{
     backgroundColor:'yellow',
@@ -234,6 +238,14 @@ class MyEditor extends Component {
       this.toggleInlineStyle('HIGHLIGHT');
       return true;
     }
+    if (command === 'toggle-save') {
+      this.handleCommandS();
+      return true;
+    }
+    if (command === 'toggle-new') {
+      this.handleNewNote();
+      return true;
+    }
 
     if(CodeUtils.hasSelectionInBlock(editorState)) {
       newState = CodeUtils.handleKeyCommand(editorState, command);
@@ -314,6 +326,14 @@ class MyEditor extends Component {
       // toggle upper case 
       return 'toggle-up';
     }
+    if (event.keyCode === 83 /* `S` key */ && hasCommandModifier(event) ) {
+      // toggle upper case 
+      return 'toggle-save';
+    }
+    // if (event.keyCode === 78 /* `N` key */ && hasCommandModifier(event) ) {
+    //   // toggle upper case 
+    //   return 'toggle-new';
+    // }
     if (command) {
       return command;
     }
@@ -359,6 +379,14 @@ class MyEditor extends Component {
     setTimeout(()=>{
       this.props.dismissMessage()
     }, 3000)
+  }
+  
+  handleCommandS = () => {
+    if (this.state.editView){
+      this.handleUpdate();
+    }else{
+      this.handleSave();
+    }
   }
   
   handleSave = () =>{
